@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -32,6 +33,33 @@ namespace Teleprompter
             InitializeComponent();
             _selectedEngine = SettingsManager.Settings.SelectedEngine;
 
+            var s = SettingsManager.Settings;
+            if (s.WindowWidth > 0 && s.WindowHeight > 0)
+            {
+                this.StartPosition = FormStartPosition.Manual;
+
+                this.Left =   s.WindowLeft;
+                this.Top =    s.WindowTop;
+                this.Width =  s.WindowWidth;
+                this.Height = s.WindowHeight;
+
+                //Check if the form shows up on any monitor
+                //If not move it to the primary monitor.
+                Rectangle proposed = new Rectangle(
+                        s.WindowLeft,
+                        s.WindowTop,
+                        s.WindowWidth,
+                        s.WindowHeight);
+
+                bool isVisible = Screen.AllScreens.Any(g => g.WorkingArea.IntersectsWith(proposed));
+                if (!isVisible)
+                {
+                    var primary = Screen.PrimaryScreen.WorkingArea;
+
+                    this.Left = primary.Left + 50;
+                    this.Top = primary.Top + 50;
+                }
+            }
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -43,6 +71,19 @@ namespace Teleprompter
                 webView21.CoreWebView2.Settings.AreDevToolsEnabled = true;
             };
 
+            double speedValue = SettingsManager.Settings.ScrollSpeed;
+            traSpeed.Value = (int)speedValue;
+
+            this.FormClosing += MainForm_FormClosing;
+
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SettingsManager.Settings.WindowLeft = this.Left;
+            SettingsManager.Settings.WindowTop = this.Top;
+            SettingsManager.Settings.WindowWidth = this.Width;
+            SettingsManager.Settings.WindowHeight = this.Height;
+            SettingsManager.Save();
         }
         protected override CreateParams CreateParams
         {
@@ -73,6 +114,11 @@ namespace Teleprompter
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            _slides.GoToSlide(cmbStartSlide.SelectedIndex+1);
+
+            double speedValue = SettingsManager.Settings.ScrollSpeed / 100.0;
+            webView21.ExecuteScriptAsync($"setSpeed({speedValue});");
+
             webView21.ExecuteScriptAsync("startTeleprompter()");
         }
 
@@ -102,6 +148,22 @@ namespace Teleprompter
             isPaused = false;
         }
 
+        private void LoadSlideSelectionCombo()
+        {
+            cmbStartSlide.Items.Clear();
+
+            for (int i = 1; i <= _slides.SlideCount; i++)
+            {
+                string title = _slides.GetSlideTitle(i);
+                if (string.IsNullOrWhiteSpace(title))
+                    title = $"Slide {i}";
+
+                int item = cmbStartSlide.Items.Add(title);
+            }
+
+            cmbStartSlide.SelectedIndex = SettingsManager.Settings.StartSlideIndex;
+
+        }
         private void btnConnect_Click(object sender, EventArgs e)
         {
             _slides = SlideControllerFactory.Create(_selectedEngine);
@@ -110,6 +172,9 @@ namespace Teleprompter
                 MessageBox.Show("Could not connect.");
                 return;
             }
+            _slides.SlideShowBegin += (s, g) => {
+                this.BeginInvoke((Action)(() => LoadSlideSelectionCombo()));               
+            };
 
             if (_slides.PresentationHasTimings())
             {
@@ -131,17 +196,20 @@ namespace Teleprompter
             webView21.CoreWebView2.WebMessageReceived += _service.Handler;
 
 
-            int startSlide = 1;
-            if (int.TryParse(txtStartSlide.Text, out int value) && value > 0)
-                startSlide = value;
-            if (startSlide < 1 || startSlide > _slides.SlideCount)
+            //            int startSlide = 1;
+            //            if (int.TryParse(txtStartSlide.Text, out int value) && value > 0)
+            //                startSlide = value;
+            //            if (startSlide < 1 || startSlide > _slides.SlideCount)
+            //            {
+            //                MessageBox.Show("Starting slide is not contained within the current slides.\nStarting using slide 1.", "Starting Slide", MessageBoxButtons.OK);
+            //                startSlide = 1;
+            //            }
+
+            if (_slides.IsSlideShowRunning)
             {
-                MessageBox.Show("Starting slide is not contained within the current slides.\nStarting using slide 1.", "Starting Slide", MessageBoxButtons.OK);
-                startSlide = 1;
+                LoadNotesForCurrentSlide();
+                LoadSlideSelectionCombo();
             }
-            LoadNotesForCurrentSlide();
-//            _slides.GoToSlide(startSlide);
-//            this.Activate();
         }
 
         private void LoadNotesForCurrentSlide()
@@ -176,6 +244,16 @@ namespace Teleprompter
                 btnPause.Text = "Pause";
                 isPaused = false;
             }));
+        }
+
+        private void traSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            SettingsManager.Settings.ScrollSpeed = traSpeed.Value;
+            //The range wants to be between 0.01 and 1
+            double speed = (double)traSpeed.Value/100.0;
+            string jsSpeed = speed.ToString(CultureInfo.InvariantCulture);
+            webView21.ExecuteScriptAsync($"setSpeed({jsSpeed});");
+
         }
     }
 }

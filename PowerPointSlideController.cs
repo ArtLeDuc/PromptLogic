@@ -2,6 +2,7 @@
 using Microsoft.Office.Interop.PowerPoint;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -20,6 +21,7 @@ namespace Teleprompter
         private PowerPoint.Presentation _presentation;
         private WebMessageService _service;
         public event Action<int> SlideChanged;
+        public event EventHandler SlideShowBegin;
 
         public PowerPointSlideController()
         {
@@ -116,6 +118,18 @@ namespace Teleprompter
             catch { }
         }
 
+        public string GetSlideTitle(int index)
+        {
+            var win = GetWindow();
+            var slide = win.Presentation.Slides[index];
+
+            var titleShape = slide.Shapes.Title;
+            if (titleShape != null)
+                return titleShape.TextFrame.TextRange.Text;
+            else
+                return "Slide " + index;
+        }
+
 
         [DllImport("user32.dll")] private static extern bool SetForegroundWindow(IntPtr hWnd);
         [DllImport("user32.dll")] private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -174,22 +188,21 @@ namespace Teleprompter
         public void HookSlideShowEvents()
         {
             _app.SlideShowNextSlide += SlideShowNextSlide;
+            _app.SlideShowBegin += OnSlideShowBegin;
 
             // If a slideshow is already running, attach to it
             if (_app.SlideShowWindows.Count > 0)
             {
                 var slideShowWindow = GetWindow();
-//                LoadNotesForCurrentSlide();
-
-//                webView21.WebMessageReceived += (s, g) =>
-//                {
-//                    this.Invoke((Action)(() => webView21_WebMessageReceived(s, g)));
-//                };
             }
             else
             {
                 MessageBox.Show("Start the slideshow (F5) to begin syncing notes.");
             }
+        }
+        private void OnSlideShowBegin(PowerPoint.SlideShowWindow Wn)
+        {
+            SlideShowBegin?.Invoke(this, EventArgs.Empty);
         }
 
         public bool Connect(IWebViewActions ui)
@@ -200,10 +213,6 @@ namespace Teleprompter
                 // Try to attach to a running instance
                 _app = (PowerPoint.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("PowerPoint.Application");
                 MessageBox.Show("Connected to running PowerPoint.");
-
-//                if (_app.SlideShowWindows.Count > 0)
-//                    _app.SlideShowWindows[1].View.Exit();
-
             }
             catch
             {
@@ -280,5 +289,19 @@ namespace Teleprompter
             return notes;
         }
 
+        public bool IsSlideShowRunning
+        {
+            get
+            {
+                try
+                {
+                    return _app.SlideShowWindows.Count > 0;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

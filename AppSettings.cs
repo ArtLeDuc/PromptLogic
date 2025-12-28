@@ -15,13 +15,16 @@ namespace Teleprompter
         public int ScrollSpeed { get; set; } = 50;
         public string LastScriptPath { get; set; } = "";
         public SlideEngine SelectedEngine { get; set; } = SlideEngine.PowerPoint;
-
+        public int StartSlideIndex { get; set; } = 0;
+        public int WindowLeft { get; set; } = -1;
+        public int WindowTop { get; set; } = -1;
+        public int WindowWidth { get; set; } = -1;
+        public int WindowHeight { get; set; } = -1;
     }
 
     public static class SettingsManager
     {
-        private static readonly string SettingsPath =
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
+        private static readonly string SettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
 
         public static AppSettings Settings { get; private set; }
 

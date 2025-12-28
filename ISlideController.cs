@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Teleprompter
@@ -12,6 +13,7 @@ namespace Teleprompter
         bool Connect(IWebViewActions ui);
         int SlideCount { get; }
         int CurrentSlide { get; }
+        bool IsSlideShowRunning { get; }
         void NextSlide();
         void PreviousSlide();
         void GoToSlide(int index);
@@ -25,11 +27,12 @@ namespace Teleprompter
                                         //contain timings we will just do nothing in this call.
         void HookSlideShowEvents();
         string GetNotesForCurrentSlide();
-
         SlideShowState State { get; }
+        string GetSlideTitle(int index);
 
         // Events
         event Action<int> SlideChanged; // event raised when the current slide changes
+        event EventHandler SlideShowBegin;
 
 
     }
