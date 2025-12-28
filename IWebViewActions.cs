@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Teleprompter
+{
+    public interface IWebViewActions
+    {
+        void SendToWebView(string message);
+        void ExecuteScriptAsync(string script);
+        void OnSlideChanged(int index);
+    }
+}
