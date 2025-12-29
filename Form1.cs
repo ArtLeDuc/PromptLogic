@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
@@ -76,6 +77,28 @@ namespace Teleprompter
 
             this.FormClosing += MainForm_FormClosing;
 
+            toolTip1.SetToolTip(btnCollapsedStart, "Start Text Scrolling");
+            toolTip1.SetToolTip(btnCollapsedPause, "Pause/Resume Text Scrolling");
+            toolTip1.SetToolTip(btnCollapsedStop, "Stop Text Scrolling resets to begining of current text");
+            toolTip1.SetToolTip(btnCollapsedConnect, "Connect to a slide show");
+            toolTip1.SetToolTip(btnExpand, "Expand control panel");
+            toolTip1.SetToolTip(btnCollapse, "Collapse control panel");
+            toolTip1.SetToolTip(btnWebDebugger, "Start the browser debugger");
+            toolTip1.SetToolTip(btnSettings, "Teleprompter Settings");
+            toolTip1.SetToolTip(traSpeed, "Adjust scrolling speed");
+            toolTip1.SetToolTip(btnStop, "Stop Text scrolling resets to begining of the current text");
+            toolTip1.SetToolTip(btnPause, "Pause/Resume text Scrolling");
+            toolTip1.SetToolTip(btnStart, "Start Text Scrolling");
+            toolTip1.SetToolTip(cmbStartSlide, "Select the slide that will be selected when start pressed");
+            toolTip1.SetToolTip(btnConnect, "Connect to a slide show");
+
+            toolTip1.AutoPopDelay = 5000;
+            toolTip1.InitialDelay = 300;
+            toolTip1.ReshowDelay = 100;
+            toolTip1.ShowAlways = true;
+
+            ToggleCollapse(SettingsManager.Settings.IsCollapsed);
+            
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -111,43 +134,6 @@ namespace Teleprompter
         {
             webView21.ExecuteScriptAsync(script);
         }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            _slides.GoToSlide(cmbStartSlide.SelectedIndex+1);
-
-            double speedValue = SettingsManager.Settings.ScrollSpeed / 100.0;
-            webView21.ExecuteScriptAsync($"setSpeed({speedValue});");
-
-            webView21.ExecuteScriptAsync("startTeleprompter()");
-        }
-
-        private bool isPaused = false;
-        private void btnPause_Click(object sender, EventArgs e)
-        {
-            if (!isPaused)
-            {
-                // Currently scrolling → pause it
-                webView21.ExecuteScriptAsync("pauseScroll()");
-                btnPause.Text = "Resume";
-                isPaused = true;
-            }
-            else
-            {
-                // Currently paused → resume scrolling
-                webView21.ExecuteScriptAsync("startScroll()");
-                btnPause.Text = "Pause";
-                isPaused = false;
-            }
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            webView21.ExecuteScriptAsync("stopScroll()");
-            btnPause.Text = "Pause";
-            isPaused = false;
-        }
-
         private void LoadSlideSelectionCombo()
         {
             cmbStartSlide.Items.Clear();
@@ -163,53 +149,6 @@ namespace Teleprompter
 
             cmbStartSlide.SelectedIndex = SettingsManager.Settings.StartSlideIndex;
 
-        }
-        private void btnConnect_Click(object sender, EventArgs e)
-        {
-            _slides = SlideControllerFactory.Create(_selectedEngine);
-            if (!_slides.Connect(this))
-            {
-                MessageBox.Show("Could not connect.");
-                return;
-            }
-            _slides.SlideShowBegin += (s, g) => {
-                this.BeginInvoke((Action)(() => LoadSlideSelectionCombo()));               
-            };
-
-            if (_slides.PresentationHasTimings())
-            {
-                var result = MessageBox.Show(
-                    "This presentation has recorded timings. Clear them?",
-                    "Timings Detected",
-                    MessageBoxButtons.YesNo);
-
-                if (result == DialogResult.Yes)
-                    _slides.ClearAllTimings();
-            }
-
-            if (_service != null)
-                webView21.CoreWebView2.WebMessageReceived -= _service.Handler;
-
-            _service = new WebMessageService(this);   // inject controller
-            _service.SetSlideController(_slides);
-
-            webView21.CoreWebView2.WebMessageReceived += _service.Handler;
-
-
-            //            int startSlide = 1;
-            //            if (int.TryParse(txtStartSlide.Text, out int value) && value > 0)
-            //                startSlide = value;
-            //            if (startSlide < 1 || startSlide > _slides.SlideCount)
-            //            {
-            //                MessageBox.Show("Starting slide is not contained within the current slides.\nStarting using slide 1.", "Starting Slide", MessageBoxButtons.OK);
-            //                startSlide = 1;
-            //            }
-
-            if (_slides.IsSlideShowRunning)
-            {
-                LoadNotesForCurrentSlide();
-                LoadSlideSelectionCombo();
-            }
         }
 
         private void LoadNotesForCurrentSlide()
@@ -254,6 +193,149 @@ namespace Teleprompter
             string jsSpeed = speed.ToString(CultureInfo.InvariantCulture);
             webView21.ExecuteScriptAsync($"setSpeed({jsSpeed});");
 
+        }
+
+        private void btnCollapse_Click(object sender, EventArgs e)
+        {
+            ToggleCollapse(true);
+        }
+
+        private void btnExpand_Click(object sender, EventArgs e)
+        {
+            ToggleCollapse(false);
+        }
+        private void ToggleCollapse(bool Collapse)
+        {
+            if (Collapse)
+            {
+                pnlCollapsed.Visible = true;
+                pnlControl.Visible = false;
+                SettingsManager.Settings.IsCollapsed = true;
+            }
+            else
+            {
+                pnlCollapsed.Visible = false;
+                pnlControl.Visible = true;
+                SettingsManager.Settings.IsCollapsed = false;
+            }
+        }
+
+        private void ConnectSlideShow()
+        { 
+            _slides = SlideControllerFactory.Create(_selectedEngine);
+            if (!_slides.Connect(this))
+            {
+                MessageBox.Show("Could not connect.");
+                return;
+            }
+            _slides.SlideShowBegin += (s, g) => {
+                this.BeginInvoke((Action)(() => LoadSlideSelectionCombo()));
+            };
+
+            if (_slides.PresentationHasTimings())
+            {
+                var result = MessageBox.Show(
+                    "This presentation has recorded timings. Clear them?",
+                    "Timings Detected",
+                    MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                    _slides.ClearAllTimings();
+            }
+
+            if (_service != null)
+                webView21.CoreWebView2.WebMessageReceived -= _service.Handler;
+
+            _service = new WebMessageService(this);   // inject controller
+            _service.SetSlideController(_slides);
+
+            webView21.CoreWebView2.WebMessageReceived += _service.Handler;
+
+
+            //            int startSlide = 1;
+            //            if (int.TryParse(txtStartSlide.Text, out int value) && value > 0)
+            //                startSlide = value;
+            //            if (startSlide < 1 || startSlide > _slides.SlideCount)
+            //            {
+            //                MessageBox.Show("Starting slide is not contained within the current slides.\nStarting using slide 1.", "Starting Slide", MessageBoxButtons.OK);
+            //                startSlide = 1;
+            //            }
+
+            if (_slides.IsSlideShowRunning)
+            {
+                LoadNotesForCurrentSlide();
+                LoadSlideSelectionCombo();
+            }
+        }
+        private void btnConnect_Click(object sender, EventArgs e)
+        {
+            ConnectSlideShow();
+        }
+        private void btnCollapsedConnect_Click(object sender, EventArgs e)
+        {
+            ConnectSlideShow();
+        }
+        private void StartSlideShow()
+        {
+            _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
+
+            double speedValue = SettingsManager.Settings.ScrollSpeed / 100.0;
+            webView21.ExecuteScriptAsync($"setSpeed({speedValue});");
+
+            webView21.ExecuteScriptAsync("startTeleprompter()");
+        }
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            StartSlideShow();
+        }
+        private void btnCollapsedStart_Click(object sender, EventArgs e)
+        {
+            StartSlideShow();
+        }
+
+        private bool isPaused = false;
+        private void PauseSlideShow()
+        {
+            if (!isPaused)
+            {
+                // Currently scrolling → pause it
+                webView21.ExecuteScriptAsync("pauseScroll()");
+                btnPause.Text = ">> Resume";
+                btnCollapsedPause.Text = ">>";
+                isPaused = true;
+            }
+            else
+            {
+                // Currently paused → resume scrolling
+                webView21.ExecuteScriptAsync("startScroll()");
+                btnPause.Text = "|| Pause";
+                btnCollapsedPause.Text = "||";
+                isPaused = false;
+            }
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            PauseSlideShow();
+        }
+        private void btnCollapsedPause_Click(object sender, EventArgs e)
+        {
+            PauseSlideShow();
+        }
+        private void StopSlideShow()
+        {
+            webView21.ExecuteScriptAsync("stopScroll()");
+            btnPause.Text = "Pause";
+            isPaused = false;
+        }
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            StopSlideShow();
+        }
+
+        private void btnCollapsedStop_Click(object sender, EventArgs e)
+        {
+            StopSlideShow();
         }
     }
 }
