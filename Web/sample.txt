@@ -1,0 +1,6 @@
+This is a sample teleprompter script.
+You will replace this with your real content.
+
+.speed+50
+This line would scroll faster.
+

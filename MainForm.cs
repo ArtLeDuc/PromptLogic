@@ -21,15 +21,14 @@ using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace Teleprompter
 {
-    public partial class Form1 : Form, IWebViewActions
+    public partial class MainForm : Form, IWebViewActions, ITeleprompterPreview
     {
-        ISlideController _controller;
         private ISlideController _slides = null;
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
 
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             _selectedEngine = SettingsManager.Settings.SelectedEngine;
@@ -64,12 +63,12 @@ namespace Teleprompter
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            string htmlPath = @"C:\Users\ajled\teleprompter\web\index.html";
-            webView21.Source = new Uri(htmlPath);
+            string htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
+            webView.Source = new Uri(htmlPath);
 
-            webView21.CoreWebView2InitializationCompleted += (s, g) =>
+            webView.CoreWebView2InitializationCompleted += (s, g) =>
             {
-                webView21.CoreWebView2.Settings.AreDevToolsEnabled = true;
+                webView.CoreWebView2.Settings.AreDevToolsEnabled = true;
             };
 
             double speedValue = SettingsManager.Settings.ScrollSpeed;
@@ -98,7 +97,10 @@ namespace Teleprompter
             toolTip1.ShowAlways = true;
 
             ToggleCollapse(SettingsManager.Settings.IsCollapsed);
-            
+
+#if !DEBUG
+            btnWebDebugger.Visible = false;
+#endif
         }
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -127,12 +129,12 @@ namespace Teleprompter
 
         public void SendToWebView(string message)
         {
-            webView21.CoreWebView2.PostWebMessageAsString(message);
+            webView.CoreWebView2.PostWebMessageAsString(message);
         }
 
         public void ExecuteScriptAsync(string script)
         {
-            webView21.ExecuteScriptAsync(script);
+            webView.ExecuteScriptAsync(script);
         }
         private void LoadSlideSelectionCombo()
         {
@@ -166,13 +168,8 @@ namespace Teleprompter
                     .Replace("\"", "\\\"")   // escape quotes
                     .Replace("\n", "\\n");   // LF → JS newline
 
-                webView21.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
+                webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
             }));
-        }
-
-        private void btnWebDebugger_Click(object sender, EventArgs e)
-        {
-            webView21.CoreWebView2.OpenDevToolsWindow();
         }
 
         public void OnSlideChanged(int index)
@@ -191,7 +188,7 @@ namespace Teleprompter
             //The range wants to be between 0.01 and 1
             double speed = (double)traSpeed.Value/100.0;
             string jsSpeed = speed.ToString(CultureInfo.InvariantCulture);
-            webView21.ExecuteScriptAsync($"setSpeed({jsSpeed});");
+            webView.ExecuteScriptAsync($"setSpeed({jsSpeed});");
 
         }
 
@@ -244,12 +241,12 @@ namespace Teleprompter
             }
 
             if (_service != null)
-                webView21.CoreWebView2.WebMessageReceived -= _service.Handler;
+                webView.CoreWebView2.WebMessageReceived -= _service.Handler;
 
             _service = new WebMessageService(this);   // inject controller
             _service.SetSlideController(_slides);
 
-            webView21.CoreWebView2.WebMessageReceived += _service.Handler;
+            webView.CoreWebView2.WebMessageReceived += _service.Handler;
 
 
             //            int startSlide = 1;
@@ -280,9 +277,9 @@ namespace Teleprompter
             _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
 
             double speedValue = SettingsManager.Settings.ScrollSpeed / 100.0;
-            webView21.ExecuteScriptAsync($"setSpeed({speedValue});");
+            webView.ExecuteScriptAsync($"setSpeed({speedValue});");
 
-            webView21.ExecuteScriptAsync("startTeleprompter()");
+            webView.ExecuteScriptAsync("startTeleprompter()");
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -299,7 +296,7 @@ namespace Teleprompter
             if (!isPaused)
             {
                 // Currently scrolling → pause it
-                webView21.ExecuteScriptAsync("pauseScroll()");
+                webView.ExecuteScriptAsync("pauseScroll()");
                 btnPause.Text = ">> Resume";
                 btnCollapsedPause.Text = ">>";
                 isPaused = true;
@@ -307,7 +304,7 @@ namespace Teleprompter
             else
             {
                 // Currently paused → resume scrolling
-                webView21.ExecuteScriptAsync("startScroll()");
+                webView.ExecuteScriptAsync("startScroll()");
                 btnPause.Text = "|| Pause";
                 btnCollapsedPause.Text = "||";
                 isPaused = false;
@@ -324,7 +321,7 @@ namespace Teleprompter
         }
         private void StopSlideShow()
         {
-            webView21.ExecuteScriptAsync("stopScroll()");
+            webView.ExecuteScriptAsync("stopScroll()");
             btnPause.Text = "Pause";
             isPaused = false;
         }
@@ -336,6 +333,20 @@ namespace Teleprompter
         private void btnCollapsedStop_Click(object sender, EventArgs e)
         {
             StopSlideShow();
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new Settings(this))
+            {
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.ShowDialog(this);
+            }
+        }
+
+        private void btnWebDebugger_Click(object sender, EventArgs e)
+        {
+            webView.CoreWebView2.OpenDevToolsWindow();
         }
     }
 }

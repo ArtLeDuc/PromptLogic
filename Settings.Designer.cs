@@ -1,0 +1,558 @@
+﻿namespace Teleprompter
+{
+    partial class Settings
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.btnOk = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnApply = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnTextColor = new System.Windows.Forms.Button();
+            this.btnBackgroundColor = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.traScrollSpeed = new System.Windows.Forms.TrackBar();
+            this.label8 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.radBorderless = new System.Windows.Forms.RadioButton();
+            this.radNarrowBorder = new System.Windows.Forms.RadioButton();
+            this.radNormalBorder = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radDarkTheme = new System.Windows.Forms.RadioButton();
+            this.radLightTheme = new System.Windows.Forms.RadioButton();
+            this.numFontSize = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbFontName = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.trkPauseSpacing2 = new System.Windows.Forms.TrackBar();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.trkPauseSpacing1 = new System.Windows.Forms.TrackBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.trkPauseSpacing = new System.Windows.Forms.TrackBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.trkParagraphSpacing = new System.Windows.Forms.TrackBar();
+            this.trkLineSpacing = new System.Windows.Forms.TrackBar();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.chkMirrorText = new System.Windows.Forms.CheckBox();
+            this.chkNonActivating = new System.Windows.Forms.CheckBox();
+            this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFontSize)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).BeginInit();
+            this.groupBox6.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(32, 415);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 0;
+            this.btnOk.Text = "Ok";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click_1);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(125, 415);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 1;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click_1);
+            // 
+            // btnApply
+            // 
+            this.btnApply.Location = new System.Drawing.Point(221, 415);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.TabIndex = 2;
+            this.btnApply.Text = "Apply";
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(302, 397);
+            this.tabControl1.TabIndex = 27;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.btnTextColor);
+            this.tabPage1.Controls.Add(this.btnBackgroundColor);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.groupBox4);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(294, 368);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Appearance";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Controls.Add(this.traScrollSpeed);
+            this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(294, 368);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Timing";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnTextColor
+            // 
+            this.btnTextColor.Location = new System.Drawing.Point(73, 146);
+            this.btnTextColor.Name = "btnTextColor";
+            this.btnTextColor.Size = new System.Drawing.Size(138, 23);
+            this.btnTextColor.TabIndex = 33;
+            this.btnTextColor.Text = "Text";
+            this.btnTextColor.UseVisualStyleBackColor = true;
+            // 
+            // btnBackgroundColor
+            // 
+            this.btnBackgroundColor.Location = new System.Drawing.Point(73, 116);
+            this.btnBackgroundColor.Name = "btnBackgroundColor";
+            this.btnBackgroundColor.Size = new System.Drawing.Size(138, 23);
+            this.btnBackgroundColor.TabIndex = 32;
+            this.btnBackgroundColor.Text = "Background";
+            this.btnBackgroundColor.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.numFontSize);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.cmbFontName);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Location = new System.Drawing.Point(6, 11);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(274, 77);
+            this.groupBox2.TabIndex = 31;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Font";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Location = new System.Drawing.Point(6, 94);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(274, 90);
+            this.groupBox4.TabIndex = 34;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = " Colors ";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.groupBox6);
+            this.tabPage3.Controls.Add(this.groupBox5);
+            this.tabPage3.Controls.Add(this.groupBox3);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(294, 368);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Window";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // traScrollSpeed
+            // 
+            this.traScrollSpeed.Location = new System.Drawing.Point(99, 16);
+            this.traScrollSpeed.Name = "traScrollSpeed";
+            this.traScrollSpeed.Size = new System.Drawing.Size(157, 56);
+            this.traScrollSpeed.TabIndex = 20;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(15, 25);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(85, 16);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "Scroll Speed";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.radBorderless);
+            this.groupBox5.Controls.Add(this.radNarrowBorder);
+            this.groupBox5.Controls.Add(this.radNormalBorder);
+            this.groupBox5.Location = new System.Drawing.Point(39, 17);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(200, 127);
+            this.groupBox5.TabIndex = 28;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Teleprompter Display Mode (When Running)";
+            // 
+            // radBorderless
+            // 
+            this.radBorderless.AutoSize = true;
+            this.radBorderless.Location = new System.Drawing.Point(44, 93);
+            this.radBorderless.Name = "radBorderless";
+            this.radBorderless.Size = new System.Drawing.Size(94, 20);
+            this.radBorderless.TabIndex = 2;
+            this.radBorderless.TabStop = true;
+            this.radBorderless.Text = "Borderless";
+            this.radBorderless.UseVisualStyleBackColor = true;
+            // 
+            // radNarrowBorder
+            // 
+            this.radNarrowBorder.AutoSize = true;
+            this.radNarrowBorder.Location = new System.Drawing.Point(44, 66);
+            this.radNarrowBorder.Name = "radNarrowBorder";
+            this.radNarrowBorder.Size = new System.Drawing.Size(114, 20);
+            this.radNarrowBorder.TabIndex = 1;
+            this.radNarrowBorder.TabStop = true;
+            this.radNarrowBorder.Text = "Narrow border";
+            this.radNarrowBorder.UseVisualStyleBackColor = true;
+            // 
+            // radNormalBorder
+            // 
+            this.radNormalBorder.AutoSize = true;
+            this.radNormalBorder.Location = new System.Drawing.Point(44, 40);
+            this.radNormalBorder.Name = "radNormalBorder";
+            this.radNormalBorder.Size = new System.Drawing.Size(115, 20);
+            this.radNormalBorder.TabIndex = 0;
+            this.radNormalBorder.TabStop = true;
+            this.radNormalBorder.Text = "Normal border";
+            this.radNormalBorder.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radDarkTheme);
+            this.groupBox3.Controls.Add(this.radLightTheme);
+            this.groupBox3.Location = new System.Drawing.Point(39, 150);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(200, 86);
+            this.groupBox3.TabIndex = 27;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = " Theme ";
+            // 
+            // radDarkTheme
+            // 
+            this.radDarkTheme.AutoSize = true;
+            this.radDarkTheme.Location = new System.Drawing.Point(44, 50);
+            this.radDarkTheme.Name = "radDarkTheme";
+            this.radDarkTheme.Size = new System.Drawing.Size(57, 20);
+            this.radDarkTheme.TabIndex = 21;
+            this.radDarkTheme.TabStop = true;
+            this.radDarkTheme.Text = "Dark";
+            this.radDarkTheme.UseVisualStyleBackColor = true;
+            // 
+            // radLightTheme
+            // 
+            this.radLightTheme.AutoSize = true;
+            this.radLightTheme.Location = new System.Drawing.Point(44, 21);
+            this.radLightTheme.Name = "radLightTheme";
+            this.radLightTheme.Size = new System.Drawing.Size(56, 20);
+            this.radLightTheme.TabIndex = 20;
+            this.radLightTheme.TabStop = true;
+            this.radLightTheme.Text = "Light";
+            this.radLightTheme.UseVisualStyleBackColor = true;
+            // 
+            // numFontSize
+            // 
+            this.numFontSize.Location = new System.Drawing.Point(102, 46);
+            this.numFontSize.Name = "numFontSize";
+            this.numFontSize.Size = new System.Drawing.Size(60, 22);
+            this.numFontSize.TabIndex = 33;
+            this.numFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numFontSize.ValueChanged += new System.EventHandler(this.numFontSize_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 16);
+            this.label2.TabIndex = 32;
+            this.label2.Text = "Size";
+            // 
+            // cmbFontName
+            // 
+            this.cmbFontName.FormattingEnabled = true;
+            this.cmbFontName.Location = new System.Drawing.Point(102, 16);
+            this.cmbFontName.Name = "cmbFontName";
+            this.cmbFontName.Size = new System.Drawing.Size(157, 24);
+            this.cmbFontName.TabIndex = 30;
+            this.cmbFontName.SelectedIndexChanged += new System.EventHandler(this.cmbFontName_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 16);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "Name";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.trkPauseSpacing2);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.trkPauseSpacing1);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.trkPauseSpacing);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.trkParagraphSpacing);
+            this.groupBox1.Controls.Add(this.trkLineSpacing);
+            this.groupBox1.Location = new System.Drawing.Point(6, 91);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(268, 199);
+            this.groupBox1.TabIndex = 31;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = " Spacing ";
+            // 
+            // trkPauseSpacing2
+            // 
+            this.trkPauseSpacing2.Location = new System.Drawing.Point(93, 145);
+            this.trkPauseSpacing2.Name = "trkPauseSpacing2";
+            this.trkPauseSpacing2.Size = new System.Drawing.Size(157, 56);
+            this.trkPauseSpacing2.TabIndex = 14;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(9, 61);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(71, 16);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Paragraph";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 154);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 16);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Pause 2";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 123);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 16);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Pause 1";
+            // 
+            // trkPauseSpacing1
+            // 
+            this.trkPauseSpacing1.Location = new System.Drawing.Point(93, 114);
+            this.trkPauseSpacing1.Name = "trkPauseSpacing1";
+            this.trkPauseSpacing1.Size = new System.Drawing.Size(157, 56);
+            this.trkPauseSpacing1.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 92);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 16);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Pause";
+            // 
+            // trkPauseSpacing
+            // 
+            this.trkPauseSpacing.Location = new System.Drawing.Point(93, 83);
+            this.trkPauseSpacing.Name = "trkPauseSpacing";
+            this.trkPauseSpacing.Size = new System.Drawing.Size(157, 56);
+            this.trkPauseSpacing.TabIndex = 10;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 16);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Line";
+            // 
+            // trkParagraphSpacing
+            // 
+            this.trkParagraphSpacing.Location = new System.Drawing.Point(93, 52);
+            this.trkParagraphSpacing.Name = "trkParagraphSpacing";
+            this.trkParagraphSpacing.Size = new System.Drawing.Size(157, 56);
+            this.trkParagraphSpacing.TabIndex = 16;
+            // 
+            // trkLineSpacing
+            // 
+            this.trkLineSpacing.Location = new System.Drawing.Point(93, 21);
+            this.trkLineSpacing.Name = "trkLineSpacing";
+            this.trkLineSpacing.Size = new System.Drawing.Size(157, 56);
+            this.trkLineSpacing.TabIndex = 8;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.chkMirrorText);
+            this.groupBox6.Controls.Add(this.chkNonActivating);
+            this.groupBox6.Controls.Add(this.chkAlwaysOnTop);
+            this.groupBox6.Location = new System.Drawing.Point(39, 239);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(200, 110);
+            this.groupBox6.TabIndex = 32;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = " Other Options ";
+            // 
+            // chkMirrorText
+            // 
+            this.chkMirrorText.AutoSize = true;
+            this.chkMirrorText.Location = new System.Drawing.Point(43, 79);
+            this.chkMirrorText.Name = "chkMirrorText";
+            this.chkMirrorText.Size = new System.Drawing.Size(86, 20);
+            this.chkMirrorText.TabIndex = 34;
+            this.chkMirrorText.Text = "Mirror text";
+            this.chkMirrorText.UseVisualStyleBackColor = true;
+            // 
+            // chkNonActivating
+            // 
+            this.chkNonActivating.AutoSize = true;
+            this.chkNonActivating.Location = new System.Drawing.Point(43, 52);
+            this.chkNonActivating.Name = "chkNonActivating";
+            this.chkNonActivating.Size = new System.Drawing.Size(115, 20);
+            this.chkNonActivating.TabIndex = 33;
+            this.chkNonActivating.Text = "Non-activating";
+            this.chkNonActivating.UseVisualStyleBackColor = true;
+            // 
+            // chkAlwaysOnTop
+            // 
+            this.chkAlwaysOnTop.AutoSize = true;
+            this.chkAlwaysOnTop.Location = new System.Drawing.Point(43, 25);
+            this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
+            this.chkAlwaysOnTop.Size = new System.Drawing.Size(120, 20);
+            this.chkAlwaysOnTop.TabIndex = 32;
+            this.chkAlwaysOnTop.Text = "Always On Top";
+            this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
+            // 
+            // Settings
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(325, 450);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.btnApply);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnOk);
+            this.Name = "Settings";
+            this.Text = "Settings";
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numFontSize)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button btnTextColor;
+        private System.Windows.Forms.Button btnBackgroundColor;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TrackBar traScrollSpeed;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton radBorderless;
+        private System.Windows.Forms.RadioButton radNarrowBorder;
+        private System.Windows.Forms.RadioButton radNormalBorder;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radDarkTheme;
+        private System.Windows.Forms.RadioButton radLightTheme;
+        private System.Windows.Forms.NumericUpDown numFontSize;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmbFontName;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TrackBar trkPauseSpacing2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TrackBar trkPauseSpacing1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TrackBar trkPauseSpacing;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TrackBar trkParagraphSpacing;
+        private System.Windows.Forms.TrackBar trkLineSpacing;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.CheckBox chkMirrorText;
+        private System.Windows.Forms.CheckBox chkNonActivating;
+        private System.Windows.Forms.CheckBox chkAlwaysOnTop;
+    }
+}

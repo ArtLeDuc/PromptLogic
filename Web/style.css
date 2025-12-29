@@ -1,0 +1,75 @@
+:root {
+    --font-family: Segoe UI, sans-serif;
+    --font-size: 32px;
+    --line-spacing: 1.4;
+
+    --highlight-band-bg: rgba(200, 200, 200, 0.25);
+    --highlight-band-opacity: 0.25;
+    --highlight-band-top: 10%;
+    --highlight-band-height: 0px;
+
+    --text-color: white;
+    --background-color: black;
+
+    --body-padding: 40px;
+
+    --countdown-font-size: 120px;
+    --countdown-bg: rgba(0,0,0,0.3);
+    --countdown-blur: 2px;
+}
+
+body {
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    margin: 0;
+    padding: var(--body-padding);
+}
+
+#scrollContainer {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+#content {
+    position: relative;
+    white-space: pre-wrap;
+    font-size: var(--font-size);
+    line-height: var(--line-spacing);
+}
+
+#highlightBand {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: var(--highlight-band-height);
+    top: var(--highlight-band-top);
+    background: rgba(200, 200, 200, var(--highlight-band-opacity));
+    pointer-events: none;
+    z-index: 10;
+}
+
+#countdownOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: var(--countdown-font-size);
+    font-weight: bold;
+    color: white;
+
+    background: var(--countdown-bg);
+    backdrop-filter: blur(var(--countdown-blur));
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 9999;
+}

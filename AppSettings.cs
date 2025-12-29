@@ -12,6 +12,7 @@ namespace Teleprompter
     public class AppSettings
     {
         public string TeleprompterFont { get; set; } = "Segoe UI";
+        public int FontSize { get; set; } = 32;
         public int ScrollSpeed { get; set; } = 50;
         public string LastScriptPath { get; set; } = "";
         public SlideEngine SelectedEngine { get; set; } = SlideEngine.PowerPoint;
@@ -21,6 +22,26 @@ namespace Teleprompter
         public int WindowWidth { get; set; } = -1;
         public int WindowHeight { get; set; } = -1;
         public bool IsCollapsed { get; set; } = false;
+
+        public AppSettings()
+        {
+
+        }
+
+        public AppSettings(AppSettings other)
+        {
+            TeleprompterFont = other.TeleprompterFont;
+            FontSize = other.FontSize;
+            ScrollSpeed = other.ScrollSpeed;
+            LastScriptPath = other.LastScriptPath;
+            SelectedEngine = other.SelectedEngine;
+            StartSlideIndex = other.StartSlideIndex;
+            WindowLeft = other.WindowLeft;
+            WindowTop = other.WindowTop;
+            WindowWidth = other.WindowWidth;
+            WindowHeight = other.WindowHeight;
+            IsCollapsed = other.IsCollapsed;        
+        }
     }
 
     public static class SettingsManager
@@ -49,6 +70,12 @@ namespace Teleprompter
             string json = JsonConvert.SerializeObject(Settings, Formatting.Indented);
             File.WriteAllText(SettingsPath, json);
         }
+        public static void Save(AppSettings newSettings)
+        {
+            Settings = newSettings;
+            Save();
+        }
+
     }
 
 }

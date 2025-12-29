@@ -1,6 +1,6 @@
 ﻿namespace Teleprompter
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.webView21 = new Microsoft.Web.WebView2.WinForms.WebView2();
+            this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.pnlControl = new System.Windows.Forms.Panel();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.btnWebDebugger = new System.Windows.Forms.Button();
             this.btnCollapse = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnConnect = new System.Windows.Forms.Button();
@@ -42,9 +44,6 @@
             this.traSpeed = new System.Windows.Forms.TrackBar();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.btnWebDebugger = new System.Windows.Forms.Button();
             this.pnlCollapsed = new System.Windows.Forms.Panel();
             this.btnExpand = new System.Windows.Forms.Button();
             this.btnCollapsedStop = new System.Windows.Forms.Button();
@@ -52,39 +51,59 @@
             this.btnCollapsedStart = new System.Windows.Forms.Button();
             this.btnCollapsedConnect = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.webView21)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.pnlControl.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.traSpeed)).BeginInit();
-            this.groupBox3.SuspendLayout();
             this.pnlCollapsed.SuspendLayout();
             this.SuspendLayout();
             // 
-            // webView21
+            // webView
             // 
-            this.webView21.AllowExternalDrop = true;
-            this.webView21.CreationProperties = null;
-            this.webView21.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.webView21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webView21.Location = new System.Drawing.Point(0, 0);
-            this.webView21.Name = "webView21";
-            this.webView21.Size = new System.Drawing.Size(518, 450);
-            this.webView21.TabIndex = 0;
-            this.webView21.ZoomFactor = 1D;
+            this.webView.AllowExternalDrop = true;
+            this.webView.CreationProperties = null;
+            this.webView.DefaultBackgroundColor = System.Drawing.Color.White;
+            this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webView.Location = new System.Drawing.Point(0, 0);
+            this.webView.Name = "webView";
+            this.webView.Size = new System.Drawing.Size(518, 450);
+            this.webView.TabIndex = 0;
+            this.webView.ZoomFactor = 1D;
             // 
             // pnlControl
             // 
             this.pnlControl.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pnlControl.Controls.Add(this.btnSettings);
+            this.pnlControl.Controls.Add(this.btnWebDebugger);
             this.pnlControl.Controls.Add(this.btnCollapse);
             this.pnlControl.Controls.Add(this.groupBox1);
             this.pnlControl.Controls.Add(this.groupBox2);
-            this.pnlControl.Controls.Add(this.groupBox3);
             this.pnlControl.Dock = System.Windows.Forms.DockStyle.Right;
             this.pnlControl.Location = new System.Drawing.Point(553, 0);
             this.pnlControl.Name = "pnlControl";
             this.pnlControl.Size = new System.Drawing.Size(258, 450);
             this.pnlControl.TabIndex = 1;
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.Location = new System.Drawing.Point(53, 386);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(156, 23);
+            this.btnSettings.TabIndex = 13;
+            this.btnSettings.Text = "Settings";
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // btnWebDebugger
+            // 
+            this.btnWebDebugger.Location = new System.Drawing.Point(53, 415);
+            this.btnWebDebugger.Name = "btnWebDebugger";
+            this.btnWebDebugger.Size = new System.Drawing.Size(156, 23);
+            this.btnWebDebugger.TabIndex = 12;
+            this.btnWebDebugger.Text = "Web Debugger";
+            this.btnWebDebugger.UseVisualStyleBackColor = true;
+            this.btnWebDebugger.Click += new System.EventHandler(this.btnWebDebugger_Click);
             // 
             // btnCollapse
             // 
@@ -199,36 +218,6 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.btnSettings);
-            this.groupBox3.Controls.Add(this.btnWebDebugger);
-            this.groupBox3.Location = new System.Drawing.Point(6, 361);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(242, 81);
-            this.groupBox3.TabIndex = 10;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = " Utility ";
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.Location = new System.Drawing.Point(47, 19);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(156, 23);
-            this.btnSettings.TabIndex = 5;
-            this.btnSettings.Text = "Settings";
-            this.btnSettings.UseVisualStyleBackColor = true;
-            // 
-            // btnWebDebugger
-            // 
-            this.btnWebDebugger.Location = new System.Drawing.Point(47, 48);
-            this.btnWebDebugger.Name = "btnWebDebugger";
-            this.btnWebDebugger.Size = new System.Drawing.Size(156, 23);
-            this.btnWebDebugger.TabIndex = 4;
-            this.btnWebDebugger.Text = "Web Debugger";
-            this.btnWebDebugger.UseVisualStyleBackColor = true;
-            this.btnWebDebugger.Click += new System.EventHandler(this.btnWebDebugger_Click);
-            // 
             // pnlCollapsed
             // 
             this.pnlCollapsed.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -293,24 +282,23 @@
             this.btnCollapsedConnect.UseVisualStyleBackColor = true;
             this.btnCollapsedConnect.Click += new System.EventHandler(this.btnCollapsedConnect_Click);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(811, 450);
-            this.Controls.Add(this.webView21);
+            this.Controls.Add(this.webView);
             this.Controls.Add(this.pnlCollapsed);
             this.Controls.Add(this.pnlControl);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.webView21)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.pnlControl.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.traSpeed)).EndInit();
-            this.groupBox3.ResumeLayout(false);
             this.pnlCollapsed.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -318,18 +306,15 @@
 
         #endregion
 
-        private Microsoft.Web.WebView2.WinForms.WebView2 webView21;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView;
         private System.Windows.Forms.Panel pnlControl;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnConnect;
-        private System.Windows.Forms.Button btnSettings;
-        private System.Windows.Forms.Button btnWebDebugger;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TrackBar traSpeed;
         private System.Windows.Forms.ComboBox cmbStartSlide;
@@ -341,6 +326,8 @@
         private System.Windows.Forms.Button btnCollapsedStart;
         private System.Windows.Forms.Button btnCollapsedConnect;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.Button btnWebDebugger;
     }
 }
 
