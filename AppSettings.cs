@@ -22,6 +22,8 @@ namespace Teleprompter
         public int WindowWidth { get; set; } = -1;
         public int WindowHeight { get; set; } = -1;
         public bool IsCollapsed { get; set; } = false;
+        public string TextColor { get; set; } = "#FFFFFF"; // default white
+        public string BackColor { get; set; } = "#000000";
 
         public AppSettings()
         {

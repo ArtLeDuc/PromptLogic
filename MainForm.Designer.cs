@@ -51,6 +51,7 @@
             this.btnCollapsedStart = new System.Windows.Forms.Button();
             this.btnCollapsedConnect = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnLoadSampleScript = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.pnlControl.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -74,6 +75,7 @@
             // pnlControl
             // 
             this.pnlControl.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pnlControl.Controls.Add(this.btnLoadSampleScript);
             this.pnlControl.Controls.Add(this.btnSettings);
             this.pnlControl.Controls.Add(this.btnWebDebugger);
             this.pnlControl.Controls.Add(this.btnCollapse);
@@ -282,6 +284,17 @@
             this.btnCollapsedConnect.UseVisualStyleBackColor = true;
             this.btnCollapsedConnect.Click += new System.EventHandler(this.btnCollapsedConnect_Click);
             // 
+            // btnLoadSampleScript
+            // 
+            this.btnLoadSampleScript.Location = new System.Drawing.Point(53, 357);
+            this.btnLoadSampleScript.Name = "btnLoadSampleScript";
+            this.btnLoadSampleScript.Size = new System.Drawing.Size(156, 23);
+            this.btnLoadSampleScript.TabIndex = 14;
+            this.btnLoadSampleScript.TabStop = false;
+            this.btnLoadSampleScript.Text = "Load Sample Script";
+            this.btnLoadSampleScript.UseVisualStyleBackColor = true;
+            this.btnLoadSampleScript.Click += new System.EventHandler(this.btnLoadSampleScript_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -328,6 +341,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Button btnWebDebugger;
+        private System.Windows.Forms.Button btnLoadSampleScript;
     }
 }
 

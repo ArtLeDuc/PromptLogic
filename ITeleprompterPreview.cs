@@ -16,5 +16,7 @@ namespace Teleprompter
         void ApplyHighlightTop(int percent);
         void ApplyTextColor(string color);
         void ApplyBackgroundColor(string color);
+        void ApplyAllSettings();
+
     }
 }

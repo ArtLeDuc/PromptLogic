@@ -67,10 +67,14 @@
             this.chkMirrorText = new System.Windows.Forms.CheckBox();
             this.chkNonActivating = new System.Windows.Forms.CheckBox();
             this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.pnlBackColor = new System.Windows.Forms.Panel();
+            this.pnlTextColor = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -155,12 +159,13 @@
             // 
             // btnTextColor
             // 
-            this.btnTextColor.Location = new System.Drawing.Point(73, 146);
+            this.btnTextColor.Location = new System.Drawing.Point(73, 156);
             this.btnTextColor.Name = "btnTextColor";
             this.btnTextColor.Size = new System.Drawing.Size(138, 23);
             this.btnTextColor.TabIndex = 33;
             this.btnTextColor.Text = "Text";
             this.btnTextColor.UseVisualStyleBackColor = true;
+            this.btnTextColor.Click += new System.EventHandler(this.btnTextColor_Click);
             // 
             // btnBackgroundColor
             // 
@@ -170,6 +175,7 @@
             this.btnBackgroundColor.TabIndex = 32;
             this.btnBackgroundColor.Text = "Background";
             this.btnBackgroundColor.UseVisualStyleBackColor = true;
+            this.btnBackgroundColor.Click += new System.EventHandler(this.btnBackgroundColor_Click);
             // 
             // groupBox2
             // 
@@ -186,9 +192,11 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.pnlTextColor);
+            this.groupBox4.Controls.Add(this.pnlBackColor);
             this.groupBox4.Location = new System.Drawing.Point(6, 94);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(274, 90);
+            this.groupBox4.Size = new System.Drawing.Size(274, 104);
             this.groupBox4.TabIndex = 34;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = " Colors ";
@@ -302,10 +310,25 @@
             // numFontSize
             // 
             this.numFontSize.Location = new System.Drawing.Point(102, 46);
+            this.numFontSize.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.numFontSize.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
             this.numFontSize.Name = "numFontSize";
             this.numFontSize.Size = new System.Drawing.Size(60, 22);
             this.numFontSize.TabIndex = 33;
             this.numFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numFontSize.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
             this.numFontSize.ValueChanged += new System.EventHandler(this.numFontSize_ValueChanged);
             // 
             // label2
@@ -476,6 +499,20 @@
             this.chkAlwaysOnTop.Text = "Always On Top";
             this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
             // 
+            // pnlBackColor
+            // 
+            this.pnlBackColor.Location = new System.Drawing.Point(211, 21);
+            this.pnlBackColor.Name = "pnlBackColor";
+            this.pnlBackColor.Size = new System.Drawing.Size(27, 26);
+            this.pnlBackColor.TabIndex = 35;
+            // 
+            // pnlTextColor
+            // 
+            this.pnlTextColor.Location = new System.Drawing.Point(211, 59);
+            this.pnlTextColor.Name = "pnlTextColor";
+            this.pnlTextColor.Size = new System.Drawing.Size(27, 26);
+            this.pnlTextColor.TabIndex = 36;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -493,6 +530,7 @@
             this.tabPage2.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).EndInit();
             this.groupBox5.ResumeLayout(false);
@@ -554,5 +592,8 @@
         private System.Windows.Forms.CheckBox chkMirrorText;
         private System.Windows.Forms.CheckBox chkNonActivating;
         private System.Windows.Forms.CheckBox chkAlwaysOnTop;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Panel pnlTextColor;
+        private System.Windows.Forms.Panel pnlBackColor;
     }
 }

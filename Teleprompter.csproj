@@ -76,6 +76,7 @@
     <Compile Include="PowerPointSlideController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleScripts.cs" />
     <Compile Include="Settings.cs">
       <SubType>Form</SubType>
     </Compile>

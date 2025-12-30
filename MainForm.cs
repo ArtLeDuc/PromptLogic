@@ -15,6 +15,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
@@ -274,7 +275,8 @@ namespace Teleprompter
         }
         private void StartSlideShow()
         {
-            _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
+            if (_slides != null)
+                _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
 
             double speedValue = SettingsManager.Settings.ScrollSpeed / 100.0;
             webView.ExecuteScriptAsync($"setSpeed({speedValue});");
@@ -335,18 +337,130 @@ namespace Teleprompter
             StopSlideShow();
         }
 
-        private void btnSettings_Click(object sender, EventArgs e)
+        [DllImport("user32.dll")] static extern uint GetWindowLong(IntPtr hWnd, int nIndex);
+
+        const int GWL_EXSTYLE = -20;
+        const uint WS_EX_TOPMOST = 0x00000008;
+
+        bool IsActuallyTopMost()
         {
-            using (var dlg = new Settings(this))
-            {
-                dlg.StartPosition = FormStartPosition.CenterParent;
-                dlg.ShowDialog(this);
-            }
+            uint exStyle = GetWindowLong(this.Handle, GWL_EXSTYLE);
+            return (exStyle & WS_EX_TOPMOST) != 0;
         }
 
+        private Settings settingsWindow;
+        private void OpenSettings()
+        {
+            if (settingsWindow == null || settingsWindow.IsDisposed)
+            {
+                settingsWindow = new Settings(this);
+
+                // Sync with actual topmost state
+                settingsWindow.TopMost = IsActuallyTopMost();
+
+                var screen = Screen.FromControl(this);
+                var work = screen.WorkingArea;
+
+                int desiredX = this.Right;
+                int desiredY = this.Top;
+
+                bool fitsRight = desiredX + settingsWindow.Width <= work.Right;
+
+                if (fitsRight)
+                {
+                    settingsWindow.StartPosition = FormStartPosition.Manual;
+                    settingsWindow.Location = new System.Drawing.Point(desiredX, desiredY);
+                }
+                else
+                {
+                    settingsWindow.StartPosition = FormStartPosition.CenterParent;
+                }
+
+                settingsWindow.Show();
+                settingsWindow.Focus();
+            }
+            else
+            {
+                settingsWindow.Focus();
+            }
+        }
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            OpenSettings();
+        }
         private void btnWebDebugger_Click(object sender, EventArgs e)
         {
             webView.CoreWebView2.OpenDevToolsWindow();
         }
+
+        private void ApplyAllSettings()
+        {
+            var s = SettingsManager.Settings;
+
+            // Font family
+            ((ITeleprompterPreview)this).ApplyFont(s.TeleprompterFont);
+
+            // Font size
+            ((ITeleprompterPreview)this).ApplyFontSize(s.FontSize);
+
+            // Line spacing
+//            ((ITeleprompterPreview)this).ApplyLineSpacing(s.LineSpacing);
+
+            // Text color
+            ((ITeleprompterPreview)this).ApplyTextColor(s.TextColor);
+
+            // Background color
+            ((ITeleprompterPreview)this).ApplyBackgroundColor(s.BackColor);
+
+            // Highlight band height
+//            ((ITeleprompterPreview)this).ApplyHighlightHeight(s.HighlightHeight);
+
+            // Highlight band opacity
+//            ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightOpacity);
+
+            // Highlight band vertical position
+//            ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightTopPercent);
+        }
+        private void btnLoadSampleScript_Click(object sender, EventArgs e)
+        {
+            
+            string escaped = SampleScripts.Default
+                .Replace("\r\n", "\n")   // CRLF → LF
+                .Replace("\r", "\n")     // CR → LF
+                .Replace("\v", "\n")     // VT → LF
+                .Replace("\\", "\\\\")   // escape backslashes
+                .Replace("\"", "\\\"")   // escape quotes
+                .Replace("\n", "\\n");   // LF → JS newline
+            webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
+        }
+/*
+        public void Disconnect()
+        {
+            try
+            {
+                if (_slideShowWindow != null)
+                {
+                    _slideShowWindow.View.Exit();
+                    _slideShowWindow = null;
+                }
+
+                if (_presentation != null)
+                {
+                    _presentation.Close();
+                    _presentation = null;
+                }
+
+                if (_app != null)
+                {
+                    _app.SlideShowNextSlide -= OnNextSlide;
+                    _app.SlideShowEnd -= OnEndSlideShow;
+                    _app = null;
+                }
+
+                _slides = null;
+            }
+            catch { }
+        }
+*/
     }
 }

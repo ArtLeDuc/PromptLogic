@@ -53,6 +53,10 @@ namespace Teleprompter
             string js = $"document.documentElement.style.setProperty('--background-color', '{color}');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
+        void ITeleprompterPreview.ApplyAllSettings()
+        {
+            ApplyAllSettings(); // calls your private MainForm method
+        }
 
     }
 }

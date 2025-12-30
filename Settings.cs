@@ -24,7 +24,6 @@ namespace Teleprompter
 
             this.AcceptButton = btnOk;
             this.CancelButton = btnCancel;
-
         }
         private void Settings_Load(object sender, EventArgs e)
         {
@@ -41,6 +40,8 @@ namespace Teleprompter
             // Load saved setting (if any)
             cmbFontName.SelectedItem = SettingsManager.Settings.TeleprompterFont;
             numFontSize.Value = SettingsManager.Settings.FontSize;
+            pnlTextColor.BackColor = ColorTranslator.FromHtml(pending.TextColor);
+            pnlBackColor.BackColor = ColorTranslator.FromHtml(pending.BackColor);
         }
 
         private void cmbFontName_SelectedIndexChanged(object sender, EventArgs e)
@@ -55,13 +56,12 @@ namespace Teleprompter
         private void btnOk_Click_1(object sender, EventArgs e)
         {
             SettingsManager.Save(pending);
-            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
         private void btnCancel_Click_1(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            preview.ApplyAllSettings();   // restore saved settings
             this.Close();
         }
 
@@ -76,6 +76,52 @@ namespace Teleprompter
 
             pending.FontSize = size;        // update pending settings
             preview.ApplyFontSize(size);    // live preview
+        }
+
+        private void btnBackgroundColor_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new ColorDialog())
+            {
+                dlg.Color = pnlBackColor.BackColor; // start with current color
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // Update preview square
+                    pnlBackColor.BackColor = dlg.Color;
+
+                    // Convert to CSS color
+                    string css = ColorTranslator.ToHtml(dlg.Color);
+
+                    // Update pending settings
+                    pending.TextColor = css;
+
+                    // Live preview
+                    preview.ApplyBackgroundColor(css);
+                }
+            }
+        }
+
+        private void btnTextColor_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new ColorDialog())
+            {
+                dlg.Color = pnlTextColor.BackColor; // start with current color
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // Update preview square
+                    pnlTextColor.BackColor = dlg.Color;
+
+                    // Convert to CSS color
+                    string css = ColorTranslator.ToHtml(dlg.Color);
+
+                    // Update pending settings
+                    pending.TextColor = css;
+
+                    // Live preview
+                    preview.ApplyTextColor(css);
+                }
+            }
         }
     }
 }
