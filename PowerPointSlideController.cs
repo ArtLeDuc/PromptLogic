@@ -2,6 +2,7 @@
 using Microsoft.Office.Interop.PowerPoint;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Reflection;
@@ -17,11 +18,26 @@ namespace Teleprompter
 {
     public class PowerPointSlideController : ISlideController
     {
+        // PowerPoint COM objects
         private PowerPoint.Application _app = null;
-        private PowerPoint.Presentation _presentation;
-        private WebMessageService _service;
+        private PowerPoint.Presentation _presentation = null;
+        private PowerPoint.SlideShowWindow _slideShowWindow = null;
+        private PowerPoint.SlideShowView _slideShowView = null;
+
+        // Services
+        private WebMessageService _service = null;
+        private IWebViewActions _ui = null;
+
+        // Events exposed to the UI
         public event Action<int> SlideChanged;
         public event EventHandler SlideShowBegin;
+        public event EventHandler Disconnected;
+
+        // Internal state
+        private bool _isConnected = false;
+
+        private System.Windows.Forms.Timer _monitorTimer;
+
 
         public PowerPointSlideController()
         {
@@ -123,11 +139,16 @@ namespace Teleprompter
             var win = GetWindow();
             var slide = win.Presentation.Slides[index];
 
-            var titleShape = slide.Shapes.Title;
-            if (titleShape != null)
-                return titleShape.TextFrame.TextRange.Text;
-            else
-                return "Slide " + index;
+            try
+            {
+                var titleShape = slide.Shapes.Title;
+                if (titleShape != null)
+                    return titleShape.TextFrame.TextRange.Text;
+            }
+            catch
+            {               
+            }
+            return "Slide " + index;
         }
 
 
@@ -182,23 +203,43 @@ namespace Teleprompter
 
         private void SlideShowNextSlide(PowerPoint.SlideShowWindow Wn)
         {
-            SlideChanged?.Invoke(Wn.View.CurrentShowPosition);
+            try
+            {
+                int index = Wn.View.Slide.SlideIndex;
+                Debug.WriteLine($"SlideShowNextSlide fired: {index}");
+
+                SlideChanged?.Invoke(index);
+            }
+            catch
+            {
+                // Optional: log or ignore
+            }
+
         }
 
         public void HookSlideShowEvents()
         {
+            // Hook PowerPoint.Application events
             _app.SlideShowNextSlide += SlideShowNextSlide;
             _app.SlideShowBegin += OnSlideShowBegin;
 
             // If a slideshow is already running, attach to it
             if (_app.SlideShowWindows.Count > 0)
             {
-                var slideShowWindow = GetWindow();
+                _slideShowView = GetWindow()?.View;
             }
             else
             {
                 MessageBox.Show("Start the slideshow (F5) to begin syncing notes.");
             }
+
+            _monitorTimer = new System.Windows.Forms.Timer();
+            _monitorTimer.Interval = 50; // 50ms
+            _monitorTimer.Tick += MonitorTimer_Tick;
+            _monitorTimer.Start();
+
+            _isConnected = true;
+
         }
         private void OnSlideShowBegin(PowerPoint.SlideShowWindow Wn)
         {
@@ -207,86 +248,62 @@ namespace Teleprompter
 
         public bool Connect(IWebViewActions ui)
         {
+            Disconnect();
 
+            // Prevent double-connect
+//            if (_isConnected)
+//                return false;
+
+            _service = new WebMessageService(ui);
+            _ui = ui;
+
+            // Try to get the running PowerPoint instance
             try
             {
-                // Try to attach to a running instance
-                _app = (PowerPoint.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("PowerPoint.Application");
-                MessageBox.Show("Connected to running PowerPoint.");
+                _app = Marshal.GetActiveObject("PowerPoint.Application") as PowerPoint.Application;
             }
             catch
             {
-                // Not running — ask user if they want to launch it
-                var result = MessageBox.Show("PowerPoint is not running. Launch it now?", "PowerPoint", MessageBoxButtons.YesNo);
-
-                if (result == DialogResult.Yes)
-                {
-                    _app = new PowerPoint.Application();
-                    _app.Visible = Office.MsoTriState.msoTrue;
-
-                    // Ask user to pick a file
-                    OpenFileDialog dlg = new OpenFileDialog();
-                    dlg.Filter = "PowerPoint Files|*.pptx;*.pptm;*.ppt";
-
-                    if (dlg.ShowDialog() == DialogResult.OK)
-                    {
-                        _app.Presentations.Open(dlg.FileName, WithWindow: Office.MsoTriState.msoTrue);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No file selected.");
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            if (_app.Presentations.Count > 0)
-            {
-                _presentation = _app.ActivePresentation;
-            }
-            else
-            {
-                // No presentation open — return false or throw
+                MessageBox.Show("PowerPoint is not running. Please open your presentation first.");
                 return false;
             }
 
-            if (PresentationHasTimings())
+            // Try to get the active presentation
+            try
             {
-                var result = MessageBox.Show(
-                    "This presentation has recorded timings.\n" +
-                    "Clear them now?",
-                    "Timings Detected",
-                    MessageBoxButtons.YesNo);
-
-                if (result == DialogResult.Yes)
-                    ClearAllTimings();
+                _presentation = _app.ActivePresentation;
+            }
+            catch
+            {
+                MessageBox.Show("No active presentation found. Please open a PowerPoint file.");
+                return false;
             }
 
-            // Now create the service
-            _service = new WebMessageService(ui);
-
-            // At this point, pptApp is guaranteed to be valid
+            // Hook events and attach to slideshow if already running
             HookSlideShowEvents();
-
-//            if (_app.SlideShowWindows.Count == 0)
-//                _app.ActivePresentation.SlideShowSettings.Run();
-//            _app.SlideShowWindows[1].View.State = PowerPoint.PpSlideShowState.ppSlideShowPaused;
 
             return true;
         }
 
         public string GetNotesForCurrentSlide()
         {
-            var win = GetWindow();
-            var slide = win.View.Slide;
+            if (_slideShowView == null)
+                return string.Empty;
 
-            string notes = slide.NotesPage.Shapes.Placeholders[2].TextFrame.TextRange.Text;
+            return GetNotesForSlide(_slideShowView.Slide.SlideIndex);
+        }
 
-            return notes;
+        public string GetNotesForSlide(int index)
+        {
+            try
+            {
+                var slide = _presentation.Slides[index];
+                return slide.NotesPage.Shapes.Placeholders[2].TextFrame.TextRange.Text;
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         public bool IsSlideShowRunning
@@ -301,6 +318,119 @@ namespace Teleprompter
                 {
                     return false;
                 }
+            }
+        }
+
+        public void Disconnect()
+        {
+            _isConnected = false;
+
+            // --- 0. Stop monitor timer ---
+            try
+            {
+                if (_monitorTimer != null)
+                {
+                    _monitorTimer.Stop();
+                    _monitorTimer.Tick -= MonitorTimer_Tick;
+                    _monitorTimer.Dispose();
+                    _monitorTimer = null;
+                }
+            }
+            catch { }
+
+            // --- 1. Unhook PowerPoint.Application events ---
+            try
+            {
+                if (_app != null)
+                {
+                    _app.SlideShowNextSlide -= SlideShowNextSlide;
+                    _app.SlideShowBegin -= OnSlideShowBegin;
+                    _app.SlideShowEnd += OnSlideShowEnd;
+                }
+            }
+            catch
+            {
+                // Never throw during disconnect
+            }
+
+            // --- 2. Release COM objects (future-proof) ---
+            ReleaseComObject(ref _slideShowWindow);
+            ReleaseComObject(ref _slideShowView);
+            ReleaseComObject(ref _presentation);
+
+            // DO NOT release _app or call Quit() because we did NOT create PowerPoint.
+
+            // --- 3. Clear service reference ---
+            _service = null;
+
+            // --- 4. Notify UI ---
+            try
+            {
+                Disconnected?.Invoke(this, EventArgs.Empty);
+            }
+            catch
+            {
+                // UI errors should never break disconnect
+            }
+        }
+        private void SlideShowEnd()
+        {
+            Debug.WriteLine("[Monitor] Slideshow ended — stopping timer - Disconnecting");
+
+            // Slideshow is over — stop the heartbeat
+            _ui.InvokeOnUIThread(() =>
+            {
+                _monitorTimer?.Stop();
+            });
+
+            // Optionally trigger Disconnect()
+            Disconnect();
+        }
+        private void OnSlideShowEnd(PowerPoint.Presentation Pres)
+        {
+            SlideShowEnd();
+        }
+
+        private void ReleaseComObject<T>(ref T obj) where T : class
+        {
+            try
+            {
+                if (obj != null && Marshal.IsComObject(obj))
+                    Marshal.ReleaseComObject(obj);
+            }
+            catch
+            {
+                // Ignore — COM cleanup must never throw
+            }
+            finally
+            {
+                obj = null;
+            }
+        }
+        private void MonitorTimer_Tick(object sender, EventArgs e)
+        {
+            if (_slideShowView == null)
+                return;
+
+            try
+            {
+                // If the slideshow window is gone, slideshow ended
+                if (_slideShowView?.State != PowerPoint.PpSlideShowState.ppSlideShowDone &&
+                    _app.SlideShowWindows.Count > 0)
+                {
+                    // COM heartbeat — keeps PowerPoint events flowing
+                    int current = _slideShowView?.Slide?.SlideIndex ?? -1;
+                }
+                else
+                {
+                    SlideShowEnd();
+                    return;
+                }
+
+            }
+            catch
+            {
+                // Ignore COM timing issues
             }
         }
     }

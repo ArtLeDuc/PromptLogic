@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ namespace Teleprompter
         private ISlideController _slides = null;
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
+        private string _lastNotesSent = null;
+        const string _htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
 
 
         public MainForm()
@@ -62,16 +65,31 @@ namespace Teleprompter
                 }
             }
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private async void InitializeWebView()
         {
-            string htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
-            webView.Source = new Uri(htmlPath);
-
             webView.CoreWebView2InitializationCompleted += (s, g) =>
             {
-                webView.CoreWebView2.Settings.AreDevToolsEnabled = true;
+                if (g.IsSuccess)
+                {
+                    // HTML load event
+                    webView.CoreWebView2.DOMContentLoaded += (s2, e2) =>
+                    {
+                        ApplyAllSettings();
+                    };
+
+//                    LoadInitialPage();
+                }
             };
 
+            await webView.EnsureCoreWebView2Async();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            webView.Source = new Uri(_htmlPath);
+
+            InitializeWebView();
+        
             double speedValue = SettingsManager.Settings.ScrollSpeed;
             traSpeed.Value = (int)speedValue;
 
@@ -154,9 +172,12 @@ namespace Teleprompter
 
         }
 
-        private void LoadNotesForCurrentSlide()
+        private void SendNotesToWebView(string notes)
         {
-            string notes = _slides.GetNotesForCurrentSlide();
+            if (notes == _lastNotesSent)
+                return;
+            _lastNotesSent = notes;
+
 
             this.Invoke((Action)(() =>
             {
@@ -172,15 +193,41 @@ namespace Teleprompter
                 webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
             }));
         }
+        private void LoadNotesForCurrentSlide()
+        {
+            string notes = _slides.GetNotesForCurrentSlide();
+            SendNotesToWebView(notes);
+        }
+        private void LoadNotesForSlide(int index)
+        {
+            string notes = _slides.GetNotesForSlide(index);
+            SendNotesToWebView(notes);
+        }
+        public void LoadInitialPage()
+        {
+            webView.CoreWebView2.Navigate(_htmlPath);
+        }
+
+        public void InvokeOnUIThread(Action action)
+        {
+            if (InvokeRequired)
+                BeginInvoke(action);
+            else
+                action();
+        }
 
         public void OnSlideChanged(int index)
         {
-            this.Invoke((Action)(() =>
+            if (InvokeRequired)
             {
-                LoadNotesForCurrentSlide();
-                btnPause.Text = "Pause";
-                isPaused = false;
-            }));
+                Debug.WriteLine($"OnSlideChanged next slide: {index}");
+                BeginInvoke(new Action(() => OnSlideChanged(index)));
+                return;
+            }
+
+            LoadNotesForSlide(index);
+            btnPause.Text = "Pause";
+            isPaused = false;
         }
 
         private void traSpeed_ValueChanged(object sender, EventArgs e)
@@ -198,6 +245,12 @@ namespace Teleprompter
             ToggleCollapse(true);
         }
 
+        private void Controller_Disconnected(object sender, EventArgs e)
+        {
+            LoadInitialPage(); // reload index.html
+            btnConnect.Enabled = true;
+//            btnDisconnect.Enabled = false;
+        }
         private void btnExpand_Click(object sender, EventArgs e)
         {
             ToggleCollapse(false);
@@ -219,8 +272,10 @@ namespace Teleprompter
         }
 
         private void ConnectSlideShow()
-        { 
+        {
             _slides = SlideControllerFactory.Create(_selectedEngine);
+            _slides.Disconnected += Controller_Disconnected;
+
             if (!_slides.Connect(this))
             {
                 MessageBox.Show("Could not connect.");
@@ -433,34 +488,5 @@ namespace Teleprompter
                 .Replace("\n", "\\n");   // LF → JS newline
             webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
         }
-/*
-        public void Disconnect()
-        {
-            try
-            {
-                if (_slideShowWindow != null)
-                {
-                    _slideShowWindow.View.Exit();
-                    _slideShowWindow = null;
-                }
-
-                if (_presentation != null)
-                {
-                    _presentation.Close();
-                    _presentation = null;
-                }
-
-                if (_app != null)
-                {
-                    _app.SlideShowNextSlide -= OnNextSlide;
-                    _app.SlideShowEnd -= OnEndSlideShow;
-                    _app = null;
-                }
-
-                _slides = null;
-            }
-            catch { }
-        }
-*/
     }
 }

@@ -305,7 +305,7 @@
             this.Controls.Add(this.pnlControl);
             this.Name = "MainForm";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.pnlControl.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

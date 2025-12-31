@@ -33,25 +33,17 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnTextColor = new System.Windows.Forms.Button();
             this.btnBackgroundColor = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.traScrollSpeed = new System.Windows.Forms.TrackBar();
-            this.label8 = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.radBorderless = new System.Windows.Forms.RadioButton();
-            this.radNarrowBorder = new System.Windows.Forms.RadioButton();
-            this.radNormalBorder = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radDarkTheme = new System.Windows.Forms.RadioButton();
-            this.radLightTheme = new System.Windows.Forms.RadioButton();
             this.numFontSize = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbFontName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.pnlTextColor = new System.Windows.Forms.Panel();
+            this.pnlBackColor = new System.Windows.Forms.Panel();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.trkPauseSpacing2 = new System.Windows.Forms.TrackBar();
             this.label7 = new System.Windows.Forms.Label();
@@ -63,30 +55,38 @@
             this.label3 = new System.Windows.Forms.Label();
             this.trkParagraphSpacing = new System.Windows.Forms.TrackBar();
             this.trkLineSpacing = new System.Windows.Forms.TrackBar();
+            this.traScrollSpeed = new System.Windows.Forms.TrackBar();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.chkMirrorText = new System.Windows.Forms.CheckBox();
             this.chkNonActivating = new System.Windows.Forms.CheckBox();
             this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.radBorderless = new System.Windows.Forms.RadioButton();
+            this.radNarrowBorder = new System.Windows.Forms.RadioButton();
+            this.radNormalBorder = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radDarkTheme = new System.Windows.Forms.RadioButton();
+            this.radLightTheme = new System.Windows.Forms.RadioButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.pnlBackColor = new System.Windows.Forms.Panel();
-            this.pnlTextColor = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).BeginInit();
-            this.groupBox5.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFontSize)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
@@ -144,19 +144,6 @@
             this.tabPage1.Text = "Appearance";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Controls.Add(this.traScrollSpeed);
-            this.tabPage2.Controls.Add(this.label8);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(294, 368);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Timing";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // btnTextColor
             // 
             this.btnTextColor.Location = new System.Drawing.Point(73, 156);
@@ -190,6 +177,57 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Font";
             // 
+            // numFontSize
+            // 
+            this.numFontSize.Location = new System.Drawing.Point(102, 46);
+            this.numFontSize.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.numFontSize.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numFontSize.Name = "numFontSize";
+            this.numFontSize.Size = new System.Drawing.Size(60, 22);
+            this.numFontSize.TabIndex = 33;
+            this.numFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numFontSize.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numFontSize.ValueChanged += new System.EventHandler(this.numFontSize_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(15, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 16);
+            this.label2.TabIndex = 32;
+            this.label2.Text = "Size";
+            // 
+            // cmbFontName
+            // 
+            this.cmbFontName.FormattingEnabled = true;
+            this.cmbFontName.Location = new System.Drawing.Point(102, 16);
+            this.cmbFontName.Name = "cmbFontName";
+            this.cmbFontName.Size = new System.Drawing.Size(157, 24);
+            this.cmbFontName.TabIndex = 30;
+            this.cmbFontName.SelectedIndexChanged += new System.EventHandler(this.cmbFontName_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(15, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 16);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "Name";
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.pnlTextColor);
@@ -201,17 +239,131 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = " Colors ";
             // 
-            // tabPage3
+            // pnlTextColor
             // 
-            this.tabPage3.Controls.Add(this.groupBox6);
-            this.tabPage3.Controls.Add(this.groupBox5);
-            this.tabPage3.Controls.Add(this.groupBox3);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(294, 368);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Window";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.pnlTextColor.Location = new System.Drawing.Point(211, 59);
+            this.pnlTextColor.Name = "pnlTextColor";
+            this.pnlTextColor.Size = new System.Drawing.Size(27, 26);
+            this.pnlTextColor.TabIndex = 36;
+            // 
+            // pnlBackColor
+            // 
+            this.pnlBackColor.Location = new System.Drawing.Point(211, 21);
+            this.pnlBackColor.Name = "pnlBackColor";
+            this.pnlBackColor.Size = new System.Drawing.Size(27, 26);
+            this.pnlBackColor.TabIndex = 35;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Controls.Add(this.traScrollSpeed);
+            this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(294, 368);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Timing";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.trkPauseSpacing2);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.trkPauseSpacing1);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.trkPauseSpacing);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.trkParagraphSpacing);
+            this.groupBox1.Controls.Add(this.trkLineSpacing);
+            this.groupBox1.Location = new System.Drawing.Point(6, 91);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(268, 199);
+            this.groupBox1.TabIndex = 31;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = " Spacing ";
+            // 
+            // trkPauseSpacing2
+            // 
+            this.trkPauseSpacing2.Location = new System.Drawing.Point(93, 145);
+            this.trkPauseSpacing2.Name = "trkPauseSpacing2";
+            this.trkPauseSpacing2.Size = new System.Drawing.Size(157, 56);
+            this.trkPauseSpacing2.TabIndex = 14;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(9, 61);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(71, 16);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Paragraph";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 154);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 16);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Break 3";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 123);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 16);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Break 2";
+            // 
+            // trkPauseSpacing1
+            // 
+            this.trkPauseSpacing1.Location = new System.Drawing.Point(93, 114);
+            this.trkPauseSpacing1.Name = "trkPauseSpacing1";
+            this.trkPauseSpacing1.Size = new System.Drawing.Size(157, 56);
+            this.trkPauseSpacing1.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 92);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 16);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Break 1";
+            // 
+            // trkPauseSpacing
+            // 
+            this.trkPauseSpacing.Location = new System.Drawing.Point(93, 83);
+            this.trkPauseSpacing.Name = "trkPauseSpacing";
+            this.trkPauseSpacing.Size = new System.Drawing.Size(157, 56);
+            this.trkPauseSpacing.TabIndex = 10;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 16);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Line";
+            // 
+            // trkParagraphSpacing
+            // 
+            this.trkParagraphSpacing.Location = new System.Drawing.Point(93, 52);
+            this.trkParagraphSpacing.Name = "trkParagraphSpacing";
+            this.trkParagraphSpacing.Size = new System.Drawing.Size(157, 56);
+            this.trkParagraphSpacing.TabIndex = 16;
+            // 
+            // trkLineSpacing
+            // 
+            this.trkLineSpacing.Location = new System.Drawing.Point(93, 21);
+            this.trkLineSpacing.Name = "trkLineSpacing";
+            this.trkLineSpacing.Size = new System.Drawing.Size(157, 56);
+            this.trkLineSpacing.TabIndex = 8;
             // 
             // traScrollSpeed
             // 
@@ -228,6 +380,60 @@
             this.label8.Size = new System.Drawing.Size(85, 16);
             this.label8.TabIndex = 21;
             this.label8.Text = "Scroll Speed";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.groupBox6);
+            this.tabPage3.Controls.Add(this.groupBox5);
+            this.tabPage3.Controls.Add(this.groupBox3);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(294, 368);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Window";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.chkMirrorText);
+            this.groupBox6.Controls.Add(this.chkNonActivating);
+            this.groupBox6.Controls.Add(this.chkAlwaysOnTop);
+            this.groupBox6.Location = new System.Drawing.Point(39, 239);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(200, 110);
+            this.groupBox6.TabIndex = 32;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = " Other Options ";
+            // 
+            // chkMirrorText
+            // 
+            this.chkMirrorText.AutoSize = true;
+            this.chkMirrorText.Location = new System.Drawing.Point(43, 79);
+            this.chkMirrorText.Name = "chkMirrorText";
+            this.chkMirrorText.Size = new System.Drawing.Size(86, 20);
+            this.chkMirrorText.TabIndex = 34;
+            this.chkMirrorText.Text = "Mirror text";
+            this.chkMirrorText.UseVisualStyleBackColor = true;
+            // 
+            // chkNonActivating
+            // 
+            this.chkNonActivating.AutoSize = true;
+            this.chkNonActivating.Location = new System.Drawing.Point(43, 52);
+            this.chkNonActivating.Name = "chkNonActivating";
+            this.chkNonActivating.Size = new System.Drawing.Size(115, 20);
+            this.chkNonActivating.TabIndex = 33;
+            this.chkNonActivating.Text = "Non-activating";
+            this.chkNonActivating.UseVisualStyleBackColor = true;
+            // 
+            // chkAlwaysOnTop
+            // 
+            this.chkAlwaysOnTop.AutoSize = true;
+            this.chkAlwaysOnTop.Location = new System.Drawing.Point(43, 25);
+            this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
+            this.chkAlwaysOnTop.Size = new System.Drawing.Size(120, 20);
+            this.chkAlwaysOnTop.TabIndex = 32;
+            this.chkAlwaysOnTop.Text = "Always On Top";
+            this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -307,212 +513,6 @@
             this.radLightTheme.Text = "Light";
             this.radLightTheme.UseVisualStyleBackColor = true;
             // 
-            // numFontSize
-            // 
-            this.numFontSize.Location = new System.Drawing.Point(102, 46);
-            this.numFontSize.Maximum = new decimal(new int[] {
-            120,
-            0,
-            0,
-            0});
-            this.numFontSize.Minimum = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.numFontSize.Name = "numFontSize";
-            this.numFontSize.Size = new System.Drawing.Size(60, 22);
-            this.numFontSize.TabIndex = 33;
-            this.numFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.numFontSize.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            this.numFontSize.ValueChanged += new System.EventHandler(this.numFontSize_ValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 16);
-            this.label2.TabIndex = 32;
-            this.label2.Text = "Size";
-            // 
-            // cmbFontName
-            // 
-            this.cmbFontName.FormattingEnabled = true;
-            this.cmbFontName.Location = new System.Drawing.Point(102, 16);
-            this.cmbFontName.Name = "cmbFontName";
-            this.cmbFontName.Size = new System.Drawing.Size(157, 24);
-            this.cmbFontName.TabIndex = 30;
-            this.cmbFontName.SelectedIndexChanged += new System.EventHandler(this.cmbFontName_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 16);
-            this.label1.TabIndex = 31;
-            this.label1.Text = "Name";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.trkPauseSpacing2);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.trkPauseSpacing1);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.trkPauseSpacing);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.trkParagraphSpacing);
-            this.groupBox1.Controls.Add(this.trkLineSpacing);
-            this.groupBox1.Location = new System.Drawing.Point(6, 91);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(268, 199);
-            this.groupBox1.TabIndex = 31;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = " Spacing ";
-            // 
-            // trkPauseSpacing2
-            // 
-            this.trkPauseSpacing2.Location = new System.Drawing.Point(93, 145);
-            this.trkPauseSpacing2.Name = "trkPauseSpacing2";
-            this.trkPauseSpacing2.Size = new System.Drawing.Size(157, 56);
-            this.trkPauseSpacing2.TabIndex = 14;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 61);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(71, 16);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "Paragraph";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 154);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 16);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Pause 2";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 123);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 16);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Pause 1";
-            // 
-            // trkPauseSpacing1
-            // 
-            this.trkPauseSpacing1.Location = new System.Drawing.Point(93, 114);
-            this.trkPauseSpacing1.Name = "trkPauseSpacing1";
-            this.trkPauseSpacing1.Size = new System.Drawing.Size(157, 56);
-            this.trkPauseSpacing1.TabIndex = 12;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 92);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 16);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Pause";
-            // 
-            // trkPauseSpacing
-            // 
-            this.trkPauseSpacing.Location = new System.Drawing.Point(93, 83);
-            this.trkPauseSpacing.Name = "trkPauseSpacing";
-            this.trkPauseSpacing.Size = new System.Drawing.Size(157, 56);
-            this.trkPauseSpacing.TabIndex = 10;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 29);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 16);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Line";
-            // 
-            // trkParagraphSpacing
-            // 
-            this.trkParagraphSpacing.Location = new System.Drawing.Point(93, 52);
-            this.trkParagraphSpacing.Name = "trkParagraphSpacing";
-            this.trkParagraphSpacing.Size = new System.Drawing.Size(157, 56);
-            this.trkParagraphSpacing.TabIndex = 16;
-            // 
-            // trkLineSpacing
-            // 
-            this.trkLineSpacing.Location = new System.Drawing.Point(93, 21);
-            this.trkLineSpacing.Name = "trkLineSpacing";
-            this.trkLineSpacing.Size = new System.Drawing.Size(157, 56);
-            this.trkLineSpacing.TabIndex = 8;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.chkMirrorText);
-            this.groupBox6.Controls.Add(this.chkNonActivating);
-            this.groupBox6.Controls.Add(this.chkAlwaysOnTop);
-            this.groupBox6.Location = new System.Drawing.Point(39, 239);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(200, 110);
-            this.groupBox6.TabIndex = 32;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = " Other Options ";
-            // 
-            // chkMirrorText
-            // 
-            this.chkMirrorText.AutoSize = true;
-            this.chkMirrorText.Location = new System.Drawing.Point(43, 79);
-            this.chkMirrorText.Name = "chkMirrorText";
-            this.chkMirrorText.Size = new System.Drawing.Size(86, 20);
-            this.chkMirrorText.TabIndex = 34;
-            this.chkMirrorText.Text = "Mirror text";
-            this.chkMirrorText.UseVisualStyleBackColor = true;
-            // 
-            // chkNonActivating
-            // 
-            this.chkNonActivating.AutoSize = true;
-            this.chkNonActivating.Location = new System.Drawing.Point(43, 52);
-            this.chkNonActivating.Name = "chkNonActivating";
-            this.chkNonActivating.Size = new System.Drawing.Size(115, 20);
-            this.chkNonActivating.TabIndex = 33;
-            this.chkNonActivating.Text = "Non-activating";
-            this.chkNonActivating.UseVisualStyleBackColor = true;
-            // 
-            // chkAlwaysOnTop
-            // 
-            this.chkAlwaysOnTop.AutoSize = true;
-            this.chkAlwaysOnTop.Location = new System.Drawing.Point(43, 25);
-            this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
-            this.chkAlwaysOnTop.Size = new System.Drawing.Size(120, 20);
-            this.chkAlwaysOnTop.TabIndex = 32;
-            this.chkAlwaysOnTop.Text = "Always On Top";
-            this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
-            // 
-            // pnlBackColor
-            // 
-            this.pnlBackColor.Location = new System.Drawing.Point(211, 21);
-            this.pnlBackColor.Name = "pnlBackColor";
-            this.pnlBackColor.Size = new System.Drawing.Size(27, 26);
-            this.pnlBackColor.TabIndex = 35;
-            // 
-            // pnlTextColor
-            // 
-            this.pnlTextColor.Location = new System.Drawing.Point(211, 59);
-            this.pnlTextColor.Name = "pnlTextColor";
-            this.pnlTextColor.Size = new System.Drawing.Size(27, 26);
-            this.pnlTextColor.TabIndex = 36;
-            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -526,18 +526,12 @@
             this.Text = "Settings";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFontSize)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing2)).EndInit();
@@ -545,8 +539,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).EndInit();
+            this.tabPage3.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }

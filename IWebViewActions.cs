@@ -11,5 +11,8 @@ namespace Teleprompter
         void SendToWebView(string message);
         void ExecuteScriptAsync(string script);
         void OnSlideChanged(int index);
+        void InvokeOnUIThread(Action action);
+        void LoadInitialPage();
+
     }
 }

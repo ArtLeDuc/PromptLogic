@@ -27,13 +27,14 @@ namespace Teleprompter
                                         //contain timings we will just do nothing in this call.
         void HookSlideShowEvents();
         string GetNotesForCurrentSlide();
+        string GetNotesForSlide(int index);
         SlideShowState State { get; }
         string GetSlideTitle(int index);
 
         // Events
         event Action<int> SlideChanged; // event raised when the current slide changes
         event EventHandler SlideShowBegin;
-
+        event EventHandler Disconnected;
 
     }
 }
