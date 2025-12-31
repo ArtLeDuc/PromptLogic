@@ -206,8 +206,6 @@ namespace Teleprompter
             try
             {
                 int index = Wn.View.Slide.SlideIndex;
-                Debug.WriteLine($"SlideShowNextSlide fired: {index}");
-
                 SlideChanged?.Invoke(index);
             }
             catch
@@ -251,8 +249,8 @@ namespace Teleprompter
             Disconnect();
 
             // Prevent double-connect
-//            if (_isConnected)
-//                return false;
+            //            if (_isConnected)
+            //                return false;
 
             _service = new WebMessageService(ui);
             _ui = ui;
@@ -375,8 +373,6 @@ namespace Teleprompter
         }
         private void SlideShowEnd()
         {
-            Debug.WriteLine("[Monitor] Slideshow ended — stopping timer - Disconnecting");
-
             // Slideshow is over — stop the heartbeat
             _ui.InvokeOnUIThread(() =>
             {

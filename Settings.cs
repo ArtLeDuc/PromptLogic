@@ -123,5 +123,41 @@ namespace Teleprompter
                 }
             }
         }
+
+        private void trkLineSpacing_Scroll(object sender, EventArgs e)
+        {
+            int spacing = trkLineSpacing.Value;
+            SettingsManager.Settings.LineSpacing = spacing;
+            preview.ApplyLineSpacing(spacing);
+        }
+
+        private void trkParagraphSpacing_Scroll(object sender, EventArgs e)
+        {
+            int spacing = trkParagraphSpacing.Value;
+            SettingsManager.Settings.ParagraphSpacing = spacing;
+            preview.ApplyParagraphSpacing(spacing);
+
+        }
+
+        private void trkBreakSpacing1_Scroll(object sender, EventArgs e)
+        {
+            int spacing = trkBreakSpacing1.Value;
+            SettingsManager.Settings.BreakSpacing1 = spacing;
+            preview.ApplyBreakSpacing1(spacing);
+        }
+
+        private void trkBreakSpacing2_Scroll(object sender, EventArgs e)
+        {
+            int spacing = trkBreakSpacing2.Value;
+            SettingsManager.Settings.BreakSpacing2 = spacing;
+            preview.ApplyBreakSpacing2(spacing);
+        }
+
+        private void trkBreakSpacing3_Scroll(object sender, EventArgs e)
+        {
+            int spacing = trkBreakSpacing3.Value;
+            SettingsManager.Settings.BreakSpacing3 = spacing;
+            preview.ApplyBreakSpacing3(spacing);
+        }
     }
 }

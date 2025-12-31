@@ -1,4 +1,4 @@
-let scrollPos = 0;
+﻿let scrollPos = 0;
 let scrollSpeed = 1;   // pixels per frame
 let scrolling = false;
 let scrollInterval = null;

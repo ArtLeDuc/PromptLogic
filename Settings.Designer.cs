@@ -45,13 +45,13 @@
             this.pnlBackColor = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.trkPauseSpacing2 = new System.Windows.Forms.TrackBar();
+            this.trkBreakSpacing3 = new System.Windows.Forms.TrackBar();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.trkPauseSpacing1 = new System.Windows.Forms.TrackBar();
+            this.trkBreakSpacing2 = new System.Windows.Forms.TrackBar();
             this.label4 = new System.Windows.Forms.Label();
-            this.trkPauseSpacing = new System.Windows.Forms.TrackBar();
+            this.trkBreakSpacing1 = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.trkParagraphSpacing = new System.Windows.Forms.TrackBar();
             this.trkLineSpacing = new System.Windows.Forms.TrackBar();
@@ -77,9 +77,9 @@
             this.groupBox4.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).BeginInit();
@@ -268,13 +268,13 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.trkPauseSpacing2);
+            this.groupBox1.Controls.Add(this.trkBreakSpacing3);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.trkPauseSpacing1);
+            this.groupBox1.Controls.Add(this.trkBreakSpacing2);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.trkPauseSpacing);
+            this.groupBox1.Controls.Add(this.trkBreakSpacing1);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.trkParagraphSpacing);
             this.groupBox1.Controls.Add(this.trkLineSpacing);
@@ -285,12 +285,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Spacing ";
             // 
-            // trkPauseSpacing2
+            // trkBreakSpacing3
             // 
-            this.trkPauseSpacing2.Location = new System.Drawing.Point(93, 145);
-            this.trkPauseSpacing2.Name = "trkPauseSpacing2";
-            this.trkPauseSpacing2.Size = new System.Drawing.Size(157, 56);
-            this.trkPauseSpacing2.TabIndex = 14;
+            this.trkBreakSpacing3.Location = new System.Drawing.Point(93, 145);
+            this.trkBreakSpacing3.Maximum = 20;
+            this.trkBreakSpacing3.Name = "trkBreakSpacing3";
+            this.trkBreakSpacing3.Size = new System.Drawing.Size(157, 56);
+            this.trkBreakSpacing3.TabIndex = 14;
+            this.trkBreakSpacing3.Scroll += new System.EventHandler(this.trkBreakSpacing3_Scroll);
             // 
             // label7
             // 
@@ -319,12 +321,14 @@
             this.label5.TabIndex = 13;
             this.label5.Text = "Break 2";
             // 
-            // trkPauseSpacing1
+            // trkBreakSpacing2
             // 
-            this.trkPauseSpacing1.Location = new System.Drawing.Point(93, 114);
-            this.trkPauseSpacing1.Name = "trkPauseSpacing1";
-            this.trkPauseSpacing1.Size = new System.Drawing.Size(157, 56);
-            this.trkPauseSpacing1.TabIndex = 12;
+            this.trkBreakSpacing2.Location = new System.Drawing.Point(93, 114);
+            this.trkBreakSpacing2.Maximum = 20;
+            this.trkBreakSpacing2.Name = "trkBreakSpacing2";
+            this.trkBreakSpacing2.Size = new System.Drawing.Size(157, 56);
+            this.trkBreakSpacing2.TabIndex = 12;
+            this.trkBreakSpacing2.Scroll += new System.EventHandler(this.trkBreakSpacing2_Scroll);
             // 
             // label4
             // 
@@ -335,12 +339,14 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "Break 1";
             // 
-            // trkPauseSpacing
+            // trkBreakSpacing1
             // 
-            this.trkPauseSpacing.Location = new System.Drawing.Point(93, 83);
-            this.trkPauseSpacing.Name = "trkPauseSpacing";
-            this.trkPauseSpacing.Size = new System.Drawing.Size(157, 56);
-            this.trkPauseSpacing.TabIndex = 10;
+            this.trkBreakSpacing1.Location = new System.Drawing.Point(93, 83);
+            this.trkBreakSpacing1.Maximum = 20;
+            this.trkBreakSpacing1.Name = "trkBreakSpacing1";
+            this.trkBreakSpacing1.Size = new System.Drawing.Size(157, 56);
+            this.trkBreakSpacing1.TabIndex = 10;
+            this.trkBreakSpacing1.Scroll += new System.EventHandler(this.trkBreakSpacing1_Scroll);
             // 
             // label3
             // 
@@ -354,16 +360,22 @@
             // trkParagraphSpacing
             // 
             this.trkParagraphSpacing.Location = new System.Drawing.Point(93, 52);
+            this.trkParagraphSpacing.Maximum = 40;
+            this.trkParagraphSpacing.Minimum = 5;
             this.trkParagraphSpacing.Name = "trkParagraphSpacing";
             this.trkParagraphSpacing.Size = new System.Drawing.Size(157, 56);
             this.trkParagraphSpacing.TabIndex = 16;
+            this.trkParagraphSpacing.Value = 5;
+            this.trkParagraphSpacing.Scroll += new System.EventHandler(this.trkParagraphSpacing_Scroll);
             // 
             // trkLineSpacing
             // 
             this.trkLineSpacing.Location = new System.Drawing.Point(93, 21);
+            this.trkLineSpacing.Maximum = 20;
             this.trkLineSpacing.Name = "trkLineSpacing";
             this.trkLineSpacing.Size = new System.Drawing.Size(157, 56);
             this.trkLineSpacing.TabIndex = 8;
+            this.trkLineSpacing.Scroll += new System.EventHandler(this.trkLineSpacing_Scroll);
             // 
             // traScrollSpeed
             // 
@@ -534,9 +546,9 @@
             this.tabPage2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkPauseSpacing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).EndInit();
@@ -578,13 +590,13 @@
         private System.Windows.Forms.ComboBox cmbFontName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TrackBar trkPauseSpacing2;
+        private System.Windows.Forms.TrackBar trkBreakSpacing3;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TrackBar trkPauseSpacing1;
+        private System.Windows.Forms.TrackBar trkBreakSpacing2;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TrackBar trkPauseSpacing;
+        private System.Windows.Forms.TrackBar trkBreakSpacing1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TrackBar trkParagraphSpacing;
         private System.Windows.Forms.TrackBar trkLineSpacing;

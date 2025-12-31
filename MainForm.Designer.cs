@@ -31,12 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.pnlControl = new System.Windows.Forms.Panel();
+            this.btnLoadSampleScript = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
             this.btnWebDebugger = new System.Windows.Forms.Button();
             this.btnCollapse = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnConnect = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.grpShowControls = new System.Windows.Forms.GroupBox();
             this.cmbStartSlide = new System.Windows.Forms.ComboBox();
             this.btnStop = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,11 +52,10 @@
             this.btnCollapsedStart = new System.Windows.Forms.Button();
             this.btnCollapsedConnect = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnLoadSampleScript = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.pnlControl.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.grpShowControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.traSpeed)).BeginInit();
             this.pnlCollapsed.SuspendLayout();
             this.SuspendLayout();
@@ -80,12 +80,23 @@
             this.pnlControl.Controls.Add(this.btnWebDebugger);
             this.pnlControl.Controls.Add(this.btnCollapse);
             this.pnlControl.Controls.Add(this.groupBox1);
-            this.pnlControl.Controls.Add(this.groupBox2);
+            this.pnlControl.Controls.Add(this.grpShowControls);
             this.pnlControl.Dock = System.Windows.Forms.DockStyle.Right;
             this.pnlControl.Location = new System.Drawing.Point(553, 0);
             this.pnlControl.Name = "pnlControl";
             this.pnlControl.Size = new System.Drawing.Size(258, 450);
             this.pnlControl.TabIndex = 1;
+            // 
+            // btnLoadSampleScript
+            // 
+            this.btnLoadSampleScript.Location = new System.Drawing.Point(53, 357);
+            this.btnLoadSampleScript.Name = "btnLoadSampleScript";
+            this.btnLoadSampleScript.Size = new System.Drawing.Size(156, 23);
+            this.btnLoadSampleScript.TabIndex = 14;
+            this.btnLoadSampleScript.TabStop = false;
+            this.btnLoadSampleScript.Text = "Load Sample Script";
+            this.btnLoadSampleScript.UseVisualStyleBackColor = true;
+            this.btnLoadSampleScript.Click += new System.EventHandler(this.btnLoadSampleScript_Click);
             // 
             // btnSettings
             // 
@@ -133,25 +144,26 @@
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(156, 23);
             this.btnConnect.TabIndex = 3;
-            this.btnConnect.Text = "🔌 Connect To";
+            this.btnConnect.Text = "🔌 Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
-            // groupBox2
+            // grpShowControls
             // 
-            this.groupBox2.Controls.Add(this.cmbStartSlide);
-            this.groupBox2.Controls.Add(this.btnStop);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.traSpeed);
-            this.groupBox2.Controls.Add(this.btnPause);
-            this.groupBox2.Controls.Add(this.btnStart);
-            this.groupBox2.Location = new System.Drawing.Point(6, 77);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(242, 240);
-            this.groupBox2.TabIndex = 9;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = " Show Controls ";
+            this.grpShowControls.Controls.Add(this.cmbStartSlide);
+            this.grpShowControls.Controls.Add(this.btnStop);
+            this.grpShowControls.Controls.Add(this.label1);
+            this.grpShowControls.Controls.Add(this.label2);
+            this.grpShowControls.Controls.Add(this.traSpeed);
+            this.grpShowControls.Controls.Add(this.btnPause);
+            this.grpShowControls.Controls.Add(this.btnStart);
+            this.grpShowControls.Enabled = false;
+            this.grpShowControls.Location = new System.Drawing.Point(6, 77);
+            this.grpShowControls.Name = "grpShowControls";
+            this.grpShowControls.Size = new System.Drawing.Size(242, 240);
+            this.grpShowControls.TabIndex = 9;
+            this.grpShowControls.TabStop = false;
+            this.grpShowControls.Text = " Show Controls ";
             // 
             // cmbStartSlide
             // 
@@ -284,17 +296,6 @@
             this.btnCollapsedConnect.UseVisualStyleBackColor = true;
             this.btnCollapsedConnect.Click += new System.EventHandler(this.btnCollapsedConnect_Click);
             // 
-            // btnLoadSampleScript
-            // 
-            this.btnLoadSampleScript.Location = new System.Drawing.Point(53, 357);
-            this.btnLoadSampleScript.Name = "btnLoadSampleScript";
-            this.btnLoadSampleScript.Size = new System.Drawing.Size(156, 23);
-            this.btnLoadSampleScript.TabIndex = 14;
-            this.btnLoadSampleScript.TabStop = false;
-            this.btnLoadSampleScript.Text = "Load Sample Script";
-            this.btnLoadSampleScript.UseVisualStyleBackColor = true;
-            this.btnLoadSampleScript.Click += new System.EventHandler(this.btnLoadSampleScript_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -309,8 +310,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.pnlControl.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.grpShowControls.ResumeLayout(false);
+            this.grpShowControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.traSpeed)).EndInit();
             this.pnlCollapsed.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -327,7 +328,7 @@
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox grpShowControls;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TrackBar traSpeed;
         private System.Windows.Forms.ComboBox cmbStartSlide;

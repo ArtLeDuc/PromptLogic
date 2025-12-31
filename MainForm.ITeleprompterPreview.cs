@@ -22,12 +22,32 @@ namespace Teleprompter
             string js = $"document.documentElement.style.setProperty('--font-size', '{size}px');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
-
-        void ITeleprompterPreview.ApplyLineSpacing(double spacing)
+        void ITeleprompterPreview.ApplyLineSpacing(int spacing)
         {
             string js = $"document.documentElement.style.setProperty('--line-spacing', '{spacing}');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
+        void ITeleprompterPreview.ApplyParagraphSpacing(int spacing)
+        {
+            string js = $"document.documentElement.style.setProperty('--paragraph-spacing', '{spacing}');";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+        void ITeleprompterPreview.ApplyBreakSpacing1(int spacing)
+        {
+            string js = $"document.documentElement.style.setProperty('--break-spacing1', '{spacing}');";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+        void ITeleprompterPreview.ApplyBreakSpacing2(int spacing)
+        {
+            string js = $"document.documentElement.style.setProperty('--break-spacing2', '{spacing}');";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+        void ITeleprompterPreview.ApplyBreakSpacing3(int spacing)
+        {
+            string js = $"document.documentElement.style.setProperty('--break-spacing3', '{spacing}');";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+
         void ITeleprompterPreview.ApplyHighlightHeight(int px)
         {
             string js = $"document.documentElement.style.setProperty('--highlight-band-height', '{px}px');";

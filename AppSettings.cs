@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
+using System.Windows.Forms;
 
 
 namespace Teleprompter
@@ -25,6 +26,13 @@ namespace Teleprompter
         public string TextColor { get; set; } = "#FFFFFF"; // default white
         public string BackColor { get; set; } = "#000000";
 
+        public int LineSpacing { get; set; } = 5;
+        public int ParagraphSpacing { get; set; } = 12;
+        public int BreakSpacing1 { get; set; } = 5;
+        public int BreakSpacing2 { get; set; } = 5;
+        public int BreakSpacing3 { get; set; } = 5;
+
+
         public AppSettings()
         {
 
@@ -42,7 +50,12 @@ namespace Teleprompter
             WindowTop = other.WindowTop;
             WindowWidth = other.WindowWidth;
             WindowHeight = other.WindowHeight;
-            IsCollapsed = other.IsCollapsed;        
+            IsCollapsed = other.IsCollapsed;
+            LineSpacing = other.LineSpacing;
+            ParagraphSpacing = other.ParagraphSpacing;
+            BreakSpacing1 = other.BreakSpacing1;
+            BreakSpacing2 = other.BreakSpacing2;
+            BreakSpacing3 = other.BreakSpacing3;
         }
     }
 

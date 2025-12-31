@@ -75,9 +75,8 @@ namespace Teleprompter
                     webView.CoreWebView2.DOMContentLoaded += (s2, e2) =>
                     {
                         ApplyAllSettings();
+                        LoadInitialPage();
                     };
-
-//                    LoadInitialPage();
                 }
             };
 
@@ -178,7 +177,6 @@ namespace Teleprompter
                 return;
             _lastNotesSent = notes;
 
-
             this.Invoke((Action)(() =>
             {
                 // Escape for JS
@@ -189,7 +187,6 @@ namespace Teleprompter
                     .Replace("\\", "\\\\")   // escape backslashes
                     .Replace("\"", "\\\"")   // escape quotes
                     .Replace("\n", "\\n");   // LF → JS newline
-
                 webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
             }));
         }
@@ -205,9 +202,12 @@ namespace Teleprompter
         }
         public void LoadInitialPage()
         {
-            webView.CoreWebView2.Navigate(_htmlPath);
+            ClearTeleprompter();
         }
-
+        public void ClearTeleprompter()
+        {
+            SendNotesToWebView("Connected. Waiting for slide notes — press Connect.");
+        }
         public void InvokeOnUIThread(Action action)
         {
             if (InvokeRequired)
@@ -220,7 +220,6 @@ namespace Teleprompter
         {
             if (InvokeRequired)
             {
-                Debug.WriteLine($"OnSlideChanged next slide: {index}");
                 BeginInvoke(new Action(() => OnSlideChanged(index)));
                 return;
             }
@@ -249,7 +248,7 @@ namespace Teleprompter
         {
             LoadInitialPage(); // reload index.html
             btnConnect.Enabled = true;
-//            btnDisconnect.Enabled = false;
+            grpShowControls.Enabled = false;
         }
         private void btnExpand_Click(object sender, EventArgs e)
         {
@@ -318,6 +317,7 @@ namespace Teleprompter
             {
                 LoadNotesForCurrentSlide();
                 LoadSlideSelectionCombo();
+                grpShowControls.Enabled = true;
             }
         }
         private void btnConnect_Click(object sender, EventArgs e)
@@ -458,8 +458,6 @@ namespace Teleprompter
             // Font size
             ((ITeleprompterPreview)this).ApplyFontSize(s.FontSize);
 
-            // Line spacing
-//            ((ITeleprompterPreview)this).ApplyLineSpacing(s.LineSpacing);
 
             // Text color
             ((ITeleprompterPreview)this).ApplyTextColor(s.TextColor);
@@ -468,13 +466,24 @@ namespace Teleprompter
             ((ITeleprompterPreview)this).ApplyBackgroundColor(s.BackColor);
 
             // Highlight band height
-//            ((ITeleprompterPreview)this).ApplyHighlightHeight(s.HighlightHeight);
+            //            ((ITeleprompterPreview)this).ApplyHighlightHeight(s.HighlightHeight);
 
             // Highlight band opacity
-//            ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightOpacity);
+            //            ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightOpacity);
 
             // Highlight band vertical position
-//            ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightTopPercent);
+            //            ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightTopPercent);
+
+            //Line spacing
+            ((ITeleprompterPreview)this).ApplyLineSpacing(s.LineSpacing);
+            //Paragraph spacing
+            ((ITeleprompterPreview)this).ApplyParagraphSpacing(s.ParagraphSpacing);
+            //Break Spacing 1
+            ((ITeleprompterPreview)this).ApplyBreakSpacing1(s.BreakSpacing1);
+            //Break Spacing 2
+            ((ITeleprompterPreview)this).ApplyBreakSpacing2(s.BreakSpacing2);
+            //Break Spacing 3
+            ((ITeleprompterPreview)this).ApplyBreakSpacing3(s.BreakSpacing3);
         }
         private void btnLoadSampleScript_Click(object sender, EventArgs e)
         {

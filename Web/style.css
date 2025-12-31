@@ -1,12 +1,17 @@
 :root {
     --font-family: Segoe UI, sans-serif;
     --font-size: 32px;
-    --line-spacing: 1.4;
-
+    --line-height-multiplier: 1.4;
     --highlight-band-bg: rgba(200, 200, 200, 0.25);
     --highlight-band-opacity: 0.25;
     --highlight-band-top: 10%;
     --highlight-band-height: 0px;
+
+    --line-spacing: 5;
+    --paragraph-spacing: 12;
+    --break-spacing1: 5;
+    --break-spacing2: 5;
+    --break-spacing3: 5;
 
     --text-color: white;
     --background-color: black;
@@ -37,7 +42,7 @@ body {
     position: relative;
     white-space: pre-wrap;
     font-size: var(--font-size);
-    line-height: var(--line-spacing);
+    line-height: var(--line-height-multiplier);
 }
 
 #highlightBand {
@@ -72,4 +77,26 @@ body {
     pointer-events: none;
     transition: opacity 0.4s ease;
     z-index: 9999;
+}
+
+.line {
+    display: block;
+    margin-bottom: var(--line-spacing);
+}
+
+.paragraph {
+    display: block;
+    margin-bottom: calc(var(--line-spacing) + var(--paragraph-spacing));
+}
+
+.break1 {
+    margin-bottom: calc(var(--line-spacing) + var(--break-spacing1));
+}
+
+.break2 {
+    margin-bottom: calc(var(--line-spacing) + var(--break-spacing2));
+}
+
+.break3 {
+    margin-bottom: calc(var(--line-spacing) + var(--break-spacing3));
 }
