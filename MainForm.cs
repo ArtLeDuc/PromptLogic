@@ -181,12 +181,11 @@ namespace Teleprompter
             {
                 // Escape for JS
                 string escaped = notes
-                    .Replace("\r\n", "\n")   // CRLF → LF
-                    .Replace("\r", "\n")     // CR → LF
-                    .Replace("\v", "\n")     // VT → LF
-                    .Replace("\\", "\\\\")   // escape backslashes
-                    .Replace("\"", "\\\"")   // escape quotes
-                    .Replace("\n", "\\n");   // LF → JS newline
+                    .Replace("\\", "\\\\")
+                    .Replace("\"", "\\\"")
+                    .Replace("\n", "\\n")
+                    .Replace("\r", "\\r")
+                    .Replace("\v", "\\v");
                 webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
             }));
         }
@@ -489,12 +488,11 @@ namespace Teleprompter
         {
             
             string escaped = SampleScripts.Default
-                .Replace("\r\n", "\n")   // CRLF → LF
-                .Replace("\r", "\n")     // CR → LF
-                .Replace("\v", "\n")     // VT → LF
-                .Replace("\\", "\\\\")   // escape backslashes
-                .Replace("\"", "\\\"")   // escape quotes
-                .Replace("\n", "\\n");   // LF → JS newline
+                .Replace("\\", "\\\\")
+                .Replace("\"", "\\\"")
+                .Replace("\n", "\\n")
+                .Replace("\r", "\\r")
+                .Replace("\v", "\\v");
             webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
         }
     }

@@ -24,27 +24,27 @@ namespace Teleprompter
         }
         void ITeleprompterPreview.ApplyLineSpacing(int spacing)
         {
-            string js = $"document.documentElement.style.setProperty('--line-spacing', '{spacing}');";
+            string js = $"document.documentElement.style.setProperty('--line-spacing', '{spacing}px');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
         void ITeleprompterPreview.ApplyParagraphSpacing(int spacing)
         {
-            string js = $"document.documentElement.style.setProperty('--paragraph-spacing', '{spacing}');";
+            string js = $"document.documentElement.style.setProperty('--paragraph-spacing', '{spacing}px');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
         void ITeleprompterPreview.ApplyBreakSpacing1(int spacing)
         {
-            string js = $"document.documentElement.style.setProperty('--break-spacing1', '{spacing}');";
+            string js = $"document.documentElement.style.setProperty('--break-spacing1', '{spacing}px');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
         void ITeleprompterPreview.ApplyBreakSpacing2(int spacing)
         {
-            string js = $"document.documentElement.style.setProperty('--break-spacing2', '{spacing}');";
+            string js = $"document.documentElement.style.setProperty('--break-spacing2', '{spacing}px');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
         void ITeleprompterPreview.ApplyBreakSpacing3(int spacing)
         {
-            string js = $"document.documentElement.style.setProperty('--break-spacing3', '{spacing}');";
+            string js = $"document.documentElement.style.setProperty('--break-spacing3', '{spacing}px');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
 

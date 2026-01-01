@@ -42,6 +42,12 @@ namespace Teleprompter
             numFontSize.Value = SettingsManager.Settings.FontSize;
             pnlTextColor.BackColor = ColorTranslator.FromHtml(pending.TextColor);
             pnlBackColor.BackColor = ColorTranslator.FromHtml(pending.BackColor);
+            traScrollSpeed.Value = SettingsManager.Settings.ScrollSpeed;
+            trkLineSpacing.Value = SettingsManager.Settings.LineSpacing;
+            trkParagraphSpacing.Value = SettingsManager.Settings.ParagraphSpacing;
+            trkBreakSpacing1.Value = SettingsManager.Settings.BreakSpacing1;
+            trkBreakSpacing2.Value = SettingsManager.Settings.BreakSpacing2;
+            trkBreakSpacing3.Value = SettingsManager.Settings.BreakSpacing3;
         }
 
         private void cmbFontName_SelectedIndexChanged(object sender, EventArgs e)

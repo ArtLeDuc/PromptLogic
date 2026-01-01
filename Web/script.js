@@ -102,24 +102,28 @@ function loadNotes(text) {
 
     // Normalize line endings
     text = text
-        .replace(/\r\n/g, "\n")
-        .replace(/\r/g, "\n")
-        .replace(/\v/g, "\n");
+        .replace(/\r\n/g, "\n<P>")  // CRLF → paragraph
+        .replace(/\v/g, "\n<L>")    // VT → line break
+        .replace(/\r/g, "\n<P>");      // stray CR → normal line break
 
-    const lines = text.split("\n");
+    const rawLines = text.split("\n");
     commands = [];
 
     let cleanedLines = [];
 
-    for (let i = 0; i < lines.length; i++) {
-        const line = lines[i].trim();
+    for (let i = 0; i < rawLines.length; i++) {
+        const original = rawLines[i];
+        let trimmed = original.trim();
 
-        if (line.startsWith(".")) {
-            const cmd = line.substring(1).toLowerCase();
 
-            // Check for pause(n)
+        // -----------------------------
+        // 1. Dot-commands (skip display)
+        // -----------------------------
+        if (trimmed.startsWith(".")) {
+            const cmd = trimmed.substring(1).toLowerCase();
+
+            // pause(n)
             const match = cmd.match(/^pause\((\d+)\)$/);
-
             if (match) {
                 commands.push({
                     lineIndex: cleanedLines.length,
@@ -127,31 +131,65 @@ function loadNotes(text) {
                     duration: parseInt(match[1], 10),
                     fired: false
                 });
-            }else{
-                // Store command with its line index
+            } else {
                 commands.push({
                     lineIndex: cleanedLines.length,
-                    command: line.substring(1).toLowerCase(),
+                    command: cmd,
                     fired: false
                 });
             }
-            continue; // do NOT include this line in visible text
+            continue;
         }
 
-        // Wrap the logical line in a span
-        const content = line === "" ? "&#8203;" : line;
-        const htmlLine = `<span class="line" data-line="${cleanedLines.length}">${content}</span>`;
+        // -----------------------------
+        // 2. Determine line type
+        // -----------------------------
+        const code = trimmed.substring(0, 3);   // first 3 chars
+        let content = trimmed
+
+        let cssClass = "line";   // default
+
+        if (code === "<P>") {
+            cssClass = "paragraph";
+            content = trimmed.length > 3 ? trimmed.slice(3) : "";
+        } 
+        else if (code === "<L>") {
+            cssClass = "line";   // still a line, but no text
+            content = trimmed.length > 3 ? trimmed.slice(3) : "";
+        } 
+        else {
+            cssClass = "line";   // normal text line
+        }
+        
+        // Future: dot-commands that create spacing blocks
+        // Example: .b1, .b2, .b3
+        // (We can wire this later when you’re ready)
+        // if (someCondition) cssClass = "break1";
+
+        // -----------------------------
+        // 3. Build the span
+        // -----------------------------
+        content = content === "" ? "&#8203;" : content;
+
+        const htmlLine =
+            `<span class="${cssClass}" data-line="${cleanedLines.length}">` +
+            `${content}</span>`;
 
         cleanedLines.push(htmlLine);
     }
 
-    // Ensure final runway line exists
+    // -----------------------------
+    // 4. Ensure final runway line
+    // -----------------------------
     if (!cleanedLines[cleanedLines.length - 1].includes("&#8203;")) {
         cleanedLines.push(
             `<span class="line" data-line="${cleanedLines.length}">&#8203;</span>`
         );
     }
 
+    // -----------------------------
+    // 5. Render
+    // -----------------------------
     el.innerHTML = cleanedLines.join("\n");
 
     scrollPos = 0;

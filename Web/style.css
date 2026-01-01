@@ -7,11 +7,11 @@
     --highlight-band-top: 10%;
     --highlight-band-height: 0px;
 
-    --line-spacing: 5;
-    --paragraph-spacing: 12;
-    --break-spacing1: 5;
-    --break-spacing2: 5;
-    --break-spacing3: 5;
+    --line-spacing: 5px;
+    --paragraph-spacing: 12px;
+    --break-spacing1: 5px;
+    --break-spacing2: 5px;
+    --break-spacing3: 5px;
 
     --text-color: white;
     --background-color: black;
@@ -40,7 +40,7 @@ body {
 
 #content {
     position: relative;
-    white-space: pre-wrap;
+    white-space: normal;
     font-size: var(--font-size);
     line-height: var(--line-height-multiplier);
 }
@@ -82,21 +82,29 @@ body {
 .line {
     display: block;
     margin-bottom: var(--line-spacing);
+    line-height: 1;
 }
 
 .paragraph {
     display: block;
     margin-bottom: calc(var(--line-spacing) + var(--paragraph-spacing));
+    line-height: 1;
 }
 
 .break1 {
+    display: block;
     margin-bottom: calc(var(--line-spacing) + var(--break-spacing1));
+    line-height: 1;
 }
 
 .break2 {
+    display: block;
     margin-bottom: calc(var(--line-spacing) + var(--break-spacing2));
+    line-height: 1;
 }
 
 .break3 {
+    display: block;
     margin-bottom: calc(var(--line-spacing) + var(--break-spacing3));
+    line-height: 1;
 }

@@ -380,6 +380,7 @@
             // traScrollSpeed
             // 
             this.traScrollSpeed.Location = new System.Drawing.Point(99, 16);
+            this.traScrollSpeed.Maximum = 100;
             this.traScrollSpeed.Name = "traScrollSpeed";
             this.traScrollSpeed.Size = new System.Drawing.Size(157, 56);
             this.traScrollSpeed.TabIndex = 20;
