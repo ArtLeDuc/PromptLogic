@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -10,10 +10,22 @@
         <div id="scrollContainer">
             <div id="content">
                 <p>Connect</p>
+                <span class="line">ThisIsAReallyLongUnbreakableStringThatCouldTriggerHorizontalScrollIfNotWrappedCorrectly</span>
+
             </div>
         </div>
         <div id="countdownOverlay"></div>
     </div>
+        <!-- ⭐ Add this block BEFORE script.js -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Disable page scrolling (fixes the double-scrollbar issue)
+            document.documentElement.style.overflow = "hidden";
+            document.body.style.overflow = "hidden";
+        });
+    </script>
+
+
     <script src="script.js"></script>
 </body>
 </html>

@@ -132,6 +132,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage1.Controls.Add(this.btnTextColor);
             this.tabPage1.Controls.Add(this.btnBackgroundColor);
             this.tabPage1.Controls.Add(this.groupBox2);
@@ -142,7 +143,6 @@
             this.tabPage1.Size = new System.Drawing.Size(294, 368);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Appearance";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // btnTextColor
             // 
@@ -255,6 +255,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.traScrollSpeed);
             this.tabPage2.Controls.Add(this.label8);
@@ -264,7 +265,6 @@
             this.tabPage2.Size = new System.Drawing.Size(294, 368);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Timing";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -280,7 +280,7 @@
             this.groupBox1.Controls.Add(this.trkLineSpacing);
             this.groupBox1.Location = new System.Drawing.Point(6, 91);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(268, 199);
+            this.groupBox1.Size = new System.Drawing.Size(268, 209);
             this.groupBox1.TabIndex = 31;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Spacing ";
@@ -396,6 +396,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.groupBox5);
             this.tabPage3.Controls.Add(this.groupBox3);
@@ -404,7 +405,6 @@
             this.tabPage3.Size = new System.Drawing.Size(294, 368);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Window";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
@@ -530,6 +530,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(325, 450);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnApply);

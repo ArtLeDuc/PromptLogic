@@ -3,6 +3,19 @@ let scrollSpeed = 1;   // pixels per frame
 let scrolling = false;
 let scrollInterval = null;
 let bandLines = 3;   // default
+let triggerFudge = 0;
+
+// ----- Command model -----
+
+let commands = [];          // global list of commands
+let cleanedLines = [];      // logical lines that are actually displayed
+let lineHeights = [];       // per-logical-line height in px
+let lineOffsets = [];       // cumulative offset (top) for each logical line
+let totalHeight = 0;        // total logical height
+let baseLineHeight = 40;    // fallback; will be updated from CSS
+let triggerOffset = 0;
+
+// ----- Command triggering -----
 
 function triggerCommand(cmd) {
     switch (cmd.command) {
@@ -10,7 +23,7 @@ function triggerCommand(cmd) {
             window.chrome.webview.postMessage({ action: "nextSlide" });
             break;
         case "pause":
-            window.chrome.webview.postMessage({ action: "pause", duration:cmd.duration });
+            window.chrome.webview.postMessage({ action: "pause", duration: cmd.duration });
             break;
         case "stop":
             window.chrome.webview.postMessage({ action: "stop" });
@@ -23,11 +36,35 @@ function triggerCommand(cmd) {
     }
 }
 
-function checkCommands() {
-    const content = document.getElementById("content");
-    const lineHeight = parseFloat(window.getComputedStyle(content).lineHeight);
+// Virtual line model: given a scroll offset, return logical line index
+function getCurrentLogicalLine(scrollTop) {
+    if (cleanedLines.length === 0) {
+        return 0;
+    }
 
-    const currentLine = getCurrentLogicalLine();
+    // Binary search over lineOffsets
+    let low = 0;
+    let high = lineOffsets.length - 1;
+
+    while (low <= high) {
+        const mid = (low + high) >> 1;
+        const start = lineOffsets[mid];
+        const end = (mid + 1 < lineOffsets.length) ? lineOffsets[mid + 1] : Number.POSITIVE_INFINITY;
+
+        if (scrollTop < start) {
+            high = mid - 1;
+        } else if (scrollTop >= end) {
+            low = mid + 1;
+        } else {
+            return mid;
+        }
+    }
+
+    return 0;
+}
+
+function checkCommands() {
+    const currentLine = getCurrentLogicalLine(scrollPos - triggerOffset - triggerFudge);
 
     for (let cmd of commands) {
         if (cmd.lineIndex === currentLine && !cmd.fired) {
@@ -37,33 +74,48 @@ function checkCommands() {
     }
 }
 
-function getCurrentLogicalLine() {
-    const lines = document.querySelectorAll('.line');
-    const triggerY = getTriggerY();
+// ----- Virtual line height model -----
 
-    for (let i = 0; i < lines.length; i++) {
-        const rect = lines[i].getBoundingClientRect();
-        const top = rect.top + window.scrollY;
-        const bottom = rect.bottom + window.scrollY;
+function computeLogicalLineHeight(index) {
+    const line = cleanedLines[index];
+    let h = baseLineHeight;
 
-        if (top <= triggerY && bottom >= triggerY) {
-            return i;
+    // Blank logical lines get smaller spacing
+    if (line === "") {
+        h = baseLineHeight * 0.5;
+    }
+
+    // Paragraph-style spacing: if previous logical line is blank, add extra space
+    if (index > 0 && cleanedLines[index - 1] === "") {
+        h = baseLineHeight * 1.5;
+    }
+
+    return h;
+}
+
+function buildVirtualLineModel() {
+    const contentEl = document.getElementById("content");
+    if (contentEl) {
+        const computed = window.getComputedStyle(contentEl);
+        const lh = parseFloat(computed.lineHeight);
+        if (!isNaN(lh) && lh > 0) {
+            baseLineHeight = lh;
         }
     }
 
-    return -1;
+    lineHeights = [];
+    lineOffsets = [];
+    totalHeight = 0;
+
+    for (let i = 0; i < cleanedLines.length; i++) {
+        const h = computeLogicalLineHeight(i);
+        lineHeights.push(h);
+        lineOffsets.push(totalHeight);
+        totalHeight += h;
+    }
 }
 
-function getTriggerY() {
-    const band = document.getElementById("highlightBand");
-    const bandRect = band.getBoundingClientRect();
-
-    const bandTop = bandRect.top + window.scrollY;
-    const bandHeight = bandRect.height;
-
-    return bandTop + (bandHeight / 2);
-}
-
+// ----- Scrolling -----
 
 function startScroll() {
     if (scrolling) return;
@@ -88,131 +140,142 @@ function stopScroll() {
     scrolling = false;
     clearInterval(scrollInterval);
     scrollPos = 0;
-    document.getElementById("content").style.transform = "translateY(0px)";
+    const content = document.getElementById("content");
+    if (content) {
+        content.style.transform = "translateY(0px)";
+    }
 }
 
 function setSpeed(pxPerFrame) {
     scrollSpeed = pxPerFrame;
 }
 
-let commands = [];   // global list of commands
+// ----- Notes loading and rendering -----
 
 function loadNotes(text) {
     const el = document.getElementById("content");
+    if (!el) return;
 
-    // Normalize line endings
+    // Normalize line endings into markers
     text = text
-        .replace(/\r\n/g, "\n<P>")  // CRLF → paragraph
-        .replace(/\v/g, "\n<L>")    // VT → line break
-        .replace(/\r/g, "\n<P>");      // stray CR → normal line break
+        .replace(/\r\n/g, "\n<P>")  // CRLF → insert paragraph marker
+        .replace(/\v/g, "\n<L>")    // VT → line marker
+        .replace(/\r/g, "\n<P>");   // stray CR → paragraph marker
 
     const rawLines = text.split("\n");
-    commands = [];
 
-    let cleanedLines = [];
+    commands = [];
+    cleanedLines = [];
+
+    let output = [];          // final HTML elements
+    let logicalIndex = 0;     // index into cleanedLines / logical lines
 
     for (let i = 0; i < rawLines.length; i++) {
         const original = rawLines[i];
-        let trimmed = original.trim();
 
+        let code = "";
+        let content = original;
 
-        // -----------------------------
-        // 1. Dot-commands (skip display)
-        // -----------------------------
+        // Detect and strip leading markers <P> or <L>
+        if (content.startsWith("<P>")) {
+            code = "<P>";
+            content = content.substring(3);
+        } else if (content.startsWith("<L>")) {
+            code = "<L>";
+            content = content.substring(3);
+        }
+
+        let trimmed = content.trim();
+
+        // 1. Dot-commands (skip display, attach to current logicalIndex)
         if (trimmed.startsWith(".")) {
-            const cmd = trimmed.substring(1).toLowerCase();
+            const cmdText = trimmed.substring(1).toLowerCase();
 
-            // pause(n)
-            const match = cmd.match(/^pause\((\d+)\)$/);
+            const match = cmdText.match(/^pause\((\d+)\)$/);
             if (match) {
                 commands.push({
-                    lineIndex: cleanedLines.length,
+                    lineIndex: logicalIndex,
                     command: "pause",
                     duration: parseInt(match[1], 10),
                     fired: false
                 });
             } else {
                 commands.push({
-                    lineIndex: cleanedLines.length,
-                    command: cmd,
+                    lineIndex: logicalIndex,
+                    command: cmdText,
                     fired: false
                 });
             }
             continue;
         }
 
-        // -----------------------------
-        // 2. Determine line type
-        // -----------------------------
-        const code = trimmed.substring(0, 3);   // first 3 chars
-        let content = trimmed
+        // 2. Determine visible line content
+        let displayContent = trimmed;
 
-        let cssClass = "line";   // default
-
-        if (code === "<P>") {
-            cssClass = "paragraph";
-            content = trimmed.length > 3 ? trimmed.slice(3) : "";
-        } 
-        else if (code === "<L>") {
-            cssClass = "line";   // still a line, but no text
-            content = trimmed.length > 3 ? trimmed.slice(3) : "";
-        } 
-        else {
-            cssClass = "line";   // normal text line
+        if (displayContent === "") {
+            // zero-width space for true blank lines
+            displayContent = "&#8203;";
         }
-        
-        // Future: dot-commands that create spacing blocks
-        // Example: .b1, .b2, .b3
-        // (We can wire this later when you’re ready)
-        // if (someCondition) cssClass = "break1";
 
-        // -----------------------------
-        // 3. Build the span
-        // -----------------------------
-        content = content === "" ? "&#8203;" : content;
+        // Record logical line
+        cleanedLines.push(trimmed);  // keep the trimmed text (possibly "")
 
-        const htmlLine =
-            `<span class="${cssClass}" data-line="${cleanedLines.length}">` +
-            `${content}</span>`;
-
-        cleanedLines.push(htmlLine);
-    }
-
-    // -----------------------------
-    // 4. Ensure final runway line
-    // -----------------------------
-    if (!cleanedLines[cleanedLines.length - 1].includes("&#8203;")) {
-        cleanedLines.push(
-            `<span class="line" data-line="${cleanedLines.length}">&#8203;</span>`
+        // 3. Emit the line span
+        output.push(
+            `<span class="line" data-line="${logicalIndex}">${displayContent}</span>`
         );
+
+        logicalIndex++;
+
+        // 4. Emit the break element based on code
+        if (code === "<P>") {
+            output.push(`<div class="paragraph-break"></div>`);
+        } else if (code === "<L>") {
+            output.push(`<div class="line-break"></div>`);
+        } else {
+            // default break between normal lines
+            output.push(`<div class="line-break"></div>`);
+        }
     }
 
-    // -----------------------------
-    // 5. Render
-    // -----------------------------
-    el.innerHTML = cleanedLines.join("\n");
+    // 5. Ensure final runway logical line
+    cleanedLines.push("");
+    output.push(
+        `<span class="line" data-line="${logicalIndex}">&#8203;</span>`
+    );
+    logicalIndex++;
+
+    // 6. Render
+    el.innerHTML = output.join("\n");
 
     scrollPos = 0;
     el.style.transform = "translateY(0px)";
 
+    // Rebuild the virtual line model now that cleanedLines is ready
+    buildVirtualLineModel();
+
+    // Set the highlight band based on the computed base line height
     setHighlightBand(bandLines);
 }
 
 function setHighlightBand(lines) {
     bandLines = lines;
 
-    // Estimate line height from computed style
-    const content = document.getElementById("content");
-    const lineHeight = parseFloat(window.getComputedStyle(content).lineHeight);
-
-    const bandHeight = lineHeight * bandLines;
-
     const band = document.getElementById("highlightBand");
+    const content = document.getElementById("content");
+    if (!band || !content) return;
+
+    // Use the same baseLineHeight the virtual model uses
+    const bandHeight = baseLineHeight * bandLines;
+
     band.style.height = bandHeight + "px";
+    content.style.paddingTop = bandHeight + "px";
 
-    document.getElementById("content").style.paddingTop = bandHeight + "px";
-
+    triggerOffset = bandHeight * 1.5;
+    triggerFudge = baseLineHeight * 2;   // adjust this number
 }
+
+// ----- WebView message handling -----
 
 window.chrome.webview.addEventListener('message', event => {
     let msg;
@@ -240,8 +303,15 @@ window.chrome.webview.addEventListener('message', event => {
     }
 });
 
+// ----- Countdown and slideshow control -----
+
 function startCountdown(callback) {
     const overlay = document.getElementById("countdownOverlay");
+    if (!overlay) {
+        if (callback) callback();
+        return;
+    }
+
     const numbers = ["3", "2", "1"];
     let index = 0;
 
@@ -276,6 +346,6 @@ function startTeleprompter() {
     startCountdown(() => {
         refocusSlideshow();
         unpauseSlideshow();
-        startScroll(); 
+        startScroll();
     });
 }

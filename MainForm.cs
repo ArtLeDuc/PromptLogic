@@ -339,10 +339,20 @@ namespace Teleprompter
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
+            // Disable manual scrolling while auto-scroll is active
+            webView.CoreWebView2.ExecuteScriptAsync(
+                "document.getElementById('scrollContainer').style.overflowY = 'hidden';"
+            );
+
             StartSlideShow();
         }
         private void btnCollapsedStart_Click(object sender, EventArgs e)
         {
+            // Disable manual scrolling while auto-scroll is active
+            webView.CoreWebView2.ExecuteScriptAsync(
+                "document.getElementById('scrollContainer').style.overflowY = 'hidden';"
+            );
+
             StartSlideShow();
         }
 
@@ -383,11 +393,17 @@ namespace Teleprompter
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
+            webView.CoreWebView2.ExecuteScriptAsync(
+                "document.getElementById('scrollContainer').style.overflowY = 'auto';"
+            );
             StopSlideShow();
         }
 
         private void btnCollapsedStop_Click(object sender, EventArgs e)
         {
+            webView.CoreWebView2.ExecuteScriptAsync(
+                "document.getElementById('scrollContainer').style.overflowY = 'auto';"
+            );
             StopSlideShow();
         }
 
@@ -487,7 +503,7 @@ namespace Teleprompter
         private void btnLoadSampleScript_Click(object sender, EventArgs e)
         {
             
-            string escaped = SampleScripts.Default
+            string escaped = SampleScripts.breakTest
                 .Replace("\\", "\\\\")
                 .Replace("\"", "\\\"")
                 .Replace("\n", "\\n")

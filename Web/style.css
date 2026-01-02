@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --font-family: Segoe UI, sans-serif;
     --font-size: 32px;
     --line-height-multiplier: 1.4;
@@ -23,6 +23,10 @@
     --countdown-blur: 2px;
 }
 
+html, body {
+    overflow: hidden;
+}
+
 body {
     background: var(--background-color);
     color: var(--text-color);
@@ -30,12 +34,20 @@ body {
     font-size: var(--font-size);
     margin: 0;
     padding: var(--body-padding);
+    overflow-x: hidden;
 }
 
 #scrollContainer {
     height: 100vh;
-    overflow: hidden;
+    overflow-y: auto;   /* allow scrolling when not locked */
+    overflow-x: hidden;
     position: relative;
+    direction: ltr;            /* ✅ ensures scrollbar is on the right */
+    scrollbar-gutter: stable;  /* ✅ prevents layout shift when scrollbar appears */
+}
+
+#scrollContainer::-webkit-scrollbar {
+    display: none; /* optional */
 }
 
 #content {
@@ -43,6 +55,9 @@ body {
     white-space: normal;
     font-size: var(--font-size);
     line-height: var(--line-height-multiplier);
+    overflow-x: hidden;       /* ✅ prevent horizontal scroll */
+    max-width: 100%;          /* ✅ ensure no overflow */
+    box-sizing: border-box;   /* ✅ include padding in width */
 }
 
 #highlightBand {
@@ -81,30 +96,40 @@ body {
 
 .line {
     display: block;
-    margin-bottom: var(--line-spacing);
+    width: 100%;
     line-height: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    /* margin-bottom removed */
 }
 
-.paragraph {
+.line-break {
     display: block;
-    margin-bottom: calc(var(--line-spacing) + var(--paragraph-spacing));
-    line-height: 1;
+    width: 100%;
+    height: var(--line-spacing);
+}
+
+.paragraph-break {
+    display: block;
+    width: 100%;
+    height: var(--paragraph-spacing);
 }
 
 .break1 {
     display: block;
-    margin-bottom: calc(var(--line-spacing) + var(--break-spacing1));
-    line-height: 1;
+    width: 100%;
+    height: var(--break-spacing1);
 }
 
 .break2 {
     display: block;
-    margin-bottom: calc(var(--line-spacing) + var(--break-spacing2));
-    line-height: 1;
+    width: 100%;
+    height: var(--break-spacing2);
 }
 
 .break3 {
     display: block;
-    margin-bottom: calc(var(--line-spacing) + var(--break-spacing3));
-    line-height: 1;
+    width: 100%;
+    height: var(--break-spacing3);
 }
