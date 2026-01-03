@@ -118,6 +118,7 @@ function buildVirtualLineModel() {
 // ----- Scrolling -----
 
 function startScroll() {
+
     if (scrolling) return;
     scrolling = true;
 
@@ -128,7 +129,11 @@ function startScroll() {
         content.style.transform = `translateY(${-scrollPos}px)`;
 
         checkCommands();
+        
+        setTimeout(() => {}, 0);
+
     }, 16);
+
 }
 
 function pauseScroll() {
@@ -275,6 +280,9 @@ function setHighlightBand(lines) {
     triggerFudge = baseLineHeight * 2;   // adjust this number
 }
 
+function setHighlightTriggerPoint(offset){
+    triggerFudge = baseLineHeight * (2 + offset);
+}
 // ----- WebView message handling -----
 
 window.chrome.webview.addEventListener('message', event => {

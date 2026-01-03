@@ -157,7 +157,6 @@
             this.grpShowControls.Controls.Add(this.traSpeed);
             this.grpShowControls.Controls.Add(this.btnPause);
             this.grpShowControls.Controls.Add(this.btnStart);
-            this.grpShowControls.Enabled = false;
             this.grpShowControls.Location = new System.Drawing.Point(6, 77);
             this.grpShowControls.Name = "grpShowControls";
             this.grpShowControls.Size = new System.Drawing.Size(242, 240);

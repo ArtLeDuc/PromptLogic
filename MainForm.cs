@@ -247,7 +247,7 @@ namespace Teleprompter
         {
             LoadInitialPage(); // reload index.html
             btnConnect.Enabled = true;
-            grpShowControls.Enabled = false;
+//            grpShowControls.Enabled = false;
         }
         private void btnExpand_Click(object sender, EventArgs e)
         {
@@ -316,7 +316,7 @@ namespace Teleprompter
             {
                 LoadNotesForCurrentSlide();
                 LoadSlideSelectionCombo();
-                grpShowControls.Enabled = true;
+//                grpShowControls.Enabled = true;
             }
         }
         private void btnConnect_Click(object sender, EventArgs e)
@@ -329,8 +329,8 @@ namespace Teleprompter
         }
         private void StartSlideShow()
         {
-            if (_slides != null)
-                _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
+//            if (_slides != null)
+//                _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
 
             double speedValue = SettingsManager.Settings.ScrollSpeed / 100.0;
             webView.ExecuteScriptAsync($"setSpeed({speedValue});");
@@ -480,15 +480,6 @@ namespace Teleprompter
             // Background color
             ((ITeleprompterPreview)this).ApplyBackgroundColor(s.BackColor);
 
-            // Highlight band height
-            //            ((ITeleprompterPreview)this).ApplyHighlightHeight(s.HighlightHeight);
-
-            // Highlight band opacity
-            //            ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightOpacity);
-
-            // Highlight band vertical position
-            //            ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightTopPercent);
-
             //Line spacing
             ((ITeleprompterPreview)this).ApplyLineSpacing(s.LineSpacing);
             //Paragraph spacing
@@ -499,6 +490,23 @@ namespace Teleprompter
             ((ITeleprompterPreview)this).ApplyBreakSpacing2(s.BreakSpacing2);
             //Break Spacing 3
             ((ITeleprompterPreview)this).ApplyBreakSpacing3(s.BreakSpacing3);
+
+            ((ITeleprompterPreview)this).ApplyHighlightVisible(s.HighlightBandVisible);
+            ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightBandOpacity);
+//            ((ITeleprompterPreview)this).ApplyHighlightTop(s.);
+            ((ITeleprompterPreview)this).ApplyHighlightColor(s.HighlightBandColor);
+            ((ITeleprompterPreview)this).ApplyHighlightLines(s.HighlightHeightLines);
+            ((ITeleprompterPreview)this).ApplyHighlightTriggerPoint(s.HighlightBandTriggerPoint);
+            ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightBandDistanceFromTop);
+            // Highlight band height
+            //            ((ITeleprompterPreview)this).ApplyHighlightHeight(s.HighlightHeight);
+
+            // Highlight band opacity
+            //            ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightOpacity);
+
+            // Highlight band vertical position
+            //            ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightTopPercent);
+
         }
         private void btnLoadSampleScript_Click(object sender, EventArgs e)
         {

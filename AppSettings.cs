@@ -32,7 +32,12 @@ namespace Teleprompter
         public int BreakSpacing2 { get; set; } = 5;
         public int BreakSpacing3 { get; set; } = 5;
 
-
+        public int HighlightHeightLines { get; set; } = 3;
+        public bool HighlightBandVisible {  get; set; } = true;
+        public double HighlightBandOpacity { get; set; } = 0.45;
+        public string HighlightBandColor { get; set; } = "#C8C8C8";
+        public double HighlightBandTriggerPoint { get; set; } = 0.0;
+        public int HighlightBandDistanceFromTop { get; set; } = 10;
         public AppSettings()
         {
 
@@ -56,8 +61,14 @@ namespace Teleprompter
             BreakSpacing1 = other.BreakSpacing1;
             BreakSpacing2 = other.BreakSpacing2;
             BreakSpacing3 = other.BreakSpacing3;
-        }
+            HighlightHeightLines = other.HighlightHeightLines;
+            HighlightBandVisible = other.HighlightBandVisible;
+            HighlightBandOpacity = other.HighlightBandOpacity;
+            HighlightBandColor = other.HighlightBandColor;
+            HighlightBandTriggerPoint = other.HighlightBandTriggerPoint;
+            HighlightBandDistanceFromTop = other.HighlightBandDistanceFromTop; 
     }
+}
 
     public static class SettingsManager
     {

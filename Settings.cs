@@ -38,16 +38,36 @@ namespace Teleprompter
             cmbFontName.Sorted = true;
 
             // Load saved setting (if any)
-            cmbFontName.SelectedItem = SettingsManager.Settings.TeleprompterFont;
-            numFontSize.Value = SettingsManager.Settings.FontSize;
+            cmbFontName.SelectedItem = pending.TeleprompterFont;
+            numFontSize.Value = pending.FontSize;
             pnlTextColor.BackColor = ColorTranslator.FromHtml(pending.TextColor);
             pnlBackColor.BackColor = ColorTranslator.FromHtml(pending.BackColor);
-            traScrollSpeed.Value = SettingsManager.Settings.ScrollSpeed;
-            trkLineSpacing.Value = SettingsManager.Settings.LineSpacing;
-            trkParagraphSpacing.Value = SettingsManager.Settings.ParagraphSpacing;
-            trkBreakSpacing1.Value = SettingsManager.Settings.BreakSpacing1;
-            trkBreakSpacing2.Value = SettingsManager.Settings.BreakSpacing2;
-            trkBreakSpacing3.Value = SettingsManager.Settings.BreakSpacing3;
+            traScrollSpeed.Value = pending.ScrollSpeed;
+            trkLineSpacing.Value = pending.LineSpacing;
+            trkParagraphSpacing.Value = pending.ParagraphSpacing;
+            trkBreakSpacing1.Value = pending.BreakSpacing1;
+            trkBreakSpacing2.Value = pending.BreakSpacing2;
+            trkBreakSpacing3.Value = pending.BreakSpacing3;
+            trkHighlightbandDistanceFromTop.Value = pending.HighlightBandDistanceFromTop;
+            trkHighlightBandOpacity.Value = (int)(pending.HighlightBandOpacity * 100.0);
+            pnlHighlightBandColor.BackColor = ColorTranslator.FromHtml(pending.HighlightBandColor);
+            numHighLightBandLinesCustom.Value = pending.HighlightHeightLines;
+            numHighLightBandLinesCustom.Enabled = false;
+            if (pending.HighlightHeightLines == 3)
+            {
+                radHighLightBand3Lines.Checked = true;
+            }
+            else if (pending.HighlightHeightLines == 5)
+            {
+                radHighLightBand5Lines.Checked = true;
+            }
+            else
+            {
+                radHighLightBandCustom.Checked = true;
+                numHighLightBandLinesCustom.Enabled = true;
+            }
+            trkHighLightBandTriggerOffset.Value = (int)(pending.HighlightBandTriggerPoint/100.0);
+            chkHighlightbandVisible.Checked = pending.HighlightBandVisible;
         }
 
         private void cmbFontName_SelectedIndexChanged(object sender, EventArgs e)
@@ -133,14 +153,14 @@ namespace Teleprompter
         private void trkLineSpacing_Scroll(object sender, EventArgs e)
         {
             int spacing = trkLineSpacing.Value;
-            SettingsManager.Settings.LineSpacing = spacing;
+            pending.LineSpacing = spacing;
             preview.ApplyLineSpacing(spacing);
         }
 
         private void trkParagraphSpacing_Scroll(object sender, EventArgs e)
         {
             int spacing = trkParagraphSpacing.Value;
-            SettingsManager.Settings.ParagraphSpacing = spacing;
+            pending.ParagraphSpacing = spacing;
             preview.ApplyParagraphSpacing(spacing);
 
         }
@@ -148,22 +168,109 @@ namespace Teleprompter
         private void trkBreakSpacing1_Scroll(object sender, EventArgs e)
         {
             int spacing = trkBreakSpacing1.Value;
-            SettingsManager.Settings.BreakSpacing1 = spacing;
+            pending.BreakSpacing1 = spacing;
             preview.ApplyBreakSpacing1(spacing);
         }
 
         private void trkBreakSpacing2_Scroll(object sender, EventArgs e)
         {
             int spacing = trkBreakSpacing2.Value;
-            SettingsManager.Settings.BreakSpacing2 = spacing;
+            pending.BreakSpacing2 = spacing;
             preview.ApplyBreakSpacing2(spacing);
         }
 
         private void trkBreakSpacing3_Scroll(object sender, EventArgs e)
         {
             int spacing = trkBreakSpacing3.Value;
-            SettingsManager.Settings.BreakSpacing3 = spacing;
+            pending.BreakSpacing3 = spacing;
             preview.ApplyBreakSpacing3(spacing);
+        }
+
+        private void chkHighlightbandVisible_CheckedChanged(object sender, EventArgs e)
+        {
+            bool visible = chkHighlightbandVisible.Checked;
+            pending.HighlightBandVisible = visible;
+            grpHighlightBandSettings.Enabled = visible;
+            preview.ApplyHighlightVisible(visible);
+        }
+
+        private void trkHighlightBandOpacity_Scroll(object sender, EventArgs e)
+        {
+            double opacity = (double)trkHighlightBandOpacity.Value / 100.0;
+            pending.HighlightBandOpacity = opacity;
+            preview.ApplyHighlightOpacity(opacity);
+        }
+
+        private void btnHighLightBandColor_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new ColorDialog())
+            {
+                dlg.Color = pnlHighlightBandColor.BackColor; // start with current color
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // Update preview square
+                    pnlHighlightBandColor.BackColor = dlg.Color;
+
+                    // Convert to CSS color
+                    string css = ColorTranslator.ToHtml(dlg.Color);
+
+                    // Update pending settings
+                    pending.HighlightBandColor = css;
+
+                    // Live preview
+                    preview.ApplyHighlightColor(css);
+                }
+            }
+
+        }
+
+        private void radHighLightBand3Lines_CheckedChanged(object sender, EventArgs e)
+        {
+            int lines = 3;
+            pending.HighlightHeightLines = lines;
+            preview.ApplyHighlightLines(lines);
+
+        }
+
+        private void radHighLightBand5Lines_CheckedChanged(object sender, EventArgs e)
+        {
+            int lines = 5;
+            pending.HighlightHeightLines = lines;
+            preview.ApplyHighlightLines(lines);
+        }
+
+        private void radHighLightBandCustom_CheckedChanged(object sender, EventArgs e)
+        {
+            var rb = (RadioButton)sender;
+            numHighLightBandLinesCustom.Enabled = rb.Checked;
+            if (rb.Checked)
+            {
+                int lines = (int)numHighLightBandLinesCustom.Value;
+                pending.HighlightHeightLines = lines;
+                preview.ApplyHighlightLines(lines);
+            }
+        }
+
+        private void numHighLightBandLinesCustom_ValueChanged(object sender, EventArgs e)
+        {
+            int lines = (int)numHighLightBandLinesCustom.Value;
+            pending.HighlightHeightLines = lines;
+            preview.ApplyHighlightLines(lines);
+        }
+
+        private void trkHighLightBandTriggerOffset_Scroll(object sender, EventArgs e)
+        {
+            double offset = trkHighLightBandTriggerOffset.Value;
+            pending.HighlightBandTriggerPoint = offset;
+            preview.ApplyHighlightTriggerPoint(offset);
+        }
+
+        private void trkHighlightbandDistanceFromTop_Scroll(object sender, EventArgs e)
+        {
+            int distanceFromTop = trkHighlightbandDistanceFromTop.Value;
+            pending.HighlightBandDistanceFromTop = distanceFromTop;
+            preview.ApplyHighlightTop(distanceFromTop);
         }
     }
 }

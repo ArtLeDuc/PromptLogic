@@ -4,8 +4,10 @@
     --line-height-multiplier: 1.4;
     --highlight-band-bg: rgba(200, 200, 200, 0.25);
     --highlight-band-opacity: 0.25;
+    --highlight-band-color: #C8C8C8;
     --highlight-band-top: 10%;
     --highlight-band-height: 0px;
+    --highlight-band-display: block;
 
     --line-spacing: 5px;
     --paragraph-spacing: 12px;
@@ -66,9 +68,14 @@ body {
     width: 100%;
     height: var(--highlight-band-height);
     top: var(--highlight-band-top);
-    background: rgba(200, 200, 200, var(--highlight-band-opacity));
+    background: color-mix(
+        in srgb,
+        var(--highlight-band-color) calc(var(--highlight-band-opacity) * 100%),
+        transparent
+    );
     pointer-events: none;
     z-index: 10;
+    display: var(--highlight-band-visible, block)
 }
 
 #countdownOverlay {

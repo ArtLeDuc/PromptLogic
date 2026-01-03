@@ -63,6 +63,30 @@ namespace Teleprompter
             string js = $"document.documentElement.style.setProperty('--highlight-band-top', '{percent}%');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
+
+        void ITeleprompterPreview.ApplyHighlightVisible(bool visible)
+        {
+            string js = $"document.documentElement.style.setProperty('--highlight-band-visible', '{(visible ? "block":"none")}')";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+        void ITeleprompterPreview.ApplyHighlightColor(string color)
+        {
+            string js = $"document.documentElement.style.setProperty('--highlight-band-color', '{color}');";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+
+        void ITeleprompterPreview.ApplyHighlightTriggerPoint(double triggerPoint)
+        {
+            string js = $"setHighlightTriggerPoint({triggerPoint});";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+
+        void ITeleprompterPreview.ApplyHighlightLines(int lines)
+        {
+            string js = $"setHighlightBand({lines});";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+
         void ITeleprompterPreview.ApplyTextColor(string color)
         {
             string js = $"document.documentElement.style.setProperty('--text-color', '{color}');";
