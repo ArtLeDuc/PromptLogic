@@ -23,12 +23,11 @@ using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace Teleprompter
 {
-    public partial class MainForm : Form, IWebViewActions, ITeleprompterPreview
+    public partial class MainForm : Form, IWebViewActions, ITeleprompter, ITeleprompterPreview
     {
         private ISlideController _slides = null;
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
-        private string _lastNotesSent = null;
         const string _htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
 
 
@@ -170,29 +169,11 @@ namespace Teleprompter
             cmbStartSlide.SelectedIndex = SettingsManager.Settings.StartSlideIndex;
 
         }
-
-        private void SendNotesToWebView(string notes)
-        {
-            if (notes == _lastNotesSent)
-                return;
-            _lastNotesSent = notes;
-
-            this.Invoke((Action)(() =>
-            {
-                // Escape for JS
-                string escaped = notes
-                    .Replace("\\", "\\\\")
-                    .Replace("\"", "\\\"")
-                    .Replace("\n", "\\n")
-                    .Replace("\r", "\\r")
-                    .Replace("\v", "\\v");
-                webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
-            }));
-        }
         private void LoadNotesForCurrentSlide()
         {
             string notes = _slides.GetNotesForCurrentSlide();
             SendNotesToWebView(notes);
+            ApplyAllSettings();
         }
         private void LoadNotesForSlide(int index)
         {
@@ -329,8 +310,8 @@ namespace Teleprompter
         }
         private void StartSlideShow()
         {
-//            if (_slides != null)
-//                _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
+            if (_slides != null)
+                _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
 
             double speedValue = SettingsManager.Settings.ScrollSpeed / 100.0;
             webView.ExecuteScriptAsync($"setSpeed({speedValue});");
@@ -518,6 +499,23 @@ namespace Teleprompter
                 .Replace("\r", "\\r")
                 .Replace("\v", "\\v");
             webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
+        }
+        public void SendToPrompter(string command, object payload = null)
+        {
+            var message = new
+            {
+                command,
+                payload
+            };
+
+            string json = JsonConvert.SerializeObject(message);
+
+            // Escape for JS string literal
+            json = json.Replace("\\", "\\\\").Replace("\"", "\\\"");
+
+            string script = $"window.prompter.receive(JSON.parse(\"{json}\"));";
+
+            webView.CoreWebView2.ExecuteScriptAsync(script);
         }
     }
 }

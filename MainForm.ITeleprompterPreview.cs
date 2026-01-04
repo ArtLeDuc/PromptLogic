@@ -101,6 +101,5 @@ namespace Teleprompter
         {
             ApplyAllSettings(); // calls your private MainForm method
         }
-
     }
 }
