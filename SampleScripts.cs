@@ -8,7 +8,10 @@ namespace Teleprompter
 {
     public static class SampleScripts
     {
-        public static string Default = @"This is a sample script for testing the teleprompter.
+        public static string Default = @"This is a
+sample script for testing the teleprompter.
+.pause(10)
+.pause(20)
 It is written with natural pacing, clear sentences,
 and enough variation to help evaluate scrolling behavior.
 

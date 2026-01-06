@@ -162,7 +162,6 @@ namespace Teleprompter
         {
             try
             {
-
                 var win = GetWindow();
                 IntPtr hwnd = (IntPtr)win.HWND;
 

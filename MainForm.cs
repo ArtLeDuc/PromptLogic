@@ -29,7 +29,7 @@ namespace Teleprompter
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
         const string _htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
-
+        private Settings settingsWindow;
 
         public MainForm()
         {
@@ -149,10 +149,6 @@ namespace Teleprompter
             webView.CoreWebView2.PostWebMessageAsString(message);
         }
 
-        public void ExecuteScriptAsync(string script)
-        {
-            webView.ExecuteScriptAsync(script);
-        }
         private void LoadSlideSelectionCombo()
         {
             cmbStartSlide.Items.Clear();
@@ -228,7 +224,6 @@ namespace Teleprompter
         {
             LoadInitialPage(); // reload index.html
             btnConnect.Enabled = true;
-//            grpShowControls.Enabled = false;
         }
         private void btnExpand_Click(object sender, EventArgs e)
         {
@@ -283,21 +278,10 @@ namespace Teleprompter
 
             webView.CoreWebView2.WebMessageReceived += _service.Handler;
 
-
-            //            int startSlide = 1;
-            //            if (int.TryParse(txtStartSlide.Text, out int value) && value > 0)
-            //                startSlide = value;
-            //            if (startSlide < 1 || startSlide > _slides.SlideCount)
-            //            {
-            //                MessageBox.Show("Starting slide is not contained within the current slides.\nStarting using slide 1.", "Starting Slide", MessageBoxButtons.OK);
-            //                startSlide = 1;
-            //            }
-
             if (_slides.IsSlideShowRunning)
             {
                 LoadNotesForCurrentSlide();
                 LoadSlideSelectionCombo();
-//                grpShowControls.Enabled = true;
             }
         }
         private void btnConnect_Click(object sender, EventArgs e)
@@ -312,50 +296,55 @@ namespace Teleprompter
         {
             if (_slides != null)
                 _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
-
-            double speedValue = SettingsManager.Settings.ScrollSpeed / 100.0;
-            webView.ExecuteScriptAsync($"setSpeed({speedValue});");
-
-            webView.ExecuteScriptAsync("startTeleprompter()");
+            StartTeleprompter();
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
-            // Disable manual scrolling while auto-scroll is active
-            webView.CoreWebView2.ExecuteScriptAsync(
-                "document.getElementById('scrollContainer').style.overflowY = 'hidden';"
-            );
-
             StartSlideShow();
+            UpdateControls();
         }
         private void btnCollapsedStart_Click(object sender, EventArgs e)
         {
-            // Disable manual scrolling while auto-scroll is active
-            webView.CoreWebView2.ExecuteScriptAsync(
-                "document.getElementById('scrollContainer').style.overflowY = 'hidden';"
-            );
-
             StartSlideShow();
+            UpdateControls();
         }
-
-        private bool isPaused = false;
-        private void PauseSlideShow()
+        private void UpdateControls()
         {
-            if (!isPaused)
+            if (isPaused)
             {
-                // Currently scrolling → pause it
-                webView.ExecuteScriptAsync("pauseScroll()");
                 btnPause.Text = ">> Resume";
                 btnCollapsedPause.Text = ">>";
-                isPaused = true;
             }
             else
             {
-                // Currently paused → resume scrolling
-                webView.ExecuteScriptAsync("startScroll()");
                 btnPause.Text = "|| Pause";
                 btnCollapsedPause.Text = "||";
-                isPaused = false;
             }
+
+            btnCollapsedConnect.Enabled = isStopped;
+            btnLoadSampleScript.Enabled = isStopped;
+            btnSettings.Enabled = isStopped;
+            cmbStartSlide.Enabled = isStopped;
+            btnConnect.Enabled = isStopped;
+
+            btnStart.Enabled = isStopped;
+            btnCollapsedStart.Enabled = isStopped;
+
+            btnPause.Enabled = !isStopped;
+            btnCollapsedPause.Enabled = !isStopped;
+
+            btnStop.Enabled = !isStopped;
+            btnCollapsedStop.Enabled = !isStopped;
+
+            if (settingsWindow != null && settingsWindow.Visible)
+                settingsWindow.Enabled = isStopped;
+
+            SetManualScrolling();
+        }
+        private void PauseSlideShow()
+        {
+            PauseTeleprompter();
+            UpdateControls();
         }
 
         private void btnPause_Click(object sender, EventArgs e)
@@ -368,23 +357,16 @@ namespace Teleprompter
         }
         private void StopSlideShow()
         {
-            webView.ExecuteScriptAsync("stopScroll()");
-            btnPause.Text = "Pause";
-            isPaused = false;
+            StopTeleprompter();
+            UpdateControls();
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
-            webView.CoreWebView2.ExecuteScriptAsync(
-                "document.getElementById('scrollContainer').style.overflowY = 'auto';"
-            );
             StopSlideShow();
         }
 
         private void btnCollapsedStop_Click(object sender, EventArgs e)
         {
-            webView.CoreWebView2.ExecuteScriptAsync(
-                "document.getElementById('scrollContainer').style.overflowY = 'auto';"
-            );
             StopSlideShow();
         }
 
@@ -398,8 +380,6 @@ namespace Teleprompter
             uint exStyle = GetWindowLong(this.Handle, GWL_EXSTYLE);
             return (exStyle & WS_EX_TOPMOST) != 0;
         }
-
-        private Settings settingsWindow;
         private void OpenSettings()
         {
             if (settingsWindow == null || settingsWindow.IsDisposed)
@@ -450,17 +430,12 @@ namespace Teleprompter
 
             // Font family
             ((ITeleprompterPreview)this).ApplyFont(s.TeleprompterFont);
-
             // Font size
             ((ITeleprompterPreview)this).ApplyFontSize(s.FontSize);
-
-
             // Text color
             ((ITeleprompterPreview)this).ApplyTextColor(s.TextColor);
-
             // Background color
             ((ITeleprompterPreview)this).ApplyBackgroundColor(s.BackColor);
-
             //Line spacing
             ((ITeleprompterPreview)this).ApplyLineSpacing(s.LineSpacing);
             //Paragraph spacing
@@ -474,48 +449,15 @@ namespace Teleprompter
 
             ((ITeleprompterPreview)this).ApplyHighlightVisible(s.HighlightBandVisible);
             ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightBandOpacity);
-//            ((ITeleprompterPreview)this).ApplyHighlightTop(s.);
             ((ITeleprompterPreview)this).ApplyHighlightColor(s.HighlightBandColor);
             ((ITeleprompterPreview)this).ApplyHighlightLines(s.HighlightHeightLines);
             ((ITeleprompterPreview)this).ApplyHighlightTriggerPoint(s.HighlightBandTriggerPoint);
             ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightBandDistanceFromTop);
-            // Highlight band height
-            //            ((ITeleprompterPreview)this).ApplyHighlightHeight(s.HighlightHeight);
-
-            // Highlight band opacity
-            //            ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightOpacity);
-
-            // Highlight band vertical position
-            //            ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightTopPercent);
 
         }
         private void btnLoadSampleScript_Click(object sender, EventArgs e)
         {
-            
-            string escaped = SampleScripts.breakTest
-                .Replace("\\", "\\\\")
-                .Replace("\"", "\\\"")
-                .Replace("\n", "\\n")
-                .Replace("\r", "\\r")
-                .Replace("\v", "\\v");
-            webView.ExecuteScriptAsync($"loadNotes(\"{escaped}\")");
-        }
-        public void SendToPrompter(string command, object payload = null)
-        {
-            var message = new
-            {
-                command,
-                payload
-            };
-
-            string json = JsonConvert.SerializeObject(message);
-
-            // Escape for JS string literal
-            json = json.Replace("\\", "\\\\").Replace("\"", "\\\"");
-
-            string script = $"window.prompter.receive(JSON.parse(\"{json}\"));";
-
-            webView.CoreWebView2.ExecuteScriptAsync(script);
+            SendNotesToWebView(SampleScripts.Default);
         }
     }
 }

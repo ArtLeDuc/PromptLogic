@@ -9,5 +9,11 @@ namespace Teleprompter
     public interface ITeleprompter
     {
         void SendNotesToWebView(string notes);
+        void StartTeleprompter();
+        void PauseTeleprompter();
+        void StopTeleprompter();
+        void SetManualScrolling();
+        void ExecuteScriptAsync(string script);
+
     }
 }
