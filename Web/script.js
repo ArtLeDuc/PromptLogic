@@ -5,6 +5,9 @@ let baseLineHeight = 40;    // fallback; updated from CSS
 let scrollSpeed = 1;        // pixels per frame
 let scrollInterval = null;
 let scrolling = false;
+let line = 0;
+let bandGeometry = null;
+let geometry = null;
 function loadNotes(text) {
     let dataParent = "";
 
@@ -75,10 +78,9 @@ function loadNotes(text) {
         // Record logical line
         cleanedLines.push(trimmed);  // keep the trimmed text (possibly "")
 
-        // 3. Emit the line span
-        output.push(
-            `<span class="line" data-line="${logicalIndex}">${displayContent}</span>`
-        );
+        // 3. Emit the line div
+        output.push(`<div class="line" data-line="${logicalIndex}">`);
+        output.push(displayContent);
 
         // 4. Emit the break element based on code
         if (code === "<P>") {
@@ -89,6 +91,9 @@ function loadNotes(text) {
             // default break between normal lines
             output.push(`<div class="line-break" data-parent="${logicalIndex}"></div>`);
         }
+
+        //3a. Close the line div
+        output.push(`</div>`);
 
         logicalIndex++;
 
@@ -105,10 +110,12 @@ function loadNotes(text) {
 
     scrollPos = 0;
     el.style.transform = "translateY(0px)";
+    line = 0;
 
     // Rebuild the virtual line model now that cleanedLines is ready
-//    buildVirtualLineModel();                // *** still here
     setHighlightBand(bandLines);            // *** still here, but now sets bandHeightPx
+    const geometry = computeLineGeometry();
+    const bandGeometry = computeBandGeometry();
 }
 
 /**
@@ -142,11 +149,9 @@ function setHighlightBand(lines) {
  *  - totalHeight: total rendered height of the content
  */
 function computeLineGeometry() {
-    const blocks = document.querySelectorAll(
-        "#content .line, #content .line-break, #content .paragraph-break"
-    );
+    const blocks = document.querySelectorAll("#content .line");
 
-    const geometry = [];
+    geometry = [];
 
     blocks.forEach((el, blockIndex) => {
         const type = el.classList.contains("line")
@@ -186,7 +191,7 @@ function computeLineGeometry() {
         });
     });
 
-    return geometry;
+    line = 0;
 }
 
 /**
@@ -196,16 +201,21 @@ function computeLineGeometry() {
 function computeBandGeometry() {
     const band = document.getElementById("highlightBand");
     const bandRect = band.getBoundingClientRect();
+    const triggerPoint = document.getElementById("triggerPoint");
+    const triggerPointRect = triggerPoint.getBoundingClientRect();
 
     // Convert band position into container-relative coordinates
     const bandTop = bandRect.top;
     const bandBottom = bandTop + bandRect.height;
     const bandCenter = bandTop + bandRect.height / 2;
 
-    return {
+    const triggerPointPos = triggerPointRect.top + triggerPointRect.height / 2;
+
+    bandGeometry = {
         bandTop,
         bandBottom,
         bandCenter,
+        triggerPointPos,
         bandHeight: bandRect.height
     };
 }
@@ -260,11 +270,11 @@ function startTeleprompter() {
     startCountdown(() => {
         refocusSlideshow();
         unpauseSlideshow();
-        const geometry = computeLineGeometry();
-        const bandGeometry = computeBandGeometry();
-        ensureDebugLine();
-        updateDebugBandBottom(bandGeometry);
-        startScroll(geometry, bandGeometry);
+//        const geometry = computeLineGeometry();
+//        const bandGeometry = computeBandGeometry();
+//        ensureDebugLine();
+//        updateDebugBandBottom(bandGeometry);
+        startScroll();
     });
 }
 
@@ -293,8 +303,36 @@ function ensureDebugLine() {
 }
 */
 
+function triggerCommand(cmd) {
+    switch (cmd.command) {
+        case "nextslide":
+            window.chrome.webview.postMessage({ action: "nextSlide" });
+            break;
+        case "pause":
+            window.chrome.webview.postMessage({ action: "pause", duration: cmd.duration });
+            break;
+        case "stop":
+            window.chrome.webview.postMessage({ action: "stop" });
+            break;
+        // future commands:
+        // case "speed+50":
+        // case "speed-20":
+        // case "goto 5":
+        // case "color red":
+    }
+}
+
+function checkCommands() {
+    for (let cmd of commands) {
+        if (cmd.lineIndex === line && !cmd.fired) {
+            cmd.fired = true;
+            triggerCommand(cmd);
+        }
+    }
+}
+
 // ----- Scrolling -----
-function startScroll(geometry, bandGeometry) {
+function startScroll() {
     if (scrolling) return;
       scrolling = true;
 
@@ -303,6 +341,7 @@ function startScroll(geometry, bandGeometry) {
     const bodyStyles = window.getComputedStyle(document.body);
     const paddingTop = parseFloat(bodyStyles.paddingTop);
     contentOffset = bandHeightPx + paddingTop;
+    triggerPoint = bandGeometry.triggerPointPos; 
 
     scrollInterval = setInterval(() => {
         scrollPos += scrollSpeed;
@@ -314,11 +353,11 @@ function startScroll(geometry, bandGeometry) {
             content.style.transform = `translateY(${-scrollPos}px)`;
         }
 
-        if (line < geometry.length && geometry[line].bottom - contentOffset - scrollPos <= 0) {
+        if (line < geometry.length && geometry[line].bottom - triggerPoint - scrollPos <= 0) {
             line = line + 1;
         }
 
-//        checkCommands();
+        checkCommands();
 
     }, 16);
 }
