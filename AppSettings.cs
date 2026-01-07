@@ -38,6 +38,9 @@ namespace Teleprompter
         public string HighlightBandColor { get; set; } = "#C8C8C8";
         public double HighlightBandTriggerPoint { get; set; } = 0.0;
         public int HighlightBandDistanceFromTop { get; set; } = 10;
+        public bool HighlightBandTriggerPointVisible { get; set; } = false;
+        public string HighlightBandTriggerPointColor { get; set; } = "#FF0000";
+
         public AppSettings()
         {
 
@@ -66,7 +69,9 @@ namespace Teleprompter
             HighlightBandOpacity = other.HighlightBandOpacity;
             HighlightBandColor = other.HighlightBandColor;
             HighlightBandTriggerPoint = other.HighlightBandTriggerPoint;
-            HighlightBandDistanceFromTop = other.HighlightBandDistanceFromTop; 
+            HighlightBandDistanceFromTop = other.HighlightBandDistanceFromTop;
+            HighlightBandTriggerPointVisible = other.HighlightBandTriggerPointVisible;
+            HighlightBandTriggerPointColor = other.HighlightBandTriggerPointColor;
     }
 }
 

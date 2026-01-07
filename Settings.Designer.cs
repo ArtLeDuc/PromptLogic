@@ -57,6 +57,26 @@
             this.trkLineSpacing = new System.Windows.Forms.TrackBar();
             this.traScrollSpeed = new System.Windows.Forms.TrackBar();
             this.label8 = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.pnlHighlightBandColor = new System.Windows.Forms.Panel();
+            this.btnHighLightBandColor = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.numHighLightBandLinesCustom = new System.Windows.Forms.NumericUpDown();
+            this.radHighLightBandCustom = new System.Windows.Forms.RadioButton();
+            this.radHighLightBand5Lines = new System.Windows.Forms.RadioButton();
+            this.radHighLightBand3Lines = new System.Windows.Forms.RadioButton();
+            this.label9 = new System.Windows.Forms.Label();
+            this.chkHighlightbandVisible = new System.Windows.Forms.CheckBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.pnlTriggerColor = new System.Windows.Forms.Panel();
+            this.btnTriggerPointColor = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.chkTrigger = new System.Windows.Forms.CheckBox();
+            this.trkHighLightBandTriggerOffset = new System.Windows.Forms.TrackBar();
+            this.trkHighlightbandDistanceFromTop = new System.Windows.Forms.TrackBar();
+            this.trkHighlightBandOpacity = new System.Windows.Forms.TrackBar();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.chkMirrorText = new System.Windows.Forms.CheckBox();
@@ -69,24 +89,9 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radDarkTheme = new System.Windows.Forms.RadioButton();
             this.radLightTheme = new System.Windows.Forms.RadioButton();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.grpHighlightBandSettings = new System.Windows.Forms.GroupBox();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.numHighLightBandLinesCustom = new System.Windows.Forms.NumericUpDown();
-            this.radHighLightBandCustom = new System.Windows.Forms.RadioButton();
-            this.radHighLightBand5Lines = new System.Windows.Forms.RadioButton();
-            this.radHighLightBand3Lines = new System.Windows.Forms.RadioButton();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.trkHighLightBandTriggerOffset = new System.Windows.Forms.TrackBar();
-            this.pnlHighlightBandColor = new System.Windows.Forms.Panel();
-            this.btnHighLightBandColor = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.trkHighlightBandOpacity = new System.Windows.Forms.TrackBar();
-            this.chkHighlightbandVisible = new System.Windows.Forms.CheckBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.trkHighlightbandDistanceFromTop = new System.Windows.Forms.TrackBar();
-            this.label12 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -100,22 +105,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numHighLightBandLinesCustom)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkHighLightBandTriggerOffset)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkHighlightbandDistanceFromTop)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkHighlightBandOpacity)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.grpHighlightBandSettings.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numHighLightBandLinesCustom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkHighLightBandTriggerOffset)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkHighlightBandOpacity)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkHighlightbandDistanceFromTop)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(31, 444);
+            this.btnOk.Location = new System.Drawing.Point(24, 503);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
@@ -125,7 +131,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(124, 444);
+            this.btnCancel.Location = new System.Drawing.Point(117, 503);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -135,7 +141,7 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(220, 444);
+            this.btnApply.Location = new System.Drawing.Point(213, 503);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 2;
@@ -147,12 +153,13 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(8, 25);
+            this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(302, 426);
+            this.tabControl1.Size = new System.Drawing.Size(302, 468);
             this.tabControl1.TabIndex = 27;
             // 
             // tabPage1
@@ -162,10 +169,10 @@
             this.tabPage1.Controls.Add(this.btnBackgroundColor);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 46);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(294, 368);
+            this.tabPage1.Size = new System.Drawing.Size(294, 418);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Appearance";
             // 
@@ -284,10 +291,10 @@
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.traScrollSpeed);
             this.tabPage2.Controls.Add(this.label8);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 46);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(294, 368);
+            this.tabPage2.Size = new System.Drawing.Size(294, 418);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Timing";
             // 
@@ -419,15 +426,245 @@
             this.label8.TabIndex = 21;
             this.label8.Text = "Scroll Speed";
             // 
+            // tabPage4
+            // 
+            this.tabPage4.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.tabPage4.Controls.Add(this.pnlHighlightBandColor);
+            this.tabPage4.Controls.Add(this.btnHighLightBandColor);
+            this.tabPage4.Controls.Add(this.label10);
+            this.tabPage4.Controls.Add(this.label12);
+            this.tabPage4.Controls.Add(this.groupBox8);
+            this.tabPage4.Controls.Add(this.chkHighlightbandVisible);
+            this.tabPage4.Controls.Add(this.groupBox7);
+            this.tabPage4.Controls.Add(this.trkHighlightbandDistanceFromTop);
+            this.tabPage4.Controls.Add(this.trkHighlightBandOpacity);
+            this.tabPage4.Location = new System.Drawing.Point(4, 46);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(294, 418);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Highlight Band";
+            // 
+            // pnlHighlightBandColor
+            // 
+            this.pnlHighlightBandColor.Location = new System.Drawing.Point(214, 9);
+            this.pnlHighlightBandColor.Name = "pnlHighlightBandColor";
+            this.pnlHighlightBandColor.Size = new System.Drawing.Size(38, 23);
+            this.pnlHighlightBandColor.TabIndex = 47;
+            // 
+            // btnHighLightBandColor
+            // 
+            this.btnHighLightBandColor.Location = new System.Drawing.Point(144, 9);
+            this.btnHighLightBandColor.Name = "btnHighLightBandColor";
+            this.btnHighLightBandColor.Size = new System.Drawing.Size(52, 23);
+            this.btnHighLightBandColor.TabIndex = 46;
+            this.btnHighLightBandColor.Text = "Color";
+            this.btnHighLightBandColor.UseVisualStyleBackColor = true;
+            this.btnHighLightBandColor.Click += new System.EventHandler(this.btnHighLightBandColor_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(110, 138);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(68, 16);
+            this.label10.TabIndex = 45;
+            this.label10.Text = "Opacity %";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(80, 73);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(129, 16);
+            this.label12.TabIndex = 52;
+            this.label12.Text = "Distance from top %:";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.numHighLightBandLinesCustom);
+            this.groupBox8.Controls.Add(this.radHighLightBandCustom);
+            this.groupBox8.Controls.Add(this.radHighLightBand5Lines);
+            this.groupBox8.Controls.Add(this.radHighLightBand3Lines);
+            this.groupBox8.Controls.Add(this.label9);
+            this.groupBox8.Location = new System.Drawing.Point(15, 166);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(264, 111);
+            this.groupBox8.TabIndex = 50;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = " Height ";
+            // 
+            // numHighLightBandLinesCustom
+            // 
+            this.numHighLightBandLinesCustom.Enabled = false;
+            this.numHighLightBandLinesCustom.Location = new System.Drawing.Point(146, 78);
+            this.numHighLightBandLinesCustom.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numHighLightBandLinesCustom.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numHighLightBandLinesCustom.Name = "numHighLightBandLinesCustom";
+            this.numHighLightBandLinesCustom.Size = new System.Drawing.Size(57, 22);
+            this.numHighLightBandLinesCustom.TabIndex = 4;
+            this.numHighLightBandLinesCustom.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numHighLightBandLinesCustom.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numHighLightBandLinesCustom.ValueChanged += new System.EventHandler(this.numHighLightBandLinesCustom_ValueChanged);
+            // 
+            // radHighLightBandCustom
+            // 
+            this.radHighLightBandCustom.AutoSize = true;
+            this.radHighLightBandCustom.Location = new System.Drawing.Point(26, 78);
+            this.radHighLightBandCustom.Name = "radHighLightBandCustom";
+            this.radHighLightBandCustom.Size = new System.Drawing.Size(73, 20);
+            this.radHighLightBandCustom.TabIndex = 3;
+            this.radHighLightBandCustom.TabStop = true;
+            this.radHighLightBandCustom.Text = "Custom";
+            this.radHighLightBandCustom.UseVisualStyleBackColor = true;
+            this.radHighLightBandCustom.CheckedChanged += new System.EventHandler(this.radHighLightBandCustom_CheckedChanged);
+            // 
+            // radHighLightBand5Lines
+            // 
+            this.radHighLightBand5Lines.AutoSize = true;
+            this.radHighLightBand5Lines.Location = new System.Drawing.Point(26, 52);
+            this.radHighLightBand5Lines.Name = "radHighLightBand5Lines";
+            this.radHighLightBand5Lines.Size = new System.Drawing.Size(70, 20);
+            this.radHighLightBand5Lines.TabIndex = 2;
+            this.radHighLightBand5Lines.TabStop = true;
+            this.radHighLightBand5Lines.Text = "5 Lines";
+            this.radHighLightBand5Lines.UseVisualStyleBackColor = true;
+            this.radHighLightBand5Lines.CheckedChanged += new System.EventHandler(this.radHighLightBand5Lines_CheckedChanged);
+            // 
+            // radHighLightBand3Lines
+            // 
+            this.radHighLightBand3Lines.AutoSize = true;
+            this.radHighLightBand3Lines.Location = new System.Drawing.Point(26, 25);
+            this.radHighLightBand3Lines.Name = "radHighLightBand3Lines";
+            this.radHighLightBand3Lines.Size = new System.Drawing.Size(70, 20);
+            this.radHighLightBand3Lines.TabIndex = 1;
+            this.radHighLightBand3Lines.TabStop = true;
+            this.radHighLightBand3Lines.Tag = "";
+            this.radHighLightBand3Lines.Text = "3 Lines";
+            this.radHighLightBand3Lines.UseVisualStyleBackColor = true;
+            this.radHighLightBand3Lines.CheckedChanged += new System.EventHandler(this.radHighLightBand3Lines_CheckedChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(103, 80);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(45, 16);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Lines :";
+            // 
+            // chkHighlightbandVisible
+            // 
+            this.chkHighlightbandVisible.AutoSize = true;
+            this.chkHighlightbandVisible.Location = new System.Drawing.Point(37, 11);
+            this.chkHighlightbandVisible.Name = "chkHighlightbandVisible";
+            this.chkHighlightbandVisible.Size = new System.Drawing.Size(75, 20);
+            this.chkHighlightbandVisible.TabIndex = 0;
+            this.chkHighlightbandVisible.Text = "Display";
+            this.chkHighlightbandVisible.UseVisualStyleBackColor = true;
+            this.chkHighlightbandVisible.CheckedChanged += new System.EventHandler(this.chkHighlightbandVisible_CheckedChanged);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.pnlTriggerColor);
+            this.groupBox7.Controls.Add(this.btnTriggerPointColor);
+            this.groupBox7.Controls.Add(this.label11);
+            this.groupBox7.Controls.Add(this.chkTrigger);
+            this.groupBox7.Controls.Add(this.trkHighLightBandTriggerOffset);
+            this.groupBox7.Location = new System.Drawing.Point(15, 293);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(264, 116);
+            this.groupBox7.TabIndex = 54;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Trigger";
+            // 
+            // pnlTriggerColor
+            // 
+            this.pnlTriggerColor.Location = new System.Drawing.Point(177, 25);
+            this.pnlTriggerColor.Name = "pnlTriggerColor";
+            this.pnlTriggerColor.Size = new System.Drawing.Size(38, 23);
+            this.pnlTriggerColor.TabIndex = 59;
+            // 
+            // btnTriggerPointColor
+            // 
+            this.btnTriggerPointColor.Location = new System.Drawing.Point(119, 25);
+            this.btnTriggerPointColor.Name = "btnTriggerPointColor";
+            this.btnTriggerPointColor.Size = new System.Drawing.Size(52, 23);
+            this.btnTriggerPointColor.TabIndex = 58;
+            this.btnTriggerPointColor.Text = "Color";
+            this.btnTriggerPointColor.UseVisualStyleBackColor = true;
+            this.btnTriggerPointColor.Click += new System.EventHandler(this.btnTriggerPointColor_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(104, 87);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 16);
+            this.label11.TabIndex = 57;
+            this.label11.Text = "Offset";
+            // 
+            // chkTrigger
+            // 
+            this.chkTrigger.AutoSize = true;
+            this.chkTrigger.Location = new System.Drawing.Point(24, 28);
+            this.chkTrigger.Name = "chkTrigger";
+            this.chkTrigger.Size = new System.Drawing.Size(75, 20);
+            this.chkTrigger.TabIndex = 56;
+            this.chkTrigger.Text = "Display";
+            this.chkTrigger.UseVisualStyleBackColor = true;
+            this.chkTrigger.CheckedChanged += new System.EventHandler(this.chkTrigger_CheckedChanged);
+            // 
+            // trkHighLightBandTriggerOffset
+            // 
+            this.trkHighLightBandTriggerOffset.Location = new System.Drawing.Point(26, 56);
+            this.trkHighLightBandTriggerOffset.Maximum = 100;
+            this.trkHighLightBandTriggerOffset.Name = "trkHighLightBandTriggerOffset";
+            this.trkHighLightBandTriggerOffset.Size = new System.Drawing.Size(189, 56);
+            this.trkHighLightBandTriggerOffset.TabIndex = 54;
+            this.trkHighLightBandTriggerOffset.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trkHighLightBandTriggerOffset.Scroll += new System.EventHandler(this.trkHighLightBandTriggerOffset_Scroll);
+            // 
+            // trkHighlightbandDistanceFromTop
+            // 
+            this.trkHighlightbandDistanceFromTop.Location = new System.Drawing.Point(28, 38);
+            this.trkHighlightbandDistanceFromTop.Maximum = 80;
+            this.trkHighlightbandDistanceFromTop.Name = "trkHighlightbandDistanceFromTop";
+            this.trkHighlightbandDistanceFromTop.Size = new System.Drawing.Size(233, 56);
+            this.trkHighlightbandDistanceFromTop.TabIndex = 51;
+            this.trkHighlightbandDistanceFromTop.Value = 10;
+            this.trkHighlightbandDistanceFromTop.Scroll += new System.EventHandler(this.trkHighlightbandDistanceFromTop_Scroll);
+            // 
+            // trkHighlightBandOpacity
+            // 
+            this.trkHighlightBandOpacity.Location = new System.Drawing.Point(28, 98);
+            this.trkHighlightBandOpacity.Maximum = 100;
+            this.trkHighlightBandOpacity.Name = "trkHighlightBandOpacity";
+            this.trkHighlightBandOpacity.Size = new System.Drawing.Size(233, 56);
+            this.trkHighlightBandOpacity.TabIndex = 44;
+            this.trkHighlightBandOpacity.Scroll += new System.EventHandler(this.trkHighlightBandOpacity_Scroll);
+            // 
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.groupBox5);
             this.tabPage3.Controls.Add(this.groupBox3);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Location = new System.Drawing.Point(4, 46);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(294, 368);
+            this.tabPage3.Size = new System.Drawing.Size(294, 418);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Window";
             // 
@@ -551,217 +788,51 @@
             this.radLightTheme.Text = "Light";
             this.radLightTheme.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
+            // panel2
             // 
-            this.tabPage4.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.tabPage4.Controls.Add(this.grpHighlightBandSettings);
-            this.tabPage4.Controls.Add(this.chkHighlightbandVisible);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(294, 397);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Highlight Band";
+            this.panel2.CausesValidation = false;
+            this.panel2.Controls.Add(this.lblTitle);
+            this.panel2.Controls.Add(this.tabControl1);
+            this.panel2.Controls.Add(this.btnApply);
+            this.panel2.Controls.Add(this.btnCancel);
+            this.panel2.Controls.Add(this.btnOk);
+            this.panel2.Location = new System.Drawing.Point(7, 7);
+            this.panel2.Margin = new System.Windows.Forms.Padding(7);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(319, 536);
+            this.panel2.TabIndex = 28;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
-            // grpHighlightBandSettings
+            // lblTitle
             // 
-            this.grpHighlightBandSettings.Controls.Add(this.trkHighLightBandTriggerOffset);
-            this.grpHighlightBandSettings.Controls.Add(this.groupBox8);
-            this.grpHighlightBandSettings.Controls.Add(this.label11);
-            this.grpHighlightBandSettings.Controls.Add(this.pnlHighlightBandColor);
-            this.grpHighlightBandSettings.Controls.Add(this.btnHighLightBandColor);
-            this.grpHighlightBandSettings.Controls.Add(this.label10);
-            this.grpHighlightBandSettings.Controls.Add(this.trkHighlightBandOpacity);
-            this.grpHighlightBandSettings.Controls.Add(this.trkHighlightbandDistanceFromTop);
-            this.grpHighlightBandSettings.Controls.Add(this.label12);
-            this.grpHighlightBandSettings.Location = new System.Drawing.Point(21, 48);
-            this.grpHighlightBandSettings.Name = "grpHighlightBandSettings";
-            this.grpHighlightBandSettings.Size = new System.Drawing.Size(258, 325);
-            this.grpHighlightBandSettings.TabIndex = 1;
-            this.grpHighlightBandSettings.TabStop = false;
-            this.grpHighlightBandSettings.Text = " Highlight Band ";
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.numHighLightBandLinesCustom);
-            this.groupBox8.Controls.Add(this.radHighLightBandCustom);
-            this.groupBox8.Controls.Add(this.radHighLightBand5Lines);
-            this.groupBox8.Controls.Add(this.radHighLightBand3Lines);
-            this.groupBox8.Controls.Add(this.label9);
-            this.groupBox8.Location = new System.Drawing.Point(14, 141);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(225, 111);
-            this.groupBox8.TabIndex = 40;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = " Height ";
-            // 
-            // numHighLightBandLinesCustom
-            // 
-            this.numHighLightBandLinesCustom.Enabled = false;
-            this.numHighLightBandLinesCustom.Location = new System.Drawing.Point(146, 78);
-            this.numHighLightBandLinesCustom.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numHighLightBandLinesCustom.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numHighLightBandLinesCustom.Name = "numHighLightBandLinesCustom";
-            this.numHighLightBandLinesCustom.Size = new System.Drawing.Size(57, 22);
-            this.numHighLightBandLinesCustom.TabIndex = 4;
-            this.numHighLightBandLinesCustom.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.numHighLightBandLinesCustom.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.numHighLightBandLinesCustom.ValueChanged += new System.EventHandler(this.numHighLightBandLinesCustom_ValueChanged);
-            // 
-            // radHighLightBandCustom
-            // 
-            this.radHighLightBandCustom.AutoSize = true;
-            this.radHighLightBandCustom.Location = new System.Drawing.Point(26, 78);
-            this.radHighLightBandCustom.Name = "radHighLightBandCustom";
-            this.radHighLightBandCustom.Size = new System.Drawing.Size(73, 20);
-            this.radHighLightBandCustom.TabIndex = 3;
-            this.radHighLightBandCustom.TabStop = true;
-            this.radHighLightBandCustom.Text = "Custom";
-            this.radHighLightBandCustom.UseVisualStyleBackColor = true;
-            this.radHighLightBandCustom.CheckedChanged += new System.EventHandler(this.radHighLightBandCustom_CheckedChanged);
-            // 
-            // radHighLightBand5Lines
-            // 
-            this.radHighLightBand5Lines.AutoSize = true;
-            this.radHighLightBand5Lines.Location = new System.Drawing.Point(26, 52);
-            this.radHighLightBand5Lines.Name = "radHighLightBand5Lines";
-            this.radHighLightBand5Lines.Size = new System.Drawing.Size(70, 20);
-            this.radHighLightBand5Lines.TabIndex = 2;
-            this.radHighLightBand5Lines.TabStop = true;
-            this.radHighLightBand5Lines.Text = "5 Lines";
-            this.radHighLightBand5Lines.UseVisualStyleBackColor = true;
-            this.radHighLightBand5Lines.CheckedChanged += new System.EventHandler(this.radHighLightBand5Lines_CheckedChanged);
-            // 
-            // radHighLightBand3Lines
-            // 
-            this.radHighLightBand3Lines.AutoSize = true;
-            this.radHighLightBand3Lines.Location = new System.Drawing.Point(26, 25);
-            this.radHighLightBand3Lines.Name = "radHighLightBand3Lines";
-            this.radHighLightBand3Lines.Size = new System.Drawing.Size(70, 20);
-            this.radHighLightBand3Lines.TabIndex = 1;
-            this.radHighLightBand3Lines.TabStop = true;
-            this.radHighLightBand3Lines.Tag = "";
-            this.radHighLightBand3Lines.Text = "3 Lines";
-            this.radHighLightBand3Lines.UseVisualStyleBackColor = true;
-            this.radHighLightBand3Lines.CheckedChanged += new System.EventHandler(this.radHighLightBand3Lines_CheckedChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(103, 80);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 16);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Lines :";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 274);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(88, 16);
-            this.label11.TabIndex = 39;
-            this.label11.Text = "Trigger Offset";
-            // 
-            // trkHighLightBandTriggerOffset
-            // 
-            this.trkHighLightBandTriggerOffset.Location = new System.Drawing.Point(136, 267);
-            this.trkHighLightBandTriggerOffset.Maximum = 100;
-            this.trkHighLightBandTriggerOffset.Minimum = -100;
-            this.trkHighLightBandTriggerOffset.Name = "trkHighLightBandTriggerOffset";
-            this.trkHighLightBandTriggerOffset.Size = new System.Drawing.Size(104, 56);
-            this.trkHighLightBandTriggerOffset.TabIndex = 38;
-            this.trkHighLightBandTriggerOffset.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkHighLightBandTriggerOffset.Scroll += new System.EventHandler(this.trkHighLightBandTriggerOffset_Scroll);
-            // 
-            // pnlHighlightBandColor
-            // 
-            this.pnlHighlightBandColor.Location = new System.Drawing.Point(168, 100);
-            this.pnlHighlightBandColor.Name = "pnlHighlightBandColor";
-            this.pnlHighlightBandColor.Size = new System.Drawing.Size(27, 26);
-            this.pnlHighlightBandColor.TabIndex = 37;
-            // 
-            // btnHighLightBandColor
-            // 
-            this.btnHighLightBandColor.Location = new System.Drawing.Point(25, 103);
-            this.btnHighLightBandColor.Name = "btnHighLightBandColor";
-            this.btnHighLightBandColor.Size = new System.Drawing.Size(102, 23);
-            this.btnHighLightBandColor.TabIndex = 36;
-            this.btnHighLightBandColor.Text = "Color";
-            this.btnHighLightBandColor.UseVisualStyleBackColor = true;
-            this.btnHighLightBandColor.Click += new System.EventHandler(this.btnHighLightBandColor_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(9, 54);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(68, 16);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Opacity %";
-            // 
-            // trkHighlightBandOpacity
-            // 
-            this.trkHighlightBandOpacity.Location = new System.Drawing.Point(136, 48);
-            this.trkHighlightBandOpacity.Maximum = 100;
-            this.trkHighlightBandOpacity.Name = "trkHighlightBandOpacity";
-            this.trkHighlightBandOpacity.Size = new System.Drawing.Size(104, 56);
-            this.trkHighlightBandOpacity.TabIndex = 2;
-            this.trkHighlightBandOpacity.Scroll += new System.EventHandler(this.trkHighlightBandOpacity_Scroll);
-            // 
-            // chkHighlightbandVisible
-            // 
-            this.chkHighlightbandVisible.AutoSize = true;
-            this.chkHighlightbandVisible.Location = new System.Drawing.Point(24, 19);
-            this.chkHighlightbandVisible.Name = "chkHighlightbandVisible";
-            this.chkHighlightbandVisible.Size = new System.Drawing.Size(160, 20);
-            this.chkHighlightbandVisible.TabIndex = 0;
-            this.chkHighlightbandVisible.Text = "Highlight Band Visible";
-            this.chkHighlightbandVisible.UseVisualStyleBackColor = true;
-            this.chkHighlightbandVisible.CheckedChanged += new System.EventHandler(this.chkHighlightbandVisible_CheckedChanged);
-            // 
-            // trkHighlightbandDistanceFromTop
-            // 
-            this.trkHighlightbandDistanceFromTop.Location = new System.Drawing.Point(136, 13);
-            this.trkHighlightbandDistanceFromTop.Maximum = 80;
-            this.trkHighlightbandDistanceFromTop.Name = "trkHighlightbandDistanceFromTop";
-            this.trkHighlightbandDistanceFromTop.Size = new System.Drawing.Size(104, 56);
-            this.trkHighlightbandDistanceFromTop.TabIndex = 41;
-            this.trkHighlightbandDistanceFromTop.Value = 10;
-            this.trkHighlightbandDistanceFromTop.Scroll += new System.EventHandler(this.trkHighlightbandDistanceFromTop_Scroll);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 22);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(129, 16);
-            this.label12.TabIndex = 42;
-            this.label12.Text = "Distance from top %:";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.CausesValidation = false;
+            this.lblTitle.Enabled = false;
+            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(5, 5);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(55, 16);
+            this.lblTitle.TabIndex = 29;
+            this.lblTitle.Text = "Settings";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(325, 504);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOk);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClientSize = new System.Drawing.Size(330, 548);
+            this.ControlBox = false;
+            this.Controls.Add(this.panel2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Settings";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Settings";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -779,6 +850,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numHighLightBandLinesCustom)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkHighLightBandTriggerOffset)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkHighlightbandDistanceFromTop)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkHighlightBandOpacity)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
@@ -786,16 +867,8 @@
             this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
-            this.grpHighlightBandSettings.ResumeLayout(false);
-            this.grpHighlightBandSettings.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numHighLightBandLinesCustom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkHighLightBandTriggerOffset)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkHighlightBandOpacity)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkHighlightbandDistanceFromTop)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -846,20 +919,25 @@
         private System.Windows.Forms.Panel pnlBackColor;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.CheckBox chkHighlightbandVisible;
-        private System.Windows.Forms.GroupBox grpHighlightBandSettings;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TrackBar trkHighlightBandOpacity;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TrackBar trkHighLightBandTriggerOffset;
+        private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Panel pnlHighlightBandColor;
         private System.Windows.Forms.Button btnHighLightBandColor;
+        private System.Windows.Forms.TrackBar trkHighlightBandOpacity;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TrackBar trkHighlightbandDistanceFromTop;
         private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.NumericUpDown numHighLightBandLinesCustom;
         private System.Windows.Forms.RadioButton radHighLightBandCustom;
         private System.Windows.Forms.RadioButton radHighLightBand5Lines;
         private System.Windows.Forms.RadioButton radHighLightBand3Lines;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown numHighLightBandLinesCustom;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TrackBar trkHighlightbandDistanceFromTop;
+        private System.Windows.Forms.Panel pnlTriggerColor;
+        private System.Windows.Forms.Button btnTriggerPointColor;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox chkTrigger;
+        private System.Windows.Forms.TrackBar trkHighLightBandTriggerOffset;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblTitle;
     }
 }

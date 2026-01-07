@@ -9,17 +9,18 @@
     --highlight-band-height: 0px;
     --highlight-band-display: block;
 
+    --trigger-visible: block;
+    --trigger-color: #ffd800;
+    --trigger-point-top: 50%;
+
     --line-spacing: 5px;
     --paragraph-spacing: 12px;
     --break-spacing1: 5px;
     --break-spacing2: 5px;
     --break-spacing3: 5px;
-
     --text-color: white;
     --background-color: black;
-
     --body-padding: 40px;
-
     --countdown-font-size: 120px;
     --countdown-bg: rgba(0,0,0,0.3);
     --countdown-blur: 2px;
@@ -76,6 +77,17 @@ body {
     pointer-events: none;
     z-index: 10;
     display: var(--highlight-band-visible, block)
+}
+
+#triggerPoint {
+    position:absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--trigger-color, red);
+    pointer-events: none;
+    top: var(--trigger-point-top, 10%);
+    display: var(--trigger-visible, block);
 }
 
 #countdownOverlay {

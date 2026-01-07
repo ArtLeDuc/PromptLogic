@@ -268,6 +268,7 @@ function startTeleprompter() {
     });
 }
 
+/*
 function updateDebugBandBottom(bandGeometry) {
     const dbg = document.getElementById("debugBandBottom");
     if (!dbg) return;
@@ -290,6 +291,7 @@ function ensureDebugLine() {
     dbg.style.background = "red";
     dbg.style.pointerEvents = "none"; // so it never interferes
 }
+*/
 
 // ----- Scrolling -----
 function startScroll(geometry, bandGeometry) {

@@ -24,6 +24,9 @@ namespace Teleprompter
         void ApplyHighlightColor(string color);
         void ApplyHighlightLines(int lines);
         void ApplyHighlightTriggerPoint(double triggerPoint);
+        void ApplyHighlightBandTriggerPointVisible(bool triggerPoint);
+        void ApplyHighlightBandTriggerPointColor(string color);
+
         void ApplyAllSettings();
     }
 }

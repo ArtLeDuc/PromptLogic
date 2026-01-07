@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
@@ -18,6 +19,10 @@ namespace Teleprompter
         public Settings(ITeleprompterPreview preview)
         {
             InitializeComponent();
+            panel2.Top = 3;
+            panel2.Left = 3;
+            panel2.Width = this.Width - 6;
+            panel2.Height = this.Height - 6;
 
             this.Load += Settings_Load;
             this.preview = preview;
@@ -51,6 +56,8 @@ namespace Teleprompter
             trkHighlightbandDistanceFromTop.Value = pending.HighlightBandDistanceFromTop;
             trkHighlightBandOpacity.Value = (int)(pending.HighlightBandOpacity * 100.0);
             pnlHighlightBandColor.BackColor = ColorTranslator.FromHtml(pending.HighlightBandColor);
+            chkTrigger.Checked = pending.HighlightBandTriggerPointVisible;
+
             numHighLightBandLinesCustom.Value = pending.HighlightHeightLines;
             numHighLightBandLinesCustom.Enabled = false;
             if (pending.HighlightHeightLines == 3)
@@ -66,7 +73,10 @@ namespace Teleprompter
                 radHighLightBandCustom.Checked = true;
                 numHighLightBandLinesCustom.Enabled = true;
             }
-            trkHighLightBandTriggerOffset.Value = (int)(pending.HighlightBandTriggerPoint/100.0);
+            trkHighLightBandTriggerOffset.Value = (int)(pending.HighlightBandTriggerPoint / 100.0);
+            chkTrigger.Checked = (pending.HighlightBandTriggerPointVisible);
+            pnlTriggerColor.BackColor = ColorTranslator.FromHtml(pending.HighlightBandTriggerPointColor);
+
             chkHighlightbandVisible.Checked = pending.HighlightBandVisible;
         }
 
@@ -190,7 +200,6 @@ namespace Teleprompter
         {
             bool visible = chkHighlightbandVisible.Checked;
             pending.HighlightBandVisible = visible;
-            grpHighlightBandSettings.Enabled = visible;
             preview.ApplyHighlightVisible(visible);
         }
 
@@ -271,6 +280,63 @@ namespace Teleprompter
             int distanceFromTop = trkHighlightbandDistanceFromTop.Value;
             pending.HighlightBandDistanceFromTop = distanceFromTop;
             preview.ApplyHighlightTop(distanceFromTop);
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+            int thickness = 1;
+            Color borderColor = Color.Black;
+
+            using (var pen = new Pen(borderColor, thickness))
+            {
+                // Adjust rectangle so the full border is visible
+                Rectangle rect = new Rectangle(
+                    thickness / 2,
+                    thickness / 2,
+                    panel2.Width - thickness,
+                    panel2.Height - thickness);
+
+                e.Graphics.DrawRectangle(pen, rect);
+            }
+
+            using (var pen = new Pen(Color.Black, 1))
+            {
+                int y = lblTitle.Bottom + 2; // vertical position of the line
+                e.Graphics.DrawLine(pen, 0, y, panel2.Width, y);
+            }
+
+        }
+
+        private void chkTrigger_CheckedChanged(object sender, EventArgs e)
+        {
+            bool visible = chkTrigger.Checked;
+            pending.HighlightBandTriggerPointVisible = visible;
+            preview.ApplyHighlightBandTriggerPointVisible(visible);
+        }
+
+        private void btnTriggerPointColor_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new ColorDialog())
+            {
+                dlg.Color = pnlTriggerColor.BackColor; // start with current color
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // Update preview square
+                    pnlTriggerColor.BackColor = dlg.Color;
+
+                    // Convert to CSS color
+                    string css = ColorTranslator.ToHtml(dlg.Color);
+
+                    // Update pending settings
+                    pending.HighlightBandTriggerPointColor = css;
+
+                    // Live preview
+                    preview.ApplyHighlightBandTriggerPointColor(css);
+                }
+
+            }
         }
     }
 }

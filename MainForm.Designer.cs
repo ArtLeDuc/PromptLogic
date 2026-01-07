@@ -304,7 +304,7 @@
             this.Controls.Add(this.pnlCollapsed);
             this.Controls.Add(this.pnlControl);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "PromptLogic";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.pnlControl.ResumeLayout(false);

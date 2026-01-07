@@ -454,6 +454,9 @@ namespace Teleprompter
             ((ITeleprompterPreview)this).ApplyHighlightTriggerPoint(s.HighlightBandTriggerPoint);
             ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightBandDistanceFromTop);
 
+            ((ITeleprompterPreview)this).ApplyHighlightBandTriggerPointVisible(s.HighlightBandTriggerPointVisible);
+            ((ITeleprompterPreview)this).ApplyHighlightBandTriggerPointColor(s.HighlightBandTriggerPointColor);
+
         }
         private void btnLoadSampleScript_Click(object sender, EventArgs e)
         {

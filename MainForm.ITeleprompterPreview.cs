@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,7 +78,18 @@ namespace Teleprompter
 
         void ITeleprompterPreview.ApplyHighlightTriggerPoint(double triggerPoint)
         {
-            string js = $"setHighlightTriggerPoint({triggerPoint});";
+            string js = $"document.documentElement.style.setProperty('--trigger-point-top', '{triggerPoint}%');";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+
+        void ITeleprompterPreview.ApplyHighlightBandTriggerPointVisible(bool triggerVisible)
+        {
+            string js = $"document.documentElement.style.setProperty('--trigger-visible', '{(triggerVisible ? "block" : "none")}')";
+            webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+        void ITeleprompterPreview.ApplyHighlightBandTriggerPointColor(string color)
+        {
+            string js = $"document.documentElement.style.setProperty('--trigger-color', '{color}');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
         }
 
