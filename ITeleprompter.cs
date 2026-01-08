@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Teleprompter
 {
@@ -14,6 +15,5 @@ namespace Teleprompter
         void StopTeleprompter();
         void SetManualScrolling();
         void ExecuteScriptAsync(string script);
-
     }
 }

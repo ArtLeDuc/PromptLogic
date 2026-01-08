@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Teleprompter
 {
@@ -26,7 +27,7 @@ namespace Teleprompter
         void ApplyHighlightTriggerPoint(double triggerPoint);
         void ApplyHighlightBandTriggerPointVisible(bool triggerPoint);
         void ApplyHighlightBandTriggerPointColor(string color);
-
+        void ApplyMainBorderStyle(FormBorderStyle borderStyle);
         void ApplyAllSettings();
     }
 }

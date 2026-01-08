@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -91,6 +92,12 @@ namespace Teleprompter
         {
             string js = $"document.documentElement.style.setProperty('--trigger-color', '{color}');";
             webView.CoreWebView2.ExecuteScriptAsync(js);
+        }
+        void ITeleprompterPreview.ApplyMainBorderStyle(FormBorderStyle borderStyle)
+        {
+            this.FormBorderStyle = borderStyle;
+//            if (borderStyle == FormBorderStyle.None)
+//            else
         }
 
         void ITeleprompterPreview.ApplyHighlightLines(int lines)

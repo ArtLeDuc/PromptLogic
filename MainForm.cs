@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
@@ -63,6 +64,17 @@ namespace Teleprompter
                     this.Top = primary.Top + 50;
                 }
             }
+
+            var dragOverlay = new TransparentOverlay();
+            dragOverlay.Dock = DockStyle.Fill;
+            dragOverlay.BackColor = Color.Transparent;
+            dragOverlay.Visible = true;
+            dragOverlay.MouseDown += DragArea_MouseDown;
+            dragOverlay.OverlayMouseWheel += DragOverlay_OverlayMouseWheel;
+
+            this.Controls.Add(dragOverlay);
+            dragOverlay.BringToFront();
+
         }
         private async void InitializeWebView()
         {
@@ -462,5 +474,31 @@ namespace Teleprompter
         {
             SendNotesToWebView(SampleScripts.Default);
         }
+
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        private const int WM_NCLBUTTONDOWN = 0xA1;
+        private const int HTCAPTION = 0x2;
+
+        private void DragArea_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(this.Handle, WM_NCLBUTTONDOWN, (IntPtr)HTCAPTION, IntPtr.Zero);
+            }
+        }
+
+        private const int WM_MOUSEWHEEL = 0x020A;
+        private void DragOverlay_OverlayMouseWheel(object sender, MouseEventArgs e)
+        {
+            // Forward to WebView2
+            SendMessage(webView.Handle, WM_MOUSEWHEEL, (IntPtr)(e.Delta << 16), IntPtr.Zero);
+        }
+
     }
 }

@@ -50,9 +50,6 @@ namespace Teleprompter
             traScrollSpeed.Value = pending.ScrollSpeed;
             trkLineSpacing.Value = pending.LineSpacing;
             trkParagraphSpacing.Value = pending.ParagraphSpacing;
-            trkBreakSpacing1.Value = pending.BreakSpacing1;
-            trkBreakSpacing2.Value = pending.BreakSpacing2;
-            trkBreakSpacing3.Value = pending.BreakSpacing3;
             trkHighlightbandDistanceFromTop.Value = pending.HighlightBandDistanceFromTop;
             trkHighlightBandOpacity.Value = (int)(pending.HighlightBandOpacity * 100.0);
             pnlHighlightBandColor.BackColor = ColorTranslator.FromHtml(pending.HighlightBandColor);
@@ -78,6 +75,12 @@ namespace Teleprompter
             pnlTriggerColor.BackColor = ColorTranslator.FromHtml(pending.HighlightBandTriggerPointColor);
 
             chkHighlightbandVisible.Checked = pending.HighlightBandVisible;
+
+            radBorderless.CheckedChanged += radBorder_CheckChanged;
+            radNormalBorder.CheckedChanged += radBorder_CheckChanged;
+
+            radNormalBorder.Checked = pending.MainFormBorderStyle == FormBorderStyle.Sizable;
+            radBorderless.Checked = pending.MainFormBorderStyle == FormBorderStyle.None;
         }
 
         private void cmbFontName_SelectedIndexChanged(object sender, EventArgs e)
@@ -173,27 +176,6 @@ namespace Teleprompter
             pending.ParagraphSpacing = spacing;
             preview.ApplyParagraphSpacing(spacing);
 
-        }
-
-        private void trkBreakSpacing1_Scroll(object sender, EventArgs e)
-        {
-            int spacing = trkBreakSpacing1.Value;
-            pending.BreakSpacing1 = spacing;
-            preview.ApplyBreakSpacing1(spacing);
-        }
-
-        private void trkBreakSpacing2_Scroll(object sender, EventArgs e)
-        {
-            int spacing = trkBreakSpacing2.Value;
-            pending.BreakSpacing2 = spacing;
-            preview.ApplyBreakSpacing2(spacing);
-        }
-
-        private void trkBreakSpacing3_Scroll(object sender, EventArgs e)
-        {
-            int spacing = trkBreakSpacing3.Value;
-            pending.BreakSpacing3 = spacing;
-            preview.ApplyBreakSpacing3(spacing);
         }
 
         private void chkHighlightbandVisible_CheckedChanged(object sender, EventArgs e)
@@ -337,6 +319,25 @@ namespace Teleprompter
                 }
 
             }
+        }
+
+        private void radBorder_CheckChanged(object sender, EventArgs e)
+        {
+            var rb = (RadioButton)sender;
+            if (!rb.Checked)
+                return;
+
+            switch (rb.Name)
+            {
+                case "radBorderless":
+                    pending.MainFormBorderStyle = FormBorderStyle.None;
+                    break;
+                case "radNormalBorder":
+                    pending.MainFormBorderStyle = FormBorderStyle.Sizable;
+                    break;
+            }
+
+            preview.ApplyMainBorderStyle(pending.MainFormBorderStyle);
         }
     }
 }

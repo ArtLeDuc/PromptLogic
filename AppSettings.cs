@@ -40,7 +40,7 @@ namespace Teleprompter
         public int HighlightBandDistanceFromTop { get; set; } = 10;
         public bool HighlightBandTriggerPointVisible { get; set; } = false;
         public string HighlightBandTriggerPointColor { get; set; } = "#FF0000";
-
+        public FormBorderStyle MainFormBorderStyle { get; set; } = FormBorderStyle.Sizable;
         public AppSettings()
         {
 

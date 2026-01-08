@@ -31,6 +31,9 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnTextColor = new System.Windows.Forms.Button();
@@ -45,18 +48,12 @@
             this.pnlBackColor = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.trkBreakSpacing3 = new System.Windows.Forms.TrackBar();
             this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.trkBreakSpacing2 = new System.Windows.Forms.TrackBar();
-            this.label4 = new System.Windows.Forms.Label();
-            this.trkBreakSpacing1 = new System.Windows.Forms.TrackBar();
             this.label3 = new System.Windows.Forms.Label();
             this.trkParagraphSpacing = new System.Windows.Forms.TrackBar();
             this.trkLineSpacing = new System.Windows.Forms.TrackBar();
-            this.traScrollSpeed = new System.Windows.Forms.TrackBar();
             this.label8 = new System.Windows.Forms.Label();
+            this.traScrollSpeed = new System.Windows.Forms.TrackBar();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.pnlHighlightBandColor = new System.Windows.Forms.Panel();
             this.btnHighLightBandColor = new System.Windows.Forms.Button();
@@ -84,14 +81,8 @@
             this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.radBorderless = new System.Windows.Forms.RadioButton();
-            this.radNarrowBorder = new System.Windows.Forms.RadioButton();
             this.radNormalBorder = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radDarkTheme = new System.Windows.Forms.RadioButton();
-            this.radLightTheme = new System.Windows.Forms.RadioButton();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.lblTitle = new System.Windows.Forms.Label();
+            this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -99,9 +90,6 @@
             this.groupBox4.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).BeginInit();
@@ -115,8 +103,6 @@
             this.tabPage3.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
@@ -148,6 +134,35 @@
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.CausesValidation = false;
+            this.panel2.Controls.Add(this.lblTitle);
+            this.panel2.Controls.Add(this.tabControl1);
+            this.panel2.Controls.Add(this.btnApply);
+            this.panel2.Controls.Add(this.btnCancel);
+            this.panel2.Controls.Add(this.btnOk);
+            this.panel2.Location = new System.Drawing.Point(7, 7);
+            this.panel2.Margin = new System.Windows.Forms.Padding(7);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(319, 536);
+            this.panel2.TabIndex = 28;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.CausesValidation = false;
+            this.lblTitle.Enabled = false;
+            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(5, 5);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(55, 16);
+            this.lblTitle.TabIndex = 29;
+            this.lblTitle.Text = "Settings";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabControl1
             // 
@@ -289,8 +304,8 @@
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Controls.Add(this.traScrollSpeed);
             this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Controls.Add(this.traScrollSpeed);
             this.tabPage2.Location = new System.Drawing.Point(4, 46);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -300,90 +315,30 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.trkBreakSpacing3);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.trkBreakSpacing2);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.trkBreakSpacing1);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.trkParagraphSpacing);
             this.groupBox1.Controls.Add(this.trkLineSpacing);
             this.groupBox1.Location = new System.Drawing.Point(6, 91);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(268, 209);
+            this.groupBox1.Size = new System.Drawing.Size(268, 167);
             this.groupBox1.TabIndex = 31;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Spacing ";
             // 
-            // trkBreakSpacing3
-            // 
-            this.trkBreakSpacing3.Location = new System.Drawing.Point(93, 145);
-            this.trkBreakSpacing3.Maximum = 20;
-            this.trkBreakSpacing3.Name = "trkBreakSpacing3";
-            this.trkBreakSpacing3.Size = new System.Drawing.Size(157, 56);
-            this.trkBreakSpacing3.TabIndex = 14;
-            this.trkBreakSpacing3.Scroll += new System.EventHandler(this.trkBreakSpacing3_Scroll);
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 61);
+            this.label7.Location = new System.Drawing.Point(96, 123);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(71, 16);
             this.label7.TabIndex = 17;
             this.label7.Text = "Paragraph";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 154);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 16);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Break 3";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 123);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 16);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Break 2";
-            // 
-            // trkBreakSpacing2
-            // 
-            this.trkBreakSpacing2.Location = new System.Drawing.Point(93, 114);
-            this.trkBreakSpacing2.Maximum = 20;
-            this.trkBreakSpacing2.Name = "trkBreakSpacing2";
-            this.trkBreakSpacing2.Size = new System.Drawing.Size(157, 56);
-            this.trkBreakSpacing2.TabIndex = 12;
-            this.trkBreakSpacing2.Scroll += new System.EventHandler(this.trkBreakSpacing2_Scroll);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 92);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 16);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Break 1";
-            // 
-            // trkBreakSpacing1
-            // 
-            this.trkBreakSpacing1.Location = new System.Drawing.Point(93, 83);
-            this.trkBreakSpacing1.Maximum = 20;
-            this.trkBreakSpacing1.Name = "trkBreakSpacing1";
-            this.trkBreakSpacing1.Size = new System.Drawing.Size(157, 56);
-            this.trkBreakSpacing1.TabIndex = 10;
-            this.trkBreakSpacing1.Scroll += new System.EventHandler(this.trkBreakSpacing1_Scroll);
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 29);
+            this.label3.Location = new System.Drawing.Point(114, 61);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 16);
             this.label3.TabIndex = 9;
@@ -391,40 +346,40 @@
             // 
             // trkParagraphSpacing
             // 
-            this.trkParagraphSpacing.Location = new System.Drawing.Point(93, 52);
+            this.trkParagraphSpacing.Location = new System.Drawing.Point(12, 83);
             this.trkParagraphSpacing.Maximum = 40;
             this.trkParagraphSpacing.Minimum = 5;
             this.trkParagraphSpacing.Name = "trkParagraphSpacing";
-            this.trkParagraphSpacing.Size = new System.Drawing.Size(157, 56);
+            this.trkParagraphSpacing.Size = new System.Drawing.Size(250, 56);
             this.trkParagraphSpacing.TabIndex = 16;
             this.trkParagraphSpacing.Value = 5;
             this.trkParagraphSpacing.Scroll += new System.EventHandler(this.trkParagraphSpacing_Scroll);
             // 
             // trkLineSpacing
             // 
-            this.trkLineSpacing.Location = new System.Drawing.Point(93, 21);
+            this.trkLineSpacing.Location = new System.Drawing.Point(12, 21);
             this.trkLineSpacing.Maximum = 20;
             this.trkLineSpacing.Name = "trkLineSpacing";
-            this.trkLineSpacing.Size = new System.Drawing.Size(157, 56);
+            this.trkLineSpacing.Size = new System.Drawing.Size(250, 56);
             this.trkLineSpacing.TabIndex = 8;
             this.trkLineSpacing.Scroll += new System.EventHandler(this.trkLineSpacing_Scroll);
-            // 
-            // traScrollSpeed
-            // 
-            this.traScrollSpeed.Location = new System.Drawing.Point(99, 16);
-            this.traScrollSpeed.Maximum = 100;
-            this.traScrollSpeed.Name = "traScrollSpeed";
-            this.traScrollSpeed.Size = new System.Drawing.Size(157, 56);
-            this.traScrollSpeed.TabIndex = 20;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(15, 25);
+            this.label8.Location = new System.Drawing.Point(95, 56);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(85, 16);
             this.label8.TabIndex = 21;
             this.label8.Text = "Scroll Speed";
+            // 
+            // traScrollSpeed
+            // 
+            this.traScrollSpeed.Location = new System.Drawing.Point(18, 16);
+            this.traScrollSpeed.Maximum = 100;
+            this.traScrollSpeed.Name = "traScrollSpeed";
+            this.traScrollSpeed.Size = new System.Drawing.Size(256, 56);
+            this.traScrollSpeed.TabIndex = 20;
             // 
             // tabPage4
             // 
@@ -661,7 +616,6 @@
             this.tabPage3.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.groupBox5);
-            this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Location = new System.Drawing.Point(4, 46);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(294, 418);
@@ -673,7 +627,7 @@
             this.groupBox6.Controls.Add(this.chkMirrorText);
             this.groupBox6.Controls.Add(this.chkNonActivating);
             this.groupBox6.Controls.Add(this.chkAlwaysOnTop);
-            this.groupBox6.Location = new System.Drawing.Point(39, 239);
+            this.groupBox6.Location = new System.Drawing.Point(39, 136);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(200, 110);
             this.groupBox6.TabIndex = 32;
@@ -713,11 +667,10 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.radBorderless);
-            this.groupBox5.Controls.Add(this.radNarrowBorder);
             this.groupBox5.Controls.Add(this.radNormalBorder);
             this.groupBox5.Location = new System.Drawing.Point(39, 17);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(200, 127);
+            this.groupBox5.Size = new System.Drawing.Size(200, 98);
             this.groupBox5.TabIndex = 28;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Teleprompter Display Mode (When Running)";
@@ -725,24 +678,13 @@
             // radBorderless
             // 
             this.radBorderless.AutoSize = true;
-            this.radBorderless.Location = new System.Drawing.Point(44, 93);
+            this.radBorderless.Location = new System.Drawing.Point(44, 66);
             this.radBorderless.Name = "radBorderless";
             this.radBorderless.Size = new System.Drawing.Size(94, 20);
             this.radBorderless.TabIndex = 2;
             this.radBorderless.TabStop = true;
             this.radBorderless.Text = "Borderless";
             this.radBorderless.UseVisualStyleBackColor = true;
-            // 
-            // radNarrowBorder
-            // 
-            this.radNarrowBorder.AutoSize = true;
-            this.radNarrowBorder.Location = new System.Drawing.Point(44, 66);
-            this.radNarrowBorder.Name = "radNarrowBorder";
-            this.radNarrowBorder.Size = new System.Drawing.Size(114, 20);
-            this.radNarrowBorder.TabIndex = 1;
-            this.radNarrowBorder.TabStop = true;
-            this.radNarrowBorder.Text = "Narrow border";
-            this.radNarrowBorder.UseVisualStyleBackColor = true;
             // 
             // radNormalBorder
             // 
@@ -754,68 +696,6 @@
             this.radNormalBorder.TabStop = true;
             this.radNormalBorder.Text = "Normal border";
             this.radNormalBorder.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.radDarkTheme);
-            this.groupBox3.Controls.Add(this.radLightTheme);
-            this.groupBox3.Location = new System.Drawing.Point(39, 150);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 86);
-            this.groupBox3.TabIndex = 27;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = " Theme ";
-            // 
-            // radDarkTheme
-            // 
-            this.radDarkTheme.AutoSize = true;
-            this.radDarkTheme.Location = new System.Drawing.Point(44, 50);
-            this.radDarkTheme.Name = "radDarkTheme";
-            this.radDarkTheme.Size = new System.Drawing.Size(57, 20);
-            this.radDarkTheme.TabIndex = 21;
-            this.radDarkTheme.TabStop = true;
-            this.radDarkTheme.Text = "Dark";
-            this.radDarkTheme.UseVisualStyleBackColor = true;
-            // 
-            // radLightTheme
-            // 
-            this.radLightTheme.AutoSize = true;
-            this.radLightTheme.Location = new System.Drawing.Point(44, 21);
-            this.radLightTheme.Name = "radLightTheme";
-            this.radLightTheme.Size = new System.Drawing.Size(56, 20);
-            this.radLightTheme.TabIndex = 20;
-            this.radLightTheme.TabStop = true;
-            this.radLightTheme.Text = "Light";
-            this.radLightTheme.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.CausesValidation = false;
-            this.panel2.Controls.Add(this.lblTitle);
-            this.panel2.Controls.Add(this.tabControl1);
-            this.panel2.Controls.Add(this.btnApply);
-            this.panel2.Controls.Add(this.btnCancel);
-            this.panel2.Controls.Add(this.btnOk);
-            this.panel2.Location = new System.Drawing.Point(7, 7);
-            this.panel2.Margin = new System.Windows.Forms.Padding(7);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(319, 536);
-            this.panel2.TabIndex = 28;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
-            // 
-            // lblTitle
-            // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.CausesValidation = false;
-            this.lblTitle.Enabled = false;
-            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.Location = new System.Drawing.Point(5, 5);
-            this.lblTitle.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(55, 16);
-            this.lblTitle.TabIndex = 29;
-            this.lblTitle.Text = "Settings";
-            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Settings
             // 
@@ -834,6 +714,8 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Settings";
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -844,9 +726,6 @@
             this.tabPage2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkBreakSpacing1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).EndInit();
@@ -865,10 +744,6 @@
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -878,66 +753,56 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button btnTextColor;
         private System.Windows.Forms.Button btnBackgroundColor;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TrackBar traScrollSpeed;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.RadioButton radBorderless;
-        private System.Windows.Forms.RadioButton radNarrowBorder;
-        private System.Windows.Forms.RadioButton radNormalBorder;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RadioButton radDarkTheme;
-        private System.Windows.Forms.RadioButton radLightTheme;
         private System.Windows.Forms.NumericUpDown numFontSize;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbFontName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Panel pnlTextColor;
+        private System.Windows.Forms.Panel pnlBackColor;
+        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TrackBar trkBreakSpacing3;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TrackBar trkBreakSpacing2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TrackBar trkBreakSpacing1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TrackBar trkParagraphSpacing;
         private System.Windows.Forms.TrackBar trkLineSpacing;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.CheckBox chkMirrorText;
-        private System.Windows.Forms.CheckBox chkNonActivating;
-        private System.Windows.Forms.CheckBox chkAlwaysOnTop;
-        private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Panel pnlTextColor;
-        private System.Windows.Forms.Panel pnlBackColor;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TrackBar traScrollSpeed;
         private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.CheckBox chkHighlightbandVisible;
-        private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Panel pnlHighlightBandColor;
         private System.Windows.Forms.Button btnHighLightBandColor;
-        private System.Windows.Forms.TrackBar trkHighlightBandOpacity;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TrackBar trkHighlightbandDistanceFromTop;
+        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.NumericUpDown numHighLightBandLinesCustom;
         private System.Windows.Forms.RadioButton radHighLightBandCustom;
         private System.Windows.Forms.RadioButton radHighLightBand5Lines;
         private System.Windows.Forms.RadioButton radHighLightBand3Lines;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox chkHighlightbandVisible;
+        private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.Panel pnlTriggerColor;
         private System.Windows.Forms.Button btnTriggerPointColor;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox chkTrigger;
         private System.Windows.Forms.TrackBar trkHighLightBandTriggerOffset;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.TrackBar trkHighlightbandDistanceFromTop;
+        private System.Windows.Forms.TrackBar trkHighlightBandOpacity;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.CheckBox chkMirrorText;
+        private System.Windows.Forms.CheckBox chkNonActivating;
+        private System.Windows.Forms.CheckBox chkAlwaysOnTop;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton radBorderless;
+        private System.Windows.Forms.RadioButton radNormalBorder;
     }
 }
