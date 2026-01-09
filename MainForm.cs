@@ -71,10 +71,10 @@ namespace Teleprompter
             dragOverlay.Visible = true;
             dragOverlay.MouseDown += DragArea_MouseDown;
             dragOverlay.OverlayMouseWheel += DragOverlay_OverlayMouseWheel;
+            dragOverlay.RightClickRequested += pos => ShowContextMenu(pos);
 
             this.Controls.Add(dragOverlay);
             dragOverlay.BringToFront();
-
         }
         private async void InitializeWebView()
         {
@@ -92,6 +92,41 @@ namespace Teleprompter
             };
 
             await webView.EnsureCoreWebView2Async();
+        }
+
+        private void ShowContextMenu(System.Drawing.Point screenPos)
+        {
+            var menu = new ContextMenuStrip();
+
+            menu.Items.Add("Connect", null, (_, __) => ConnectSlideShow());
+
+            if (!isStopped)
+            {
+                if (isPaused)
+                    menu.Items.Add("Resume", null, (_, __) => PauseSlideShow());
+                else
+                    menu.Items.Add("Pause", null, (_, __) => PauseSlideShow());
+                menu.Items.Add("Stop", null, (_, __) => StopSlideShow());
+            }
+            else
+            {
+                menu.Items.Add("Start", null, (_, __) => StartSlideShow());
+                menu.Items.Add("Settings", null, (_, __) => OpenSettings());
+//                menu.Items.Add("Reload Slides", null, (_, __) => ReloadSlides());
+            }
+            menu.Items.Add(new ToolStripSeparator());
+
+            if (!pnlCollapsed.Visible && !pnlControl.Visible)
+                menu.Items.Add("Show Control Panel", null, (_, __) => ((ITeleprompterPreview)this).ApplyShowControlSidebar(true));
+            else 
+                menu.Items.Add("Hide Control Panel", null, (_, __) => ((ITeleprompterPreview)this).ApplyShowControlSidebar(false));
+
+            menu.Items.Add(new ToolStripSeparator());
+
+            menu.Items.Add("Close", null, (_, __) => Close());
+
+            this.Activate();
+            menu.Show(screenPos);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -143,8 +178,8 @@ namespace Teleprompter
         {
             get
             {
-                const int WS_EX_NOACTIVATE = 0x08000000;
                 const int WS_EX_TOPMOST = 0x00000008;
+                const int WS_EX_NOACTIVATE = 0x08000000;
 
                 CreateParams cp = base.CreateParams;
                 cp.ExStyle |= WS_EX_NOACTIVATE | WS_EX_TOPMOST;
@@ -469,7 +504,10 @@ namespace Teleprompter
             ((ITeleprompterPreview)this).ApplyHighlightBandTriggerPointVisible(s.HighlightBandTriggerPointVisible);
             ((ITeleprompterPreview)this).ApplyHighlightBandTriggerPointColor(s.HighlightBandTriggerPointColor);
 
+            ((ITeleprompterPreview)this).ApplyMainBorderStyle(s.MainFormBorderStyle);
+            ((ITeleprompterPreview)this).ApplyShowControlSidebar(s.ShowControlSidebar);
         }
+
         private void btnLoadSampleScript_Click(object sender, EventArgs e)
         {
             SendNotesToWebView(SampleScripts.Default);

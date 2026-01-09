@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using System.Diagnostics.Eventing.Reader;
 
 
 namespace Teleprompter
@@ -41,6 +42,7 @@ namespace Teleprompter
         public bool HighlightBandTriggerPointVisible { get; set; } = false;
         public string HighlightBandTriggerPointColor { get; set; } = "#FF0000";
         public FormBorderStyle MainFormBorderStyle { get; set; } = FormBorderStyle.Sizable;
+        public bool ShowControlSidebar { get; set; } = true;
         public AppSettings()
         {
 
@@ -72,6 +74,8 @@ namespace Teleprompter
             HighlightBandDistanceFromTop = other.HighlightBandDistanceFromTop;
             HighlightBandTriggerPointVisible = other.HighlightBandTriggerPointVisible;
             HighlightBandTriggerPointColor = other.HighlightBandTriggerPointColor;
+            MainFormBorderStyle = other.MainFormBorderStyle;
+            ShowControlSidebar = other.ShowControlSidebar;
     }
 }
 

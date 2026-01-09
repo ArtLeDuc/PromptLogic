@@ -28,6 +28,7 @@ namespace Teleprompter
         void ApplyHighlightBandTriggerPointVisible(bool triggerPoint);
         void ApplyHighlightBandTriggerPointColor(string color);
         void ApplyMainBorderStyle(FormBorderStyle borderStyle);
+        void ApplyShowControlSidebar(bool showControlSidebar);
         void ApplyAllSettings();
     }
 }

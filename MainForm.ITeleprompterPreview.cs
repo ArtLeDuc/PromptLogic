@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -120,5 +121,23 @@ namespace Teleprompter
         {
             ApplyAllSettings(); // calls your private MainForm method
         }
+
+        void ITeleprompterPreview.ApplyShowControlSidebar(bool bShowControlSidebar)
+        {
+            if (bShowControlSidebar)
+            {
+                if (SettingsManager.Settings.IsCollapsed == true)
+                    pnlCollapsed.Visible = true;
+                else
+                    pnlControl.Visible = true;
+
+            }
+            else
+            {
+                pnlControl.Visible = false;
+                pnlCollapsed.Visible = false;
+            }
+        }
+
     }
 }

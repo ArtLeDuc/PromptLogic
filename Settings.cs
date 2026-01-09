@@ -78,9 +78,18 @@ namespace Teleprompter
 
             radBorderless.CheckedChanged += radBorder_CheckChanged;
             radNormalBorder.CheckedChanged += radBorder_CheckChanged;
+            if (pending.MainFormBorderStyle == FormBorderStyle.None)
+            {
+                radBorderless.Checked = true;
+                radNormalBorder.Checked = false;
+            }
+            else
+            {
+                radBorderless.Checked = false;
+                radNormalBorder.Checked = true;
+            }
 
-            radNormalBorder.Checked = pending.MainFormBorderStyle == FormBorderStyle.Sizable;
-            radBorderless.Checked = pending.MainFormBorderStyle == FormBorderStyle.None;
+            chkShowControlSidebar.Checked = pending.ShowControlSidebar;
         }
 
         private void cmbFontName_SelectedIndexChanged(object sender, EventArgs e)
@@ -338,6 +347,13 @@ namespace Teleprompter
             }
 
             preview.ApplyMainBorderStyle(pending.MainFormBorderStyle);
+        }
+
+        private void chkShowControlSidebar_CheckedChanged(object sender, EventArgs e)
+        {
+            bool bShowControlBar = chkShowControlSidebar.Checked;
+            pending.ShowControlSidebar = bShowControlBar;
+            preview.ApplyShowControlSidebar(bShowControlBar);
         }
     }
 }

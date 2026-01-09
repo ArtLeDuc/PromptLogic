@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivationMode.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="ITeleprompter.cs" />
     <Compile Include="ITeleprompterPreview.cs" />

@@ -12,6 +12,9 @@ namespace Teleprompter
     public class TransparentOverlay : Control
     {
         public event MouseEventHandler OverlayMouseWheel;
+        public event Action<Point> RightClickRequested;
+
+
         public TransparentOverlay()
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
@@ -49,6 +52,7 @@ namespace Teleprompter
         private const int HTBOTTOM = 15;
         private const int HTBOTTOMLEFT = 16;
         private const int HTBOTTOMRIGHT = 17;
+        private const int WM_RBUTTONUP = 0x0205;
 
         protected override void WndProc(ref Message m)
         {
@@ -77,9 +81,15 @@ namespace Teleprompter
 
                 return;
             }
+            else if (m.Msg == WM_RBUTTONUP)
+            {
+                var pos = Cursor.Position;
+                RightClickRequested?.Invoke(pos);
+                return;
+
+            }
 
             base.WndProc(ref m);
         }
-
     }
 }

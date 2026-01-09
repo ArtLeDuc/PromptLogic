@@ -82,6 +82,7 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.radBorderless = new System.Windows.Forms.RadioButton();
             this.radNormalBorder = new System.Windows.Forms.RadioButton();
+            this.chkShowControlSidebar = new System.Windows.Forms.CheckBox();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -624,12 +625,13 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.chkShowControlSidebar);
             this.groupBox6.Controls.Add(this.chkMirrorText);
             this.groupBox6.Controls.Add(this.chkNonActivating);
             this.groupBox6.Controls.Add(this.chkAlwaysOnTop);
             this.groupBox6.Location = new System.Drawing.Point(39, 136);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(200, 110);
+            this.groupBox6.Size = new System.Drawing.Size(200, 154);
             this.groupBox6.TabIndex = 32;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = " Other Options ";
@@ -637,7 +639,7 @@
             // chkMirrorText
             // 
             this.chkMirrorText.AutoSize = true;
-            this.chkMirrorText.Location = new System.Drawing.Point(43, 79);
+            this.chkMirrorText.Location = new System.Drawing.Point(43, 117);
             this.chkMirrorText.Name = "chkMirrorText";
             this.chkMirrorText.Size = new System.Drawing.Size(86, 20);
             this.chkMirrorText.TabIndex = 34;
@@ -647,7 +649,7 @@
             // chkNonActivating
             // 
             this.chkNonActivating.AutoSize = true;
-            this.chkNonActivating.Location = new System.Drawing.Point(43, 52);
+            this.chkNonActivating.Location = new System.Drawing.Point(43, 90);
             this.chkNonActivating.Name = "chkNonActivating";
             this.chkNonActivating.Size = new System.Drawing.Size(115, 20);
             this.chkNonActivating.TabIndex = 33;
@@ -657,7 +659,7 @@
             // chkAlwaysOnTop
             // 
             this.chkAlwaysOnTop.AutoSize = true;
-            this.chkAlwaysOnTop.Location = new System.Drawing.Point(43, 25);
+            this.chkAlwaysOnTop.Location = new System.Drawing.Point(43, 63);
             this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
             this.chkAlwaysOnTop.Size = new System.Drawing.Size(120, 20);
             this.chkAlwaysOnTop.TabIndex = 32;
@@ -696,6 +698,17 @@
             this.radNormalBorder.TabStop = true;
             this.radNormalBorder.Text = "Normal border";
             this.radNormalBorder.UseVisualStyleBackColor = true;
+            // 
+            // chkShowControlSidebar
+            // 
+            this.chkShowControlSidebar.AutoSize = true;
+            this.chkShowControlSidebar.Location = new System.Drawing.Point(43, 37);
+            this.chkShowControlSidebar.Name = "chkShowControlSidebar";
+            this.chkShowControlSidebar.Size = new System.Drawing.Size(128, 20);
+            this.chkShowControlSidebar.TabIndex = 35;
+            this.chkShowControlSidebar.Text = "Show control bar";
+            this.chkShowControlSidebar.UseVisualStyleBackColor = true;
+            this.chkShowControlSidebar.CheckedChanged += new System.EventHandler(this.chkShowControlSidebar_CheckedChanged);
             // 
             // Settings
             // 
@@ -804,5 +817,6 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.RadioButton radBorderless;
         private System.Windows.Forms.RadioButton radNormalBorder;
+        private System.Windows.Forms.CheckBox chkShowControlSidebar;
     }
 }
