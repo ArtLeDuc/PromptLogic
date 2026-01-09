@@ -77,5 +77,13 @@ namespace Teleprompter
             );
 
         }
+
+        public void ScrollByWheel(int delta)
+        {
+            webView.CoreWebView2.ExecuteScriptAsync(
+                $"scrollByWheel({{ delta: {delta} }});"
+            );
+        }
+
     }
 }

@@ -8,9 +8,10 @@ let scrolling = false;
 let line = 0;
 let bandGeometry = null;
 let geometry = null;
+let manualScrollPos = 0;
 function loadNotes(text) {
     let dataParent = "";
-
+    manualScrollPos = 0;
     const el = document.getElementById("content");
     if (!el) return;
 
@@ -278,30 +279,6 @@ function startTeleprompter() {
     });
 }
 
-/*
-function updateDebugBandBottom(bandGeometry) {
-    const dbg = document.getElementById("debugBandBottom");
-    if (!dbg) return;
-
-    dbg.style.top = `${bandGeometry.bandBottom}px`;
-    console.log("dbg line top =", dbg.style.top);
-}
-
-function ensureDebugLine() {
-    let dbg = document.getElementById("debugBandBottom");
-    if (!dbg) {
-        dbg = document.createElement("div");
-        dbg.id = "debugBandBottom";
-        document.getElementById("content").appendChild(dbg);
-    }
-    dbg.style.position = "absolute";
-    dbg.style.left = "0";
-    dbg.style.width = "100%";
-    dbg.style.height = "2px";
-    dbg.style.background = "red";
-    dbg.style.pointerEvents = "none"; // so it never interferes
-}
-*/
 
 function triggerCommand(cmd) {
     switch (cmd.command) {
@@ -322,6 +299,15 @@ function triggerCommand(cmd) {
     }
 }
 
+function scrollByWheel(delta) {
+    const scaled = delta.delta * 0.05
+    manualScrollPos -= scaled;
+
+    const content = document.getElementById("content");
+    if (content) {
+        content.style.transform = `translateY(${-manualScrollPos}px)`;
+    }
+}
 function checkCommands() {
     for (let cmd of commands) {
         if (cmd.lineIndex === line && !cmd.fired) {

@@ -97,8 +97,6 @@ namespace Teleprompter
         void ITeleprompterPreview.ApplyMainBorderStyle(FormBorderStyle borderStyle)
         {
             this.FormBorderStyle = borderStyle;
-//            if (borderStyle == FormBorderStyle.None)
-//            else
         }
 
         void ITeleprompterPreview.ApplyHighlightLines(int lines)

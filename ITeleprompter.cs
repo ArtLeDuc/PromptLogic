@@ -14,6 +14,7 @@ namespace Teleprompter
         void PauseTeleprompter();
         void StopTeleprompter();
         void SetManualScrolling();
+        void ScrollByWheel(int delta);
         void ExecuteScriptAsync(string script);
     }
 }

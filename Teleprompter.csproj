@@ -78,6 +78,7 @@
     <Compile Include="MainForm.ITeleprompterPreview.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="PowerPointSlideController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

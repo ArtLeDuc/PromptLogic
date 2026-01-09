@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using static Teleprompter.TransparentOverlay;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
@@ -31,6 +32,7 @@ namespace Teleprompter
         private SlideEngine _selectedEngine;
         const string _htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
         private Settings settingsWindow;
+        private TransparentOverlay dragOverlay = null;
 
         public MainForm()
         {
@@ -65,16 +67,19 @@ namespace Teleprompter
                 }
             }
 
-            var dragOverlay = new TransparentOverlay();
+
+            dragOverlay = new TransparentOverlay();
             dragOverlay.Dock = DockStyle.Fill;
             dragOverlay.BackColor = Color.Transparent;
             dragOverlay.Visible = true;
             dragOverlay.MouseDown += DragArea_MouseDown;
             dragOverlay.OverlayMouseWheel += DragOverlay_OverlayMouseWheel;
             dragOverlay.RightClickRequested += pos => ShowContextMenu(pos);
+            dragOverlay.TargetForm = this;
 
             this.Controls.Add(dragOverlay);
             dragOverlay.BringToFront();
+            
         }
         private async void InitializeWebView()
         {
@@ -513,29 +518,25 @@ namespace Teleprompter
             SendNotesToWebView(SampleScripts.Default);
         }
 
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-
-        private const int WM_NCLBUTTONDOWN = 0xA1;
-        private const int HTCAPTION = 0x2;
-
         private void DragArea_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(this.Handle, WM_NCLBUTTONDOWN, (IntPtr)HTCAPTION, IntPtr.Zero);
-            }
+            if (e.Button != MouseButtons.Left)
+                return;
+
+            // Ask the overlay if we're on a resize edge
+            var edge = dragOverlay.GetResizeEdge(e.Location);
+            if (edge != ResizeEdge.None)
+                return;
+
+            NativeMethods.ReleaseCapture();
+            NativeMethods.SendMessage(this.Handle, NativeMethods.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HTCAPTION, IntPtr.Zero);
         }
 
-        private const int WM_MOUSEWHEEL = 0x020A;
         private void DragOverlay_OverlayMouseWheel(object sender, MouseEventArgs e)
         {
-            // Forward to WebView2
-            SendMessage(webView.Handle, WM_MOUSEWHEEL, (IntPtr)(e.Delta << 16), IntPtr.Zero);
+            int delta = e.Delta; // -120 or +120
+
+            ScrollByWheel(delta);
         }
 
     }
