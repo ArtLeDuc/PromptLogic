@@ -3,6 +3,7 @@ Thanks for your interest in contributing to PromptLogic!
 This project is built on clarity, modularity, and teachability — and contributions that align with those values are especially welcome.
 Whether you’re reporting a bug, suggesting a feature, improving documentation, or exploring the architecture, this guide will help you get started.
 
+---
 ## Ways to Contribute
 ### Bug Reports<br>If something isn’t working as expected:
   - Open an Issue using the Bug Report template
@@ -55,9 +56,10 @@ If you’re exploring the codebase early, feel free to open a Discussion to talk
 - Ensure UI changes maintain clarity and hierarchy<br>If you’re unsure how to test something, ask in Discussions.
 ---
 ## Code of Conduct
-All contributors are expected to follow the project’s Code of Conduct.
-Please review the project's Code of Conduct before participating.
-See CODE_OF_CONDUCT.md for details.
+All contributors are expected to follow the project’s Code of Conduct.<br>
+Please review the project's Code of Conduct before participating.<br>
+See [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.
+
 ---
 ## Thank You
 PromptLogic is a community‑driven tool built for creators, educators, and performers.<br>
