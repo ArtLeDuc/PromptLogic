@@ -76,13 +76,23 @@
             this.trkHighlightBandOpacity = new System.Windows.Forms.TrackBar();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.chkShowControlSidebar = new System.Windows.Forms.CheckBox();
             this.chkMirrorText = new System.Windows.Forms.CheckBox();
             this.chkNonActivating = new System.Windows.Forms.CheckBox();
             this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.radBorderless = new System.Windows.Forms.RadioButton();
             this.radNormalBorder = new System.Windows.Forms.RadioButton();
-            this.chkShowControlSidebar = new System.Windows.Forms.CheckBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
+            this.lblCopyright = new System.Windows.Forms.Label();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -104,6 +114,8 @@
             this.tabPage3.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
@@ -171,6 +183,8 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Location = new System.Drawing.Point(8, 25);
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
@@ -307,10 +321,10 @@
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.label8);
             this.tabPage2.Controls.Add(this.traScrollSpeed);
-            this.tabPage2.Location = new System.Drawing.Point(4, 46);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(294, 418);
+            this.tabPage2.Size = new System.Drawing.Size(294, 439);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Timing";
             // 
@@ -394,10 +408,10 @@
             this.tabPage4.Controls.Add(this.groupBox7);
             this.tabPage4.Controls.Add(this.trkHighlightbandDistanceFromTop);
             this.tabPage4.Controls.Add(this.trkHighlightBandOpacity);
-            this.tabPage4.Location = new System.Drawing.Point(4, 46);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(294, 418);
+            this.tabPage4.Size = new System.Drawing.Size(294, 439);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Highlight Band";
             // 
@@ -636,6 +650,17 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = " Other Options ";
             // 
+            // chkShowControlSidebar
+            // 
+            this.chkShowControlSidebar.AutoSize = true;
+            this.chkShowControlSidebar.Location = new System.Drawing.Point(43, 37);
+            this.chkShowControlSidebar.Name = "chkShowControlSidebar";
+            this.chkShowControlSidebar.Size = new System.Drawing.Size(128, 20);
+            this.chkShowControlSidebar.TabIndex = 35;
+            this.chkShowControlSidebar.Text = "Show control bar";
+            this.chkShowControlSidebar.UseVisualStyleBackColor = true;
+            this.chkShowControlSidebar.CheckedChanged += new System.EventHandler(this.chkShowControlSidebar_CheckedChanged);
+            // 
             // chkMirrorText
             // 
             this.chkMirrorText.AutoSize = true;
@@ -699,16 +724,124 @@
             this.radNormalBorder.Text = "Normal border";
             this.radNormalBorder.UseVisualStyleBackColor = true;
             // 
-            // chkShowControlSidebar
+            // tabPage5
             // 
-            this.chkShowControlSidebar.AutoSize = true;
-            this.chkShowControlSidebar.Location = new System.Drawing.Point(43, 37);
-            this.chkShowControlSidebar.Name = "chkShowControlSidebar";
-            this.chkShowControlSidebar.Size = new System.Drawing.Size(128, 20);
-            this.chkShowControlSidebar.TabIndex = 35;
-            this.chkShowControlSidebar.Text = "Show control bar";
-            this.chkShowControlSidebar.UseVisualStyleBackColor = true;
-            this.chkShowControlSidebar.CheckedChanged += new System.EventHandler(this.chkShowControlSidebar_CheckedChanged);
+            this.tabPage5.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.tabPage5.Controls.Add(this.lblCopyright);
+            this.tabPage5.Controls.Add(this.lblDescription);
+            this.tabPage5.Controls.Add(this.label5);
+            this.tabPage5.Controls.Add(this.label4);
+            this.tabPage5.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.tabPage5.Location = new System.Drawing.Point(4, 46);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(294, 418);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "About";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label4.Location = new System.Drawing.Point(11, 29);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 25);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "PromptLogic";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label5.Location = new System.Drawing.Point(11, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(105, 25);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Version 1.0";
+            // 
+            // lblDescription
+            // 
+            this.lblDescription.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDescription.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblDescription.Location = new System.Drawing.Point(12, 95);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(269, 210);
+            this.lblDescription.TabIndex = 2;
+            this.lblDescription.Text = "A Windows‑native teleprompter engine built for clarity, control, and a clean work" +
+    "flow.\"";
+            this.lblDescription.UseCompatibleTextRendering = true;
+            this.lblDescription.UseMnemonic = false;
+            // 
+            // lblCopyright
+            // 
+            this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCopyright.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblCopyright.Location = new System.Drawing.Point(3, 392);
+            this.lblCopyright.Name = "lblCopyright";
+            this.lblCopyright.Size = new System.Drawing.Size(288, 26);
+            this.lblCopyright.TabIndex = 4;
+            this.lblCopyright.Text = "© 2026 Vermont Creative Technologies.";
+            this.lblCopyright.UseCompatibleTextRendering = true;
+            this.lblCopyright.UseMnemonic = false;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.tabPage6.Controls.Add(this.label14);
+            this.tabPage6.Controls.Add(this.button1);
+            this.tabPage6.Controls.Add(this.label13);
+            this.tabPage6.Controls.Add(this.label6);
+            this.tabPage6.Location = new System.Drawing.Point(4, 46);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(294, 418);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Support";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label6.Location = new System.Drawing.Point(7, 14);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(194, 25);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Support PromptLogic";
+            // 
+            // label13
+            // 
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label13.Location = new System.Drawing.Point(12, 50);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(269, 52);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "If you find this tool helpful, you can support development here:";
+            this.label13.UseCompatibleTextRendering = true;
+            this.label13.UseMnemonic = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(45, 105);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(183, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Buy Me A Coffee";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label14.Location = new System.Drawing.Point(12, 167);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(269, 52);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Feedback, ideas, or bug reports:";
+            this.label14.UseCompatibleTextRendering = true;
+            this.label14.UseMnemonic = false;
             // 
             // Settings
             // 
@@ -757,6 +890,10 @@
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -818,5 +955,15 @@
         private System.Windows.Forms.RadioButton radBorderless;
         private System.Windows.Forms.RadioButton radNormalBorder;
         private System.Windows.Forms.CheckBox chkShowControlSidebar;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblCopyright;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label13;
     }
 }

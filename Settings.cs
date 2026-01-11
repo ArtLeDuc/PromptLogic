@@ -90,6 +90,9 @@ namespace Teleprompter
             }
 
             chkShowControlSidebar.Checked = pending.ShowControlSidebar;
+
+            lblDescription.Text = "A Windows‑native teleprompter engine built for clarity, control, and a clean workflow.\r\nLocal‑first, predictable, and modular—designed for creators and educators.";
+            lblCopyright.Text = "© 2026 Vermont Creative Technologies.";
         }
 
         private void cmbFontName_SelectedIndexChanged(object sender, EventArgs e)
