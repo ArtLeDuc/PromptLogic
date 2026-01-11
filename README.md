@@ -36,7 +36,7 @@ Contributions are welcome — from bug reports to feature ideas to architectural
 Before contributing, please read:
   - [CONTRIBUTING.md](CONTRIBUTING.md)
   - [SUPPORT.md](.github/SUPPORT.md) for how to get help
-  - Issue templates for structured reports<br>
+  - [Issue templates](https://github.com/<your-username>/ArtLeDuc/issues/new/choose) for structured reports<br>
 PromptLogic values clarity, modularity, and predictable behavior.<br>
 Contributions that align with these principles are especially appreciated.
 ---
