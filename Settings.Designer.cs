@@ -84,15 +84,20 @@
             this.radBorderless = new System.Windows.Forms.RadioButton();
             this.radNormalBorder = new System.Windows.Forms.RadioButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.lblDescription = new System.Windows.Forms.Label();
             this.lblCopyright = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -179,6 +184,7 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
@@ -199,10 +205,10 @@
             this.tabPage1.Controls.Add(this.btnBackgroundColor);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Location = new System.Drawing.Point(4, 46);
+            this.tabPage1.Location = new System.Drawing.Point(4, 55);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(294, 418);
+            this.tabPage1.Size = new System.Drawing.Size(294, 409);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Appearance";
             // 
@@ -321,10 +327,10 @@
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.label8);
             this.tabPage2.Controls.Add(this.traScrollSpeed);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 28);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(294, 439);
+            this.tabPage2.Size = new System.Drawing.Size(294, 436);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Timing";
             // 
@@ -408,10 +414,10 @@
             this.tabPage4.Controls.Add(this.groupBox7);
             this.tabPage4.Controls.Add(this.trkHighlightbandDistanceFromTop);
             this.tabPage4.Controls.Add(this.trkHighlightBandOpacity);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Location = new System.Drawing.Point(4, 28);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(294, 439);
+            this.tabPage4.Size = new System.Drawing.Size(294, 436);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Highlight Band";
             // 
@@ -631,9 +637,9 @@
             this.tabPage3.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.groupBox5);
-            this.tabPage3.Location = new System.Drawing.Point(4, 46);
+            this.tabPage3.Location = new System.Drawing.Point(4, 55);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(294, 418);
+            this.tabPage3.Size = new System.Drawing.Size(294, 409);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Window";
             // 
@@ -727,38 +733,29 @@
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.tabPage5.Controls.Add(this.linkLabel1);
             this.tabPage5.Controls.Add(this.lblCopyright);
             this.tabPage5.Controls.Add(this.lblDescription);
             this.tabPage5.Controls.Add(this.label5);
             this.tabPage5.Controls.Add(this.label4);
             this.tabPage5.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.tabPage5.Location = new System.Drawing.Point(4, 46);
+            this.tabPage5.Location = new System.Drawing.Point(4, 55);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(294, 418);
+            this.tabPage5.Size = new System.Drawing.Size(294, 409);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "About";
             // 
-            // label4
+            // lblCopyright
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label4.Location = new System.Drawing.Point(11, 29);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(120, 25);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "PromptLogic";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label5.Location = new System.Drawing.Point(11, 60);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(105, 25);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Version 1.0";
+            this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCopyright.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblCopyright.Location = new System.Drawing.Point(12, 365);
+            this.lblCopyright.Name = "lblCopyright";
+            this.lblCopyright.Size = new System.Drawing.Size(288, 26);
+            this.lblCopyright.TabIndex = 4;
+            this.lblCopyright.Text = "© 2026 Vermont Creative Technologies, LLC";
+            this.lblCopyright.UseCompatibleTextRendering = true;
+            this.lblCopyright.UseMnemonic = false;
             // 
             // lblDescription
             // 
@@ -773,42 +770,67 @@
             this.lblDescription.UseCompatibleTextRendering = true;
             this.lblDescription.UseMnemonic = false;
             // 
-            // lblCopyright
+            // label5
             // 
-            this.lblCopyright.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCopyright.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lblCopyright.Location = new System.Drawing.Point(3, 392);
-            this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(288, 26);
-            this.lblCopyright.TabIndex = 4;
-            this.lblCopyright.Text = "© 2026 Vermont Creative Technologies.";
-            this.lblCopyright.UseCompatibleTextRendering = true;
-            this.lblCopyright.UseMnemonic = false;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label5.Location = new System.Drawing.Point(11, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(105, 25);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Version 1.0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label4.Location = new System.Drawing.Point(11, 29);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(120, 25);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "PromptLogic";
             // 
             // tabPage6
             // 
             this.tabPage6.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.tabPage6.Controls.Add(this.linkLabel4);
+            this.tabPage6.Controls.Add(this.linkLabel3);
+            this.tabPage6.Controls.Add(this.linkLabel2);
+            this.tabPage6.Controls.Add(this.label15);
             this.tabPage6.Controls.Add(this.label14);
             this.tabPage6.Controls.Add(this.button1);
             this.tabPage6.Controls.Add(this.label13);
             this.tabPage6.Controls.Add(this.label6);
-            this.tabPage6.Location = new System.Drawing.Point(4, 46);
+            this.tabPage6.Location = new System.Drawing.Point(4, 55);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(294, 418);
+            this.tabPage6.Size = new System.Drawing.Size(294, 409);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Support";
             // 
-            // label6
+            // label14
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label6.Location = new System.Drawing.Point(7, 14);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(194, 25);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Support PromptLogic";
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label14.Location = new System.Drawing.Point(12, 167);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(269, 27);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Need help with PromptLogic?";
+            this.label14.UseCompatibleTextRendering = true;
+            this.label14.UseMnemonic = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(45, 105);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(183, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Support PromptLogic";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label13
             // 
@@ -822,26 +844,69 @@
             this.label13.UseCompatibleTextRendering = true;
             this.label13.UseMnemonic = false;
             // 
-            // button1
+            // label6
             // 
-            this.button1.Location = new System.Drawing.Point(45, 105);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(183, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Buy Me A Coffee";
-            this.button1.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label6.Location = new System.Drawing.Point(7, 14);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(194, 25);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Support PromptLogic";
             // 
-            // label14
+            // linkLabel1
             // 
-            this.label14.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label14.Location = new System.Drawing.Point(12, 167);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(269, 52);
-            this.label14.TabIndex = 5;
-            this.label14.Text = "Feedback, ideas, or bug reports:";
-            this.label14.UseCompatibleTextRendering = true;
-            this.label14.UseMnemonic = false;
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(108, 391);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(72, 16);
+            this.linkLabel1.TabIndex = 5;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Web Page";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(12, 198);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(276, 52);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "You can find answers, report issues, and connect with the community using the lin" +
+    "ks below.";
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(33, 260);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(97, 16);
+            this.linkLabel2.TabIndex = 7;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "Documentation";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
+            // linkLabel3
+            // 
+            this.linkLabel3.AutoSize = true;
+            this.linkLabel3.Location = new System.Drawing.Point(33, 289);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(215, 16);
+            this.linkLabel3.TabIndex = 8;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "Report a Bug or Request a Feature";
+            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+            // 
+            // linkLabel4
+            // 
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.Location = new System.Drawing.Point(33, 318);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(149, 16);
+            this.linkLabel4.TabIndex = 9;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "Community Discussions";
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
             // 
             // Settings
             // 
@@ -849,7 +914,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(330, 548);
+            this.ClientSize = new System.Drawing.Size(332, 548);
             this.ControlBox = false;
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -965,5 +1030,10 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.LinkLabel linkLabel4;
+        private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.LinkLabel linkLabel2;
     }
 }

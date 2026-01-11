@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Text;
@@ -357,6 +358,33 @@ namespace Teleprompter
             bool bShowControlBar = chkShowControlSidebar.Checked;
             pending.ShowControlSidebar = bShowControlBar;
             preview.ApplyShowControlSidebar(bShowControlBar);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            // Open the URL in the default web browser
+            Process.Start("https://artleduc.github.io/PromptLogic");
+        
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://buymeacoffee.com/ArtLeDuc");
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://artleduc.github.io/PromptLogic");
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/artleduc/PromptLogic/issues");
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/artleduc/PromptLogic/discussions");
         }
     }
 }
