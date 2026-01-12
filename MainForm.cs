@@ -511,6 +511,11 @@ namespace Teleprompter
 
             ((ITeleprompterPreview)this).ApplyMainBorderStyle(s.MainFormBorderStyle);
             ((ITeleprompterPreview)this).ApplyShowControlSidebar(s.ShowControlSidebar);
+
+            ((ITeleprompterPreview)this).ApplyMirrorText(s.MirrorText);
+
+            ((ITeleprompterPreview)this).ApplyWindowStyles(s.AlwaysOnTop, s.NonActivating);
+
         }
 
         private void btnLoadSampleScript_Click(object sender, EventArgs e)
@@ -537,6 +542,41 @@ namespace Teleprompter
             int delta = e.Delta; // -120 or +120
 
             ScrollByWheel(delta);
+        }
+
+        private void ApplyMirror(bool enabled)
+        {
+            string value = enabled ? "-1" : "1";
+            webView.CoreWebView2.ExecuteScriptAsync(
+                $"document.body.style.transform = 'scaleX({value})';"
+            );
+        }
+
+        private void ApplyWindowStyles(bool topMost, bool noActivate)
+        {
+            int ex = (int)NativeMethods.GetWindowLongPtr(this.Handle, NativeMethods.GWL_EXSTYLE);
+
+            // TOPMOST
+            if (topMost)
+                ex |= NativeMethods.WS_EX_TOPMOST;
+            else
+                ex &= ~NativeMethods.WS_EX_TOPMOST;
+
+            // NOACTIVATE
+            if (noActivate)
+                ex |= NativeMethods.WS_EX_NOACTIVATE;
+            else
+                ex &= ~NativeMethods.WS_EX_NOACTIVATE;
+
+            NativeMethods.SetWindowLongPtr(this.Handle, GWL_EXSTYLE, (IntPtr)ex);
+
+            // Force Windows to re-evaluate the style
+            NativeMethods.SetWindowPos(
+                this.Handle,
+                topMost ? NativeMethods.HWND_TOPMOST : NativeMethods.HWND_NOTOPMOST,
+                0, 0, 0, 0,
+                NativeMethods.SWP_NOMOVE | NativeMethods.SWP_NOSIZE | NativeMethods.SWP_FRAMECHANGED
+            );
         }
 
     }

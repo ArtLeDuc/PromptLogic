@@ -30,6 +30,9 @@ public static class NativeMethods
     public const uint GW_OWNER = 4;
     public const uint GW_CHILD = 5;
 
+    public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+    public static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+
     // -----------------------------
     // GetWindowLong / GetWindowLongPtr
     // -----------------------------

@@ -47,7 +47,6 @@ namespace Teleprompter
             numFontSize.Value = pending.FontSize;
             pnlTextColor.BackColor = ColorTranslator.FromHtml(pending.TextColor);
             pnlBackColor.BackColor = ColorTranslator.FromHtml(pending.BackColor);
-            traScrollSpeed.Value = pending.ScrollSpeed;
             trkLineSpacing.Value = pending.LineSpacing;
             trkParagraphSpacing.Value = pending.ParagraphSpacing;
             trkHighlightbandDistanceFromTop.Value = pending.HighlightBandDistanceFromTop;
@@ -90,6 +89,10 @@ namespace Teleprompter
             }
 
             chkShowControlSidebar.Checked = pending.ShowControlSidebar;
+
+            chkMirrorText.Checked = pending.MirrorText;
+            chkAlwaysOnTop.Checked = pending.AlwaysOnTop;
+            chkNonActivating.Checked = pending.NonActivating;
 
             lblDescription.Text = "A Windows‑native teleprompter engine built for clarity, control, and a clean workflow.\r\nLocal‑first, predictable, and modular—designed for creators and educators.";
             lblCopyright.Text = "© 2026 Vermont Creative Technologies.";
@@ -400,6 +403,27 @@ namespace Teleprompter
             double offset = trkHighLightBandTriggerOffset.Value;
             pending.HighlightBandTriggerPoint = offset;
             preview.ApplyHighlightTriggerPoint(offset);
+        }
+
+        private void chkMirrorText_CheckedChanged(object sender, EventArgs e)
+        {
+            bool bMirror = chkMirrorText.Checked;
+            pending.MirrorText = bMirror;
+            preview.ApplyMirrorText(bMirror);
+        }
+
+        private void chkAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
+        {
+            bool AlwaysOnTop = chkAlwaysOnTop.Checked;
+            pending.AlwaysOnTop = AlwaysOnTop;
+            preview.ApplyWindowStyles(AlwaysOnTop, pending.NonActivating);
+        }
+
+        private void chkNonActivating_CheckedChanged(object sender, EventArgs e)
+        {
+            bool NonActivating = chkNonActivating.Checked;
+            pending.NonActivating = NonActivating;
+            preview.ApplyWindowStyles(pending.AlwaysOnTop, NonActivating);
         }
     }
 }

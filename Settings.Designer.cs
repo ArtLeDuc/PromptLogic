@@ -53,8 +53,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.trkParagraphSpacing = new System.Windows.Forms.TrackBar();
             this.trkLineSpacing = new System.Windows.Forms.TrackBar();
-            this.label8 = new System.Windows.Forms.Label();
-            this.traScrollSpeed = new System.Windows.Forms.TrackBar();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.pnlHighlightBandColor = new System.Windows.Forms.Panel();
             this.btnHighLightBandColor = new System.Windows.Forms.Button();
@@ -110,7 +108,6 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).BeginInit();
             this.tabPage4.SuspendLayout();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numHighLightBandLinesCustom)).BeginInit();
@@ -358,13 +355,11 @@
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Controls.Add(this.label8);
-            this.tabPage2.Controls.Add(this.traScrollSpeed);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 40);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(218, 354);
+            this.tabPage2.Size = new System.Drawing.Size(218, 336);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Timing";
             // 
@@ -374,7 +369,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.trkParagraphSpacing);
             this.groupBox1.Controls.Add(this.trkLineSpacing);
-            this.groupBox1.Location = new System.Drawing.Point(4, 74);
+            this.groupBox1.Location = new System.Drawing.Point(9, 14);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -425,25 +420,6 @@
             this.trkLineSpacing.TabIndex = 8;
             this.trkLineSpacing.Scroll += new System.EventHandler(this.trkLineSpacing_Scroll_1);
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(71, 46);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(67, 13);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "Scroll Speed";
-            // 
-            // traScrollSpeed
-            // 
-            this.traScrollSpeed.Location = new System.Drawing.Point(14, 13);
-            this.traScrollSpeed.Margin = new System.Windows.Forms.Padding(2);
-            this.traScrollSpeed.Maximum = 100;
-            this.traScrollSpeed.Name = "traScrollSpeed";
-            this.traScrollSpeed.Size = new System.Drawing.Size(192, 45);
-            this.traScrollSpeed.TabIndex = 20;
-            // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -456,11 +432,11 @@
             this.tabPage4.Controls.Add(this.groupBox7);
             this.tabPage4.Controls.Add(this.trkHighlightbandDistanceFromTop);
             this.tabPage4.Controls.Add(this.trkHighlightBandOpacity);
-            this.tabPage4.Location = new System.Drawing.Point(4, 40);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage4.Size = new System.Drawing.Size(218, 336);
+            this.tabPage4.Size = new System.Drawing.Size(218, 354);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Highlight Band";
             // 
@@ -745,6 +721,7 @@
             this.chkMirrorText.TabIndex = 34;
             this.chkMirrorText.Text = "Mirror text";
             this.chkMirrorText.UseVisualStyleBackColor = true;
+            this.chkMirrorText.CheckedChanged += new System.EventHandler(this.chkMirrorText_CheckedChanged);
             // 
             // chkNonActivating
             // 
@@ -756,6 +733,7 @@
             this.chkNonActivating.TabIndex = 33;
             this.chkNonActivating.Text = "Non-activating";
             this.chkNonActivating.UseVisualStyleBackColor = true;
+            this.chkNonActivating.CheckedChanged += new System.EventHandler(this.chkNonActivating_CheckedChanged);
             // 
             // chkAlwaysOnTop
             // 
@@ -767,6 +745,7 @@
             this.chkAlwaysOnTop.TabIndex = 32;
             this.chkAlwaysOnTop.Text = "Always On Top";
             this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
+            this.chkAlwaysOnTop.CheckedChanged += new System.EventHandler(this.chkAlwaysOnTop_CheckedChanged);
             // 
             // groupBox5
             // 
@@ -1025,12 +1004,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numFontSize)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkParagraphSpacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkLineSpacing)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.traScrollSpeed)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             this.groupBox8.ResumeLayout(false);
@@ -1078,8 +1055,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TrackBar trkParagraphSpacing;
         private System.Windows.Forms.TrackBar trkLineSpacing;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TrackBar traScrollSpeed;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Panel pnlHighlightBandColor;
         private System.Windows.Forms.Button btnHighLightBandColor;

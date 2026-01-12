@@ -43,6 +43,10 @@ namespace Teleprompter
         public string HighlightBandTriggerPointColor { get; set; } = "#FF0000";
         public FormBorderStyle MainFormBorderStyle { get; set; } = FormBorderStyle.Sizable;
         public bool ShowControlSidebar { get; set; } = true;
+        public bool MirrorText { get; set; } = false;
+        public bool AlwaysOnTop { get; set; } = false;
+        public bool NonActivating { get; set; } = false;
+
         public AppSettings()
         {
 
@@ -75,6 +79,9 @@ namespace Teleprompter
             HighlightBandTriggerPointVisible = other.HighlightBandTriggerPointVisible;
             HighlightBandTriggerPointColor = other.HighlightBandTriggerPointColor;
             MainFormBorderStyle = other.MainFormBorderStyle;
+            MirrorText = other.MirrorText;
+            AlwaysOnTop = other.AlwaysOnTop;
+            NonActivating = other.NonActivating;
             ShowControlSidebar = other.ShowControlSidebar;
     }
 }

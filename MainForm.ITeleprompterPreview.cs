@@ -136,6 +136,14 @@ namespace Teleprompter
                 pnlCollapsed.Visible = false;
             }
         }
+        void ITeleprompterPreview.ApplyMirrorText(bool mirrorText)
+        {
+            ApplyMirror(mirrorText);
+        }
 
+        void ITeleprompterPreview.ApplyWindowStyles(bool alwaysOnTop, bool nonActivating)
+        {
+            ApplyWindowStyles(alwaysOnTop, nonActivating);
+        }
     }
 }
