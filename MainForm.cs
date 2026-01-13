@@ -32,6 +32,9 @@ namespace Teleprompter
         private SlideEngine _selectedEngine;
         const string _htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
         private Settings settingsWindow;
+        private ScrollSpeed scrollSpeed;
+        private HighlightBand highlightBand;
+
         private TransparentOverlay dragOverlay = null;
 
         public MainForm()
@@ -140,9 +143,6 @@ namespace Teleprompter
 
             InitializeWebView();
         
-            double speedValue = SettingsManager.Settings.ScrollSpeed;
-            traSpeed.Value = (int)speedValue;
-
             this.FormClosing += MainForm_FormClosing;
 
             toolTip1.SetToolTip(btnCollapsedStart, "Start Text Scrolling");
@@ -153,7 +153,6 @@ namespace Teleprompter
             toolTip1.SetToolTip(btnCollapse, "Collapse control panel");
             toolTip1.SetToolTip(btnWebDebugger, "Start the browser debugger");
             toolTip1.SetToolTip(btnSettings, "Teleprompter Settings");
-            toolTip1.SetToolTip(traSpeed, "Adjust scrolling speed");
             toolTip1.SetToolTip(btnStop, "Stop Text scrolling resets to begining of the current text");
             toolTip1.SetToolTip(btnPause, "Pause/Resume text Scrolling");
             toolTip1.SetToolTip(btnStart, "Start Text Scrolling");
@@ -255,16 +254,6 @@ namespace Teleprompter
             LoadNotesForSlide(index);
             btnPause.Text = "Pause";
             isPaused = false;
-        }
-
-        private void traSpeed_ValueChanged(object sender, EventArgs e)
-        {
-            SettingsManager.Settings.ScrollSpeed = traSpeed.Value;
-            //The range wants to be between 0.01 and 1
-            double speed = (double)traSpeed.Value/100.0;
-            string jsSpeed = speed.ToString(CultureInfo.InvariantCulture);
-            webView.ExecuteScriptAsync($"setSpeed({jsSpeed});");
-
         }
 
         private void btnCollapse_Click(object sender, EventArgs e)
@@ -579,5 +568,96 @@ namespace Teleprompter
             );
         }
 
+        private void OpenSpeedSetting()
+        {
+            if (scrollSpeed == null || scrollSpeed.IsDisposed)
+            {
+                scrollSpeed = new ScrollSpeed(this);
+
+                // Sync with actual topmost state
+                scrollSpeed.TopMost = IsActuallyTopMost();
+
+                var screen = Screen.FromControl(this);
+                var work = screen.WorkingArea;
+
+                int desiredX = this.Right;
+                int desiredY = this.Top;
+
+                bool fitsRight = desiredX + scrollSpeed.Width <= work.Right;
+
+                if (fitsRight)
+                {
+                    scrollSpeed.StartPosition = FormStartPosition.Manual;
+                    scrollSpeed.Location = new System.Drawing.Point(desiredX, desiredY);
+                }
+                else
+                {
+                    scrollSpeed.StartPosition = FormStartPosition.CenterParent;
+                }
+
+                scrollSpeed.Show();
+                scrollSpeed.Focus();
+            }
+            else
+            {
+                scrollSpeed.Close();
+            }
+        }
+
+        private void OpenHighlightSetting()
+        {
+            if (highlightBand == null || highlightBand.IsDisposed)
+            {
+                highlightBand = new HighlightBand(this);
+
+                // Sync with actual topmost state
+                highlightBand.TopMost = IsActuallyTopMost();
+
+                var screen = Screen.FromControl(this);
+                var work = screen.WorkingArea;
+
+                int desiredX = this.Right;
+                int desiredY = this.Top;
+
+                bool fitsRight = desiredX + highlightBand.Width <= work.Right;
+
+                if (fitsRight)
+                {
+                    highlightBand.StartPosition = FormStartPosition.Manual;
+                    highlightBand.Location = new System.Drawing.Point(desiredX, desiredY);
+                }
+                else
+                {
+                    highlightBand.StartPosition = FormStartPosition.CenterParent;
+                }
+
+                highlightBand.Show();
+                highlightBand.Focus();
+            }
+            else
+            {
+                highlightBand.Close();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenSpeedSetting();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OpenSpeedSetting();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OpenHighlightSetting();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OpenHighlightSetting();
+        }
     }
 }

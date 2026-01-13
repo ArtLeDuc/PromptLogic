@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PromptLogic User Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: auto;
+            line-height: 1.6;
+            padding: 40px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #222;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        .section {
+            margin-bottom: 50px;
+        }
+        hr {
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>PromptLogic User Guide</h1>
+<p>
+    Welcome to the official user guide for <strong>PromptLogic</strong>, a Windows‑native teleprompter engine designed to work directly with Microsoft PowerPoint. 
+    PromptLogic reads your slide notes, scrolls them smoothly, and executes embedded <em>dot‑commands</em> that automate your presentation.
+</p>
+
+<hr>
+
+<div class="section">
+<h2>1. Introduction</h2>
+<p>
+    PromptLogic is a lightweight teleprompter designed for presenters who build their scripts inside PowerPoint. 
+    Instead of juggling separate teleprompter apps, PromptLogic uses the notes you already write and adds automation through simple commands.
+</p>
+
+<p><strong>Key features:</strong></p>
+<ul>
+    <li>Reads script directly from PowerPoint notes</li>
+    <li>Smooth, adjustable scrolling</li>
+    <li>Highlight band for easy reading</li>
+    <li>Automatic slide advancement using dot‑commands</li>
+    <li>Pause and stop commands embedded in your script</li>
+</ul>
+
+<p>
+    PromptLogic keeps your workflow simple: write your script in PowerPoint, add commands where needed, and present with confidence.
+</p>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>2. System Requirements</h2>
+<ul>
+    <li>Windows 10 or Windows 11</li>
+    <li>Microsoft PowerPoint installed</li>
+    <li>Permission for PromptLogic to automate PowerPoint</li>
+</ul>
+<p>
+    PromptLogic communicates with PowerPoint using standard Windows automation. 
+    If PowerPoint asks for permission, choose <strong>Allow</strong>.
+</p>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>3. Getting Started</h2>
+
+<h3>Launching PromptLogic</h3>
+<p>
+    Start PromptLogic like any other Windows application. PowerPoint should be open with your presentation loaded.
+</p>
+
+<h3>Loading Your Script</h3>
+<p>
+    PromptLogic automatically reads the notes for the <strong>current slide</strong> in PowerPoint. 
+    As you advance slides, PromptLogic loads the next set of notes.
+</p>
+
+<h3>Starting the Teleprompter</h3>
+<ol>
+    <li>Open your PowerPoint presentation</li>
+    <li>Open PromptLogic</li>
+    <li>Choose connect in the PromptLogic control panel</li>
+    <li>Press <strong>Start</strong> to begin scrolling</li>
+</ol>
+
+<p>
+    The teleprompter will scroll the notes smoothly. Any dot‑commands in the script will be executed automatically.
+</p>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>4. Writing Scripts in PowerPoint Notes</h2>
+<p>
+    Your script lives entirely inside the PowerPoint Notes pane. 
+    PromptLogic reads the text exactly as written and executes dot‑commands when it encounters them.
+</p>
+
+<p><strong>Guidelines:</strong></p>
+<ul>
+    <li>Write your script normally</li>
+    <li>Place dot‑commands on their own line</li>
+    <li>Keep paragraphs short for easier reading</li>
+    <li>Test your script before presenting</li>
+</ul>
+
+<h3>Example Notes Section</h3>
+<pre>
+Welcome to the presentation. Today we’ll cover three main topics.
+
+.nextslide
+
+This slide introduces the first topic. Speak slowly and clearly.
+
+.pause
+
+When ready, continue to the next section.
+
+.stop
+</pre>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>5. Dot Commands (v1)</h2>
+<p>
+    Dot‑commands are simple instructions embedded in your script. 
+    They must appear on their own line and begin with a period.
+</p>
+
+<h3><code>.nextslide</code></h3>
+<p>
+    Advances PowerPoint to the next slide automatically.
+</p>
+
+<h3><code>.pause</code></h3>
+<p>
+    Pauses scrolling until you manually resume.
+</p>
+
+<h3><code>.stop</code></h3>
+<p>
+    Stops scrolling entirely. Useful at the end of a section or presentation.
+</p>
+
+<h3>Example Usage</h3>
+<pre>
+This is the end of the introduction.
+
+.nextslide
+
+Here begins the next slide's content.
+</pre>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>6. Teleprompter Controls</h2>
+<ul>
+    <li><strong>Start</strong> – Begin scrolling</li>
+    <li><strong>Pause</strong> – Temporarily stop scrolling</li>
+    <li><strong>Resume</strong> – Continue scrolling after a pause</li>
+    <li><strong>Speed</strong> – Adjust scroll speed</li>
+    <li><strong>Highlight Band</strong> – Keeps your eyes centered on the active line</li>
+</ul>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>7. Tips for Smooth Presentations</h2>
+<ul>
+    <li>Place dot‑commands on their own line</li>
+    <li>Use short paragraphs for readability</li>
+    <li>Test your script before presenting</li>
+    <li>Keep your speaking pace in mind when setting scroll speed</li>
+    <li>Use <code>.pause</code> before complex explanations</li>
+</ul>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>8. Known Limitations (v1)</h2>
+<ul>
+    <li>Only works with PowerPoint notes</li>
+    <li>No file‑loading for standalone text scripts</li>
+    <li>No OBS integration</li>
+    <li>Only three dot‑commands supported</li>
+</ul>
+<p>
+    These limitations will be addressed in future versions.
+</p>
+</div>
+
+<hr>
+
+<div class="section">
+<h2>9. Roadmap</h2>
+<p>
+    Planned enhancements for future releases include:
+</p>
+<ul>
+    <li>Load script from text file</li>
+    <li>Additional dot‑commands</li>
+    <li>OBS scene switching</li>
+    <li>Settings panel</li>
+    <li>Improved UI layout</li>
+</ul>
+</div>
+
+<hr>
+
+<p style="text-align:center; color:#777;">
+    PromptLogic — Creatively Applying Technology to Presentation
+</p>
+
+</body>
+</html>

@@ -31,6 +31,7 @@ namespace Teleprompter
         void ApplyShowControlSidebar(bool showControlSidebar);
         void ApplyMirrorText(bool mirrorText);
         void ApplyWindowStyles(bool alwaysOnTop, bool nonActivating);
+        void ApplyScrollSpeed(double speed);
 
         void ApplyAllSettings();
     }
