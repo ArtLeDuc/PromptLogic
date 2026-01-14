@@ -37,7 +37,7 @@ namespace Teleprompter
                     RefocusSlideShowWindow();
                     break;
                 case "nextSlide":
-                    _slides.NextSlide();
+                    _slides?.NextSlide();
                     break;
                 case "pause":
                     int duration = obj["duration"]?.Value<int>() ?? 0;
@@ -54,16 +54,19 @@ namespace Teleprompter
                     // case "goto":
             }
         }
-        void UnpauseSlideShowWindow() => _slides.Resume();
+        void UnpauseSlideShowWindow() => _slides?.Resume();
 
-        private void RefocusSlideShowWindow() => _slides.RefocusSlideShowWindow();
+        private void RefocusSlideShowWindow() => _slides?.RefocusSlideShowWindow();
 
         public void SetSlideController(ISlideController slides)
         {
             _slides = slides;
 
-            // Subscribe to controller events
-            _slides.SlideChanged += OnSlideChanged;
+            if (slides != null)
+            {
+                // Subscribe to controller events
+                _slides.SlideChanged += OnSlideChanged;
+            }
         }
 
         private void OnSlideChanged(int index)

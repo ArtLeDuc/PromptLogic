@@ -288,7 +288,17 @@ namespace Teleprompter
                 SettingsManager.Settings.IsCollapsed = false;
             }
         }
+        private void ConnectToWebView()
+        {
+            if (_service != null)
+                webView.CoreWebView2.WebMessageReceived -= _service.Handler;
 
+            _service = new WebMessageService(this);   // inject controller
+            _service.SetSlideController(_slides);
+
+            webView.CoreWebView2.WebMessageReceived += _service.Handler;
+
+        }
         private void ConnectSlideShow()
         {
             _slides = SlideControllerFactory.Create(_selectedEngine);
@@ -314,13 +324,7 @@ namespace Teleprompter
                     _slides.ClearAllTimings();
             }
 
-            if (_service != null)
-                webView.CoreWebView2.WebMessageReceived -= _service.Handler;
-
-            _service = new WebMessageService(this);   // inject controller
-            _service.SetSlideController(_slides);
-
-            webView.CoreWebView2.WebMessageReceived += _service.Handler;
+            ConnectToWebView();
 
             if (_slides.IsSlideShowRunning)
             {
@@ -513,6 +517,7 @@ namespace Teleprompter
         private void btnLoadSampleScript_Click(object sender, EventArgs e)
         {
             SendNotesToWebView(SampleScripts.Default);
+            ConnectToWebView();
         }
 
         private void DragArea_MouseDown(object sender, MouseEventArgs e)
