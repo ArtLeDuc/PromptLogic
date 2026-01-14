@@ -11,7 +11,7 @@ namespace Teleprompter
         public static string Default = @"This is a sample script for testing the teleprompter.
 It is written with natural pacing, clear sentences,
 and enough variation to help evaluate scrolling behavior.
-.pause(1000)
+
 As the text moves, pay attention to how easily your eyes
 track each line. Notice whether the highlight band feels
 comfortable, and whether the font size supports relaxed reading.
@@ -36,6 +36,7 @@ and comfortable readability all contribute to a better experience.
 When you are satisfied with the settings, you can replace this
 sample text with your actual script. Until then, use this passage
 to fine‑tune the teleprompter to your liking.
+.stop
 ";
 
         public static string breakTest = @"Welcome to the Teleprompter Test Script.

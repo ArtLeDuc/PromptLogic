@@ -40,9 +40,14 @@ namespace Teleprompter
                     _slides?.NextSlide();
                     break;
                 case "pause":
+                 
                     int duration = obj["duration"]?.Value<int>() ?? 0;
-
-                    _ui.SendToWebView(Newtonsoft.Json.JsonConvert.SerializeObject(new { action = "pause", duration }));
+                    //if duration is > 0 we will just send it down to JS to pause loop
+                    //if 0 or < we need to send it to the mainform to pause that updates all the controls
+                    if (duration > 0)
+                        _ui.SendToWebView(Newtonsoft.Json.JsonConvert.SerializeObject(new { action = "pause", duration }));
+                    else
+                        _ui.PauseSlideShow();
                     break;
                 case "stop":
                     _ui.ExecuteScriptAsync("stopScroll()");

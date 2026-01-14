@@ -13,5 +13,6 @@ namespace Teleprompter
         void OnSlideChanged(int index);
         void InvokeOnUIThread(Action action);
         void LoadInitialPage();
+        void PauseSlideShow();
     }
 }

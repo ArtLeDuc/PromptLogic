@@ -356,7 +356,7 @@ namespace Teleprompter
             StartSlideShow();
             UpdateControls();
         }
-        private void UpdateControls()
+        public void UpdateControls()
         {
             if (isPaused)
             {
@@ -389,7 +389,7 @@ namespace Teleprompter
 
             SetManualScrolling();
         }
-        private void PauseSlideShow()
+        public void PauseSlideShow()
         {
             PauseTeleprompter();
             UpdateControls();

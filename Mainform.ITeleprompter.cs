@@ -52,14 +52,12 @@ namespace Teleprompter
                 // Currently paused → resume scrolling
                 webView.ExecuteScriptAsync("startScroll()");
                 isPaused = false;
-
             }
             else
             {
                 // Currently scrolling → pause it
                 webView.ExecuteScriptAsync("pauseScroll()");
                 isPaused = true;
-
             }
         }
         public void StopTeleprompter()
@@ -77,7 +75,6 @@ namespace Teleprompter
             );
 
         }
-
         public void ScrollByWheel(int delta)
         {
             webView.CoreWebView2.ExecuteScriptAsync(

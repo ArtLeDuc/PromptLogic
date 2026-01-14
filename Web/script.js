@@ -317,6 +317,34 @@ function checkCommands() {
     }
 }
 
+window.chrome.webview.addEventListener('message', event => {
+    let msg;
+
+    try {
+        msg = JSON.parse(event.data);
+    } catch (e) {
+        console.error("Invalid JSON from C#:", event.data);
+        return;
+    }
+
+    if (msg.action === "pause") {
+        pauseScroll();
+        if (msg.duration > 0) {
+            setTimeout(() => {
+                startScroll();
+            }, msg.duration);
+        }
+    }
+
+    if (msg.action === "startScroll") {
+        startScroll();
+    }
+
+    if (msg.action === "stopScroll") {
+        stopScroll();
+    }
+});
+
 // ----- Scrolling -----
 function startScroll() {
     if (scrolling) return;
