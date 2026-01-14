@@ -90,7 +90,7 @@ namespace Teleprompter
             SettingsManager.Settings.HighlightHeightLines = lines;
             preview.ApplyHighlightLines(lines);
         }
-
+/*
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -99,5 +99,6 @@ namespace Teleprompter
                 NativeMethods.SendMessage(this.Handle, NativeMethods.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HTCAPTION, IntPtr.Zero);
             }
         }
+*/
     }
 }

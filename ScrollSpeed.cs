@@ -42,7 +42,7 @@ namespace Teleprompter
         {
             toolTip1.SetToolTip(traSpeed, "Adjust scrolling speed");
         }
-
+/*
         private void panel2_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -51,5 +51,6 @@ namespace Teleprompter
                 NativeMethods.SendMessage(this.Handle, NativeMethods.WM_NCLBUTTONDOWN, (IntPtr)NativeMethods.HTCAPTION, IntPtr.Zero);
             }
         }
+*/
     }
 }

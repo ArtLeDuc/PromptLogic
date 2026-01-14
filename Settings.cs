@@ -206,13 +206,6 @@ namespace Teleprompter
             Process.Start("https://buymeacoffee.com/ArtLeDuc");
         }
 
-        private void chkShowControlSidebar_CheckedChanged_1(object sender, EventArgs e)
-        {
-            bool bShowControlBar = chkShowControlSidebar.Checked;
-            pending.ShowControlSidebar = bShowControlBar;
-            preview.ApplyShowControlSidebar(bShowControlBar);
-        }
-
         private void cmbFontName_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             if (cmbFontName.SelectedItem is string fontName)
@@ -228,52 +221,6 @@ namespace Teleprompter
 
             pending.FontSize = size;        // update pending settings
             preview.ApplyFontSize(size);    // live preview
-        }
-
-        private void btnBackgroundColor_Click_1(object sender, EventArgs e)
-        {
-            using (var dlg = new ColorDialog())
-            {
-                dlg.Color = pnlBackColor.BackColor; // start with current color
-
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    // Update preview square
-                    pnlBackColor.BackColor = dlg.Color;
-
-                    // Convert to CSS color
-                    string css = ColorTranslator.ToHtml(dlg.Color);
-
-                    // Update pending settings
-                    pending.TextColor = css;
-
-                    // Live preview
-                    preview.ApplyBackgroundColor(css);
-                }
-            }
-        }
-
-        private void btnTextColor_Click_1(object sender, EventArgs e)
-        {
-            using (var dlg = new ColorDialog())
-            {
-                dlg.Color = pnlTextColor.BackColor; // start with current color
-
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    // Update preview square
-                    pnlTextColor.BackColor = dlg.Color;
-
-                    // Convert to CSS color
-                    string css = ColorTranslator.ToHtml(dlg.Color);
-
-                    // Update pending settings
-                    pending.TextColor = css;
-
-                    // Live preview
-                    preview.ApplyTextColor(css);
-                }
-            }
         }
 
         private void trkLineSpacing_Scroll_1(object sender, EventArgs e)
@@ -405,25 +352,77 @@ namespace Teleprompter
             preview.ApplyHighlightTriggerPoint(offset);
         }
 
-        private void chkMirrorText_CheckedChanged(object sender, EventArgs e)
+        private void btnBackgroundColor_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new ColorDialog())
+            {
+                dlg.Color = pnlBackColor.BackColor; // start with current color
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // Update preview square
+                    pnlBackColor.BackColor = dlg.Color;
+
+                    // Convert to CSS color
+                    string css = ColorTranslator.ToHtml(dlg.Color);
+
+                    // Update pending settings
+                    pending.TextColor = css;
+
+                    // Live preview
+                    preview.ApplyBackgroundColor(css);
+                }
+            }
+        }
+
+        private void btnTextColor_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new ColorDialog())
+            {
+                dlg.Color = pnlTextColor.BackColor; // start with current color
+
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // Update preview square
+                    pnlTextColor.BackColor = dlg.Color;
+
+                    // Convert to CSS color
+                    string css = ColorTranslator.ToHtml(dlg.Color);
+
+                    // Update pending settings
+                    pending.TextColor = css;
+
+                    // Live preview
+                    preview.ApplyTextColor(css);
+                }
+            }
+        }
+
+        private void chkShowControlSidebar_CheckedChanged(object sender, EventArgs e)
+        {
+            bool bShowControlBar = chkShowControlSidebar.Checked;
+            pending.ShowControlSidebar = bShowControlBar;
+            preview.ApplyShowControlSidebar(bShowControlBar);
+        }
+
+        private void chkAlwaysOnTop_CheckedChanged_1(object sender, EventArgs e)
+        {
+            bool AlwaysOnTop = chkAlwaysOnTop.Checked;
+            pending.AlwaysOnTop = AlwaysOnTop;
+            preview.ApplyAlwaysOnTop(AlwaysOnTop);
+        }
+
+        private void chkNonActivating_CheckedChanged_1(object sender, EventArgs e)
+        {
+            bool NonActivating = chkNonActivating.Checked;
+            pending.NonActivating = NonActivating;
+        }
+
+        private void chkMirrorText_CheckedChanged_1(object sender, EventArgs e)
         {
             bool bMirror = chkMirrorText.Checked;
             pending.MirrorText = bMirror;
             preview.ApplyMirrorText(bMirror);
-        }
-
-        private void chkAlwaysOnTop_CheckedChanged(object sender, EventArgs e)
-        {
-            bool AlwaysOnTop = chkAlwaysOnTop.Checked;
-            pending.AlwaysOnTop = AlwaysOnTop;
-            preview.ApplyWindowStyles(AlwaysOnTop, pending.NonActivating);
-        }
-
-        private void chkNonActivating_CheckedChanged(object sender, EventArgs e)
-        {
-            bool NonActivating = chkNonActivating.Checked;
-            pending.NonActivating = NonActivating;
-            preview.ApplyWindowStyles(pending.AlwaysOnTop, NonActivating);
         }
     }
 }

@@ -142,9 +142,9 @@ namespace Teleprompter
             ApplyMirror(mirrorText);
         }
 
-        void ITeleprompterPreview.ApplyWindowStyles(bool alwaysOnTop, bool nonActivating)
+        void ITeleprompterPreview.ApplyAlwaysOnTop(bool alwaysOnTop)
         {
-            ApplyWindowStyles(alwaysOnTop, nonActivating);
+            ApplyAlwaysOnTop(alwaysOnTop);
         }
 
         void ITeleprompterPreview.ApplyScrollSpeed(double speed)

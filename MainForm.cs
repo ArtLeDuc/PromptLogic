@@ -34,12 +34,14 @@ namespace Teleprompter
         private Settings settingsWindow;
         private ScrollSpeed scrollSpeed;
         private HighlightBand highlightBand;
+        private readonly WindowManager _windowManager;
 
         private TransparentOverlay dragOverlay = null;
-
         public MainForm()
         {
             InitializeComponent();
+            _windowManager = new WindowManager(this);
+
             _selectedEngine = SettingsManager.Settings.SelectedEngine;
 
             var s = SettingsManager.Settings;
@@ -119,9 +121,12 @@ namespace Teleprompter
             else
             {
                 menu.Items.Add("Start", null, (_, __) => StartSlideShow());
-                menu.Items.Add("Settings", null, (_, __) => OpenSettings());
-//                menu.Items.Add("Reload Slides", null, (_, __) => ReloadSlides());
             }
+
+            menu.Items.Add(new ToolStripSeparator());
+            menu.Items.Add("Speed...", null, (_, __) => OpenSpeedSetting());
+            menu.Items.Add("Highlight...", null, (_,__) => OpenHighlightSetting());
+            menu.Items.Add("Settings...", null, (_, __) => OpenSettings());
             menu.Items.Add(new ToolStripSeparator());
 
             if (!pnlCollapsed.Visible && !pnlControl.Visible)
@@ -133,7 +138,6 @@ namespace Teleprompter
 
             menu.Items.Add("Close", null, (_, __) => Close());
 
-            this.Activate();
             menu.Show(screenPos);
         }
 
@@ -170,6 +174,17 @@ namespace Teleprompter
             btnWebDebugger.Visible = false;
 #endif
         }
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                if (SettingsManager.Settings.NonActivating)
+                    cp.ExStyle |= NativeMethods.WS_EX_NOACTIVATE;
+                return cp;
+            }
+        }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SettingsManager.Settings.WindowLeft = this.Left;
@@ -177,18 +192,6 @@ namespace Teleprompter
             SettingsManager.Settings.WindowWidth = this.Width;
             SettingsManager.Settings.WindowHeight = this.Height;
             SettingsManager.Save();
-        }
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                const int WS_EX_TOPMOST = 0x00000008;
-                const int WS_EX_NOACTIVATE = 0x08000000;
-
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= WS_EX_NOACTIVATE | WS_EX_TOPMOST;
-                return cp;
-            }
         }
         protected override bool ShowWithoutActivation
         {
@@ -503,7 +506,7 @@ namespace Teleprompter
 
             ((ITeleprompterPreview)this).ApplyMirrorText(s.MirrorText);
 
-            ((ITeleprompterPreview)this).ApplyWindowStyles(s.AlwaysOnTop, s.NonActivating);
+            ((ITeleprompterPreview)this).ApplyAlwaysOnTop(s.AlwaysOnTop);
 
         }
 
@@ -541,30 +544,12 @@ namespace Teleprompter
             );
         }
 
-        private void ApplyWindowStyles(bool topMost, bool noActivate)
+        private void ApplyAlwaysOnTop(bool topMost)
         {
-            int ex = (int)NativeMethods.GetWindowLongPtr(this.Handle, NativeMethods.GWL_EXSTYLE);
-
-            // TOPMOST
-            if (topMost)
-                ex |= NativeMethods.WS_EX_TOPMOST;
-            else
-                ex &= ~NativeMethods.WS_EX_TOPMOST;
-
-            // NOACTIVATE
-            if (noActivate)
-                ex |= NativeMethods.WS_EX_NOACTIVATE;
-            else
-                ex &= ~NativeMethods.WS_EX_NOACTIVATE;
-
-            NativeMethods.SetWindowLongPtr(this.Handle, GWL_EXSTYLE, (IntPtr)ex);
-
-            // Force Windows to re-evaluate the style
-            NativeMethods.SetWindowPos(
-                this.Handle,
+            NativeMethods.SetWindowPos(this.Handle,
                 topMost ? NativeMethods.HWND_TOPMOST : NativeMethods.HWND_NOTOPMOST,
                 0, 0, 0, 0,
-                NativeMethods.SWP_NOMOVE | NativeMethods.SWP_NOSIZE | NativeMethods.SWP_FRAMECHANGED
+                NativeMethods.SWP_NOMOVE | NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOACTIVATE
             );
         }
 
@@ -573,34 +558,11 @@ namespace Teleprompter
             if (scrollSpeed == null || scrollSpeed.IsDisposed)
             {
                 scrollSpeed = new ScrollSpeed(this);
-
-                // Sync with actual topmost state
-                scrollSpeed.TopMost = IsActuallyTopMost();
-
-                var screen = Screen.FromControl(this);
-                var work = screen.WorkingArea;
-
-                int desiredX = this.Right;
-                int desiredY = this.Top;
-
-                bool fitsRight = desiredX + scrollSpeed.Width <= work.Right;
-
-                if (fitsRight)
-                {
-                    scrollSpeed.StartPosition = FormStartPosition.Manual;
-                    scrollSpeed.Location = new System.Drawing.Point(desiredX, desiredY);
-                }
-                else
-                {
-                    scrollSpeed.StartPosition = FormStartPosition.CenterParent;
-                }
-
-                scrollSpeed.Show();
-                scrollSpeed.Focus();
+                _windowManager.ShowPopup(scrollSpeed);
             }
             else
             {
-                scrollSpeed.Close();
+                _windowManager.ClosePopup(scrollSpeed);
             }
         }
 
@@ -609,34 +571,11 @@ namespace Teleprompter
             if (highlightBand == null || highlightBand.IsDisposed)
             {
                 highlightBand = new HighlightBand(this);
-
-                // Sync with actual topmost state
-                highlightBand.TopMost = IsActuallyTopMost();
-
-                var screen = Screen.FromControl(this);
-                var work = screen.WorkingArea;
-
-                int desiredX = this.Right;
-                int desiredY = this.Top;
-
-                bool fitsRight = desiredX + highlightBand.Width <= work.Right;
-
-                if (fitsRight)
-                {
-                    highlightBand.StartPosition = FormStartPosition.Manual;
-                    highlightBand.Location = new System.Drawing.Point(desiredX, desiredY);
-                }
-                else
-                {
-                    highlightBand.StartPosition = FormStartPosition.CenterParent;
-                }
-
-                highlightBand.Show();
-                highlightBand.Focus();
+                _windowManager.ShowPopup(highlightBand);
             }
             else
             {
-                highlightBand.Close();
+                _windowManager.ClosePopup(highlightBand); 
             }
         }
 
@@ -658,6 +597,11 @@ namespace Teleprompter
         private void button4_Click(object sender, EventArgs e)
         {
             OpenHighlightSetting();
+        }
+
+        public bool IsAppTopMost() 
+        {
+            return SettingsManager.Settings.AlwaysOnTop;
         }
     }
 }

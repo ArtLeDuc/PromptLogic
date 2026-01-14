@@ -108,6 +108,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WebMessageService.cs" />
+    <Compile Include="WindowManager.cs" />
     <EmbeddedResource Include="HighlightBand.resx">
       <DependentUpon>HighlightBand.cs</DependentUpon>
     </EmbeddedResource>

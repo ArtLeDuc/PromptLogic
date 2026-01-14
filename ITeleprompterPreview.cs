@@ -30,7 +30,7 @@ namespace Teleprompter
         void ApplyMainBorderStyle(FormBorderStyle borderStyle);
         void ApplyShowControlSidebar(bool showControlSidebar);
         void ApplyMirrorText(bool mirrorText);
-        void ApplyWindowStyles(bool alwaysOnTop, bool nonActivating);
+        void ApplyAlwaysOnTop(bool alwaysOnTop);
         void ApplyScrollSpeed(double speed);
 
         void ApplyAllSettings();
