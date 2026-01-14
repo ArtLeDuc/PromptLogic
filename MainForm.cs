@@ -236,7 +236,7 @@ namespace Teleprompter
         }
         public void ClearTeleprompter()
         {
-            SendNotesToWebView("Connected. Waiting for slide notes — press Connect.");
+            SendNotesToWebView("Connected. Waiting for slide notes — press Connect Or choose Load Sample Script.<br>When ready press Start.</br>");
         }
         public void InvokeOnUIThread(Action action)
         {
@@ -340,7 +340,7 @@ namespace Teleprompter
         {
             ConnectSlideShow();
         }
-        private void StartSlideShow()
+        public void StartSlideShow()
         {
             if (_slides != null)
                 _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);

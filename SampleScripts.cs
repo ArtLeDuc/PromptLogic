@@ -36,7 +36,13 @@ and comfortable readability all contribute to a better experience.
 When you are satisfied with the settings, you can replace this
 sample text with your actual script. Until then, use this passage
 to fine‑tune the teleprompter to your liking.
+
+.pause(5000)
+The script will now pause for 5 seconds.
+Reset to the beginning of the script and play again.
+This loop will continue until you press stop.
 .stop
+.start
 ";
 
         public static string breakTest = @"Welcome to the Teleprompter Test Script.

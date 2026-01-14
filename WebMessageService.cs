@@ -40,7 +40,6 @@ namespace Teleprompter
                     _slides?.NextSlide();
                     break;
                 case "pause":
-                 
                     int duration = obj["duration"]?.Value<int>() ?? 0;
                     //if duration is > 0 we will just send it down to JS to pause loop
                     //if 0 or < we need to send it to the mainform to pause that updates all the controls
@@ -52,7 +51,9 @@ namespace Teleprompter
                 case "stop":
                     _ui.ExecuteScriptAsync("stopScroll()");
                     break;
-
+                case "start":
+                    _ui.StartSlideShow();
+                    break;
                     // future commands:
                     // case "resume":
                     // case "speed":

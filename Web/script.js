@@ -269,6 +269,7 @@ function setSpeed(pxPerFrame) {
 
 function startTeleprompter() {
     startCountdown(() => {
+        resetCommands();
         refocusSlideshow();
         unpauseSlideshow();
 //        const geometry = computeLineGeometry();
@@ -290,6 +291,9 @@ function triggerCommand(cmd) {
             break;
         case "stop":
             window.chrome.webview.postMessage({ action: "stop" });
+            break;
+        case "start":
+            window.chrome.webview.postMessage({ action: "start" });
             break;
         // future commands:
         // case "speed+50":
@@ -314,6 +318,12 @@ function checkCommands() {
             cmd.fired = true;
             triggerCommand(cmd);
         }
+    }
+}
+
+function resetCommands() {
+    for (let cmd of commands) {
+        cmd.fired = false;
     }
 }
 
@@ -348,8 +358,8 @@ window.chrome.webview.addEventListener('message', event => {
 // ----- Scrolling -----
 function startScroll() {
     if (scrolling) return;
-      scrolling = true;
 
+    scrolling = true;
     line = 0;
 
     const bodyStyles = window.getComputedStyle(document.body);
