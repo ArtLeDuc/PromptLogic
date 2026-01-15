@@ -37,6 +37,11 @@ namespace Teleprompter
         private readonly WindowManager _windowManager;
 
         private TransparentOverlay dragOverlay = null;
+        private bool IsOnAnyScreen(Rectangle rect)
+        {
+            return Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(rect));
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -45,33 +50,40 @@ namespace Teleprompter
             _selectedEngine = SettingsManager.Settings.SelectedEngine;
 
             var s = SettingsManager.Settings;
-            if (s.WindowWidth > 0 && s.WindowHeight > 0)
+
+            if (SettingsManager.Settings.MainFormBorderStyle == FormBorderStyle.None)
             {
-                this.StartPosition = FormStartPosition.Manual;
+                this.FormBorderStyle = FormBorderStyle.None;
 
-                this.Left =   s.WindowLeft;
-                this.Top =    s.WindowTop;
-                this.Width =  s.WindowWidth;
-                this.Height = s.WindowHeight;
-
-                //Check if the form shows up on any monitor
-                //If not move it to the primary monitor.
-                Rectangle proposed = new Rectangle(
-                        s.WindowLeft,
-                        s.WindowTop,
-                        s.WindowWidth,
-                        s.WindowHeight);
-
-                bool isVisible = Screen.AllScreens.Any(g => g.WorkingArea.IntersectsWith(proposed));
-                if (!isVisible)
+                if (!SettingsManager.Settings.BorderlessSize.IsEmpty)
                 {
-                    var primary = Screen.PrimaryScreen.WorkingArea;
+                    // Restore client size and location
+                    this.StartPosition = FormStartPosition.Manual;
+                    this.Location = SettingsManager.Settings.BorderlessLocation;
+                    this.ClientSize = SettingsManager.Settings.BorderlessSize;
+                }
+            }
+            else
+            {
+                this.FormBorderStyle = FormBorderStyle.Sizable;
 
-                    this.Left = primary.Left + 50;
-                    this.Top = primary.Top + 50;
+                if (!SettingsManager.Settings.WindowBounds.IsEmpty)
+                {
+                    // Restore full bounds
+                    this.StartPosition = FormStartPosition.Manual;
+                    this.Bounds = SettingsManager.Settings.WindowBounds;
                 }
             }
 
+            //Ensure this is on a monitor
+            if (!IsOnAnyScreen(this.Bounds))
+            {
+                var bounds = SettingsManager.Settings.WindowBounds;
+                var primary = Screen.PrimaryScreen.WorkingArea;
+                bounds.X = primary.Left + 50;
+                bounds.Y = primary.Top + 50;
+                this.Bounds = bounds;
+            }
 
             dragOverlay = new TransparentOverlay();
             dragOverlay.Dock = DockStyle.Fill;
@@ -187,10 +199,20 @@ namespace Teleprompter
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SettingsManager.Settings.WindowLeft = this.Left;
-            SettingsManager.Settings.WindowTop = this.Top;
-            SettingsManager.Settings.WindowWidth = this.Width;
-            SettingsManager.Settings.WindowHeight = this.Height;
+            if (this.FormBorderStyle == FormBorderStyle.None)
+            {
+                // Borderless mode: save the *client* size and location
+                SettingsManager.Settings.BorderlessSize = this.ClientSize;
+                SettingsManager.Settings.BorderlessLocation = this.Location;
+                SettingsManager.Settings.MainFormBorderStyle = FormBorderStyle.None;
+            }
+            else
+            {
+                // Normal mode: save the full window bounds
+                SettingsManager.Settings.WindowBounds = this.Bounds;
+                SettingsManager.Settings.MainFormBorderStyle = FormBorderStyle.Sizable;
+            }              
+
             SettingsManager.Save();
         }
         protected override bool ShowWithoutActivation
@@ -488,12 +510,6 @@ namespace Teleprompter
             ((ITeleprompterPreview)this).ApplyLineSpacing(s.LineSpacing);
             //Paragraph spacing
             ((ITeleprompterPreview)this).ApplyParagraphSpacing(s.ParagraphSpacing);
-            //Break Spacing 1
-            ((ITeleprompterPreview)this).ApplyBreakSpacing1(s.BreakSpacing1);
-            //Break Spacing 2
-            ((ITeleprompterPreview)this).ApplyBreakSpacing2(s.BreakSpacing2);
-            //Break Spacing 3
-            ((ITeleprompterPreview)this).ApplyBreakSpacing3(s.BreakSpacing3);
 
             ((ITeleprompterPreview)this).ApplyHighlightVisible(s.HighlightBandVisible);
             ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightBandOpacity);

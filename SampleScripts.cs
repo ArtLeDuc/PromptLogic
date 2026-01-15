@@ -45,40 +45,5 @@ This loop will continue until you press stop.
 .start
 ";
 
-        public static string breakTest = @"Welcome to the Teleprompter Test Script.
-This script simulates real PowerPoint notes.
-
-Here is a normal paragraph break.
-
-This is a long line intended to wrap naturally across multiple visual lines in the teleprompter window. It should confirm that line-height is consistent and that wrapped lines do not introduce unexpected spacing.
-This line is created with Shift+Enter to simulate a line break.
-This is another Shift+Enter line break.
-
-Now we test custom spacing commands.
-B1:
-This line follows a break1 block.
-B2:
-This line follows a break2 block.
-B3:
-This line follows a break3 block.
-
-Now we test dot-commands.
-.pause(2)
-This line should appear after a two-second pause.
-.marker
-This line should register a marker command.
-
-Now we test consecutive line breaks.
-Line A
-Line B
-Line C
-
-Now we test consecutive paragraph breaks.
-
-
-This line follows two empty paragraphs.
-
-Final paragraph to confirm runway behavior.";
     }
-
 }
