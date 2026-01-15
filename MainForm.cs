@@ -35,8 +35,8 @@ namespace Teleprompter
         private ScrollSpeed scrollSpeed;
         private HighlightBand highlightBand;
         private readonly WindowManager _windowManager;
-
         private TransparentOverlay dragOverlay = null;
+
         private bool IsOnAnyScreen(Rectangle rect)
         {
             return Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(rect));
@@ -93,10 +93,10 @@ namespace Teleprompter
             dragOverlay.OverlayMouseWheel += DragOverlay_OverlayMouseWheel;
             dragOverlay.RightClickRequested += pos => ShowContextMenu(pos);
             dragOverlay.TargetForm = this;
-
             this.Controls.Add(dragOverlay);
             dragOverlay.BringToFront();
-            
+
+            CreateContextMenu();
         }
         private async void InitializeWebView()
         {
@@ -117,42 +117,97 @@ namespace Teleprompter
         }
 
         private void ShowContextMenu(System.Drawing.Point screenPos)
-        {
-            var menu = new ContextMenuStrip();
-
-            menu.Items.Add("Connect", null, (_, __) => ConnectSlideShow());
-
-            if (!isStopped)
-            {
-                if (isPaused)
-                    menu.Items.Add("Resume", null, (_, __) => PauseSlideShow());
-                else
-                    menu.Items.Add("Pause", null, (_, __) => PauseSlideShow());
-                menu.Items.Add("Stop", null, (_, __) => StopSlideShow());
-            }
-            else
-            {
-                menu.Items.Add("Start", null, (_, __) => StartSlideShow());
-            }
-
-            menu.Items.Add(new ToolStripSeparator());
-            menu.Items.Add("Speed...", null, (_, __) => OpenSpeedSetting());
-            menu.Items.Add("Highlight...", null, (_,__) => OpenHighlightSetting());
-            menu.Items.Add("Settings...", null, (_, __) => OpenSettings());
-            menu.Items.Add(new ToolStripSeparator());
-
-            if (!pnlCollapsed.Visible && !pnlControl.Visible)
-                menu.Items.Add("Show Control Panel", null, (_, __) => ((ITeleprompterPreview)this).ApplyShowControlSidebar(true));
-            else 
-                menu.Items.Add("Hide Control Panel", null, (_, __) => ((ITeleprompterPreview)this).ApplyShowControlSidebar(false));
-
-            menu.Items.Add(new ToolStripSeparator());
-
-            menu.Items.Add("Close", null, (_, __) => Close());
-
-            menu.Show(screenPos);
+        {                       
+            this.ContextMenu.Show(this, this.PointToClient(screenPos));
         }
 
+        MenuItem hideShowMenuItem = null;
+        MenuItem pauseResumeMenuItem = null;
+        MenuItem stopStartMenuItem = null;
+        MenuItem connectMenuItem = null;
+        MenuItem settingsMenuItem = null;
+        private void CreateContextMenu()
+        {
+            var menu = new ContextMenu();
+
+            connectMenuItem = menu.MenuItems.Add("Connect", ConnectSlideShow);
+            menu.MenuItems.Add("-");
+
+            stopStartMenuItem = menu.MenuItems.Add("Start", StartSlideShow);
+            pauseResumeMenuItem = menu.MenuItems.Add("Pause", PauseSlideShow);
+
+            menu.MenuItems.Add("-");
+            menu.MenuItems.Add("Speed...", OpenSpeedSetting);
+            menu.MenuItems.Add("Highlight...", OpenHighlightSetting);
+            settingsMenuItem = menu.MenuItems.Add("Settings...", OpenSettings);
+            menu.MenuItems.Add("-");
+
+            hideShowMenuItem = menu.MenuItems.Add("Show Control Panel", ShowControlPanel);
+
+            menu.MenuItems.Add("-");
+
+            menu.MenuItems.Add("Close", CloseApplication);
+            menu.Popup += ContextMenu_Popup;
+
+            this.ContextMenu = menu;
+        }
+
+        private void ContextMenu_Popup(object sender, EventArgs e)
+        {
+            connectMenuItem.Enabled = isStopped;
+            settingsMenuItem.Enabled = isStopped;
+
+            string s;
+            if (!pnlCollapsed.Visible && !pnlControl.Visible)
+                s = "Show Control Panel";
+            else
+                s = "Hide Control Panel";
+            hideShowMenuItem.Text = s;
+
+            if (isStopped)
+                s = "Start";
+            else
+                s = "Stop";
+            stopStartMenuItem.Text = s;
+
+            if (isPaused)
+                s = "Resume";
+            else
+                s = "Pause";
+            pauseResumeMenuItem.Text = s;
+            pauseResumeMenuItem.Enabled = !isStopped;
+        }
+        private void ConnectSlideShow(object seder, EventArgs e)
+        {
+            ConnectSlideShow();
+        }
+        private void PauseSlideShow(object sender, EventArgs e)
+        {
+            PauseSlideShow();
+        }
+        private void StopSlideShow(object sender, EventArgs e)
+        {
+            StopSlideShow();
+        }
+        private void StartSlideShow(object sender, EventArgs e)
+        {
+            if (isStopped)
+                StartSlideShow();
+            else
+                StopSlideShow();
+        }
+        private void CloseApplication(object sender, EventArgs e)
+        {
+            Close(); 
+        }
+        private void ShowControlPanel(object sender, EventArgs e)
+        {
+            if (!pnlCollapsed.Visible && !pnlControl.Visible)
+                ((ITeleprompterPreview)this).ApplyShowControlSidebar(true);
+            else
+                ((ITeleprompterPreview)this).ApplyShowControlSidebar(false);
+
+        }
         private void MainForm_Load(object sender, EventArgs e)
         {
             webView.Source = new Uri(_htmlPath);
@@ -258,7 +313,7 @@ namespace Teleprompter
         }
         public void ClearTeleprompter()
         {
-            SendNotesToWebView("Connected. Waiting for slide notes — press Connect Or choose Load Sample Script.<br>When ready press Start.</br>");
+            SendNotesToWebView("Waiting for slide notes press Connect Or Choose Load Sample Script.<br>When ready press Start.</br>");
         }
         public void InvokeOnUIThread(Action action)
         {
@@ -367,16 +422,15 @@ namespace Teleprompter
             if (_slides != null)
                 _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
             StartTeleprompter();
+            UpdateControls();
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
             StartSlideShow();
-            UpdateControls();
         }
         private void btnCollapsedStart_Click(object sender, EventArgs e)
         {
             StartSlideShow();
-            UpdateControls();
         }
         public void UpdateControls()
         {
@@ -450,7 +504,7 @@ namespace Teleprompter
             uint exStyle = GetWindowLong(this.Handle, GWL_EXSTYLE);
             return (exStyle & WS_EX_TOPMOST) != 0;
         }
-        private void OpenSettings()
+        private void OpenSettings(object sender, EventArgs e)
         {
             if (settingsWindow == null || settingsWindow.IsDisposed)
             {
@@ -487,7 +541,7 @@ namespace Teleprompter
         }
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            OpenSettings();
+            OpenSettings(null, null);
         }
         private void btnWebDebugger_Click(object sender, EventArgs e)
         {
@@ -574,7 +628,7 @@ namespace Teleprompter
             );
         }
 
-        private void OpenSpeedSetting()
+        private void OpenSpeedSetting(object sender, EventArgs e)
         {
             if (scrollSpeed == null || scrollSpeed.IsDisposed)
             {
@@ -587,7 +641,7 @@ namespace Teleprompter
             }
         }
 
-        private void OpenHighlightSetting()
+        private void OpenHighlightSetting(object sender, EventArgs e)
         {
             if (highlightBand == null || highlightBand.IsDisposed)
             {
@@ -602,22 +656,22 @@ namespace Teleprompter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenSpeedSetting();
+            OpenSpeedSetting(null, null);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            OpenSpeedSetting();
+            OpenSpeedSetting(null, null);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            OpenHighlightSetting();
+            OpenHighlightSetting(null, null);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            OpenHighlightSetting();
+            OpenHighlightSetting(null, null);
         }
 
         public bool IsAppTopMost() 
