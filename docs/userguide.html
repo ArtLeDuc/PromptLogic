@@ -33,6 +33,24 @@
         hr {
             margin: 40px 0;
         }
+        table {
+            width: 100%;               /* Table width */
+            border-collapse: collapse; /* Merges borders */
+        }
+        th, td {
+            border: 1px solid #ccc;    /* Border for table cells */
+            padding: 10px;             /* Cell padding */
+            text-align: left;         /* Center alignment */
+        }
+        .image-container {
+            text-align: center;      /* Aligns content to center */
+            margin-top: 50px;       /* Optional: Adds space from the top */
+        }
+        img {
+            max-width: 100%;         /* Responsive image */
+            height: auto;            /* Maintains aspect ratio */
+        }
+
     </style>
 </head>
 <body>
@@ -101,10 +119,9 @@
 <ol>
     <li>Open your PowerPoint presentation</li>
     <li>Open PromptLogic</li>
-    <li>Choose connect in the PromptLogic control panel</li>
+    <li>Press <strong>Connect</strong> to connect to PowerPoint</li>
     <li>Press <strong>Start</strong> to begin scrolling</li>
 </ol>
-
 <p>
     The teleprompter will scroll the notes smoothly. Any dot‑commands in the script will be executed automatically.
 </p>
@@ -194,6 +211,84 @@ Here begins the next slide's content.
     <li><strong>Speed</strong> – Adjust scroll speed</li>
     <li><strong>Highlight Band</strong> – Keeps your eyes centered on the active line</li>
 </ul>
+<h2>6.1 Display Modes</h2>
+PromptLogic provides four display modes that let you choose how much on-screen Control
+you want while presenting.  These modes affect how the control panel appears and how you 
+interact with the teleprompter.
+<p>
+<strong>Full Control Panel</strong>
+<p>
+The full control panel is visible on the right side of the window and provides access to all controls,
+including speed, highlight band, and PowerPoint connection tools.
+</p>
+<div class="image-container">
+<img src="Images/PromptLogic Main Window.png" alt="Full Control Panel">
+</div>
+<p>Use this mode when:
+    <ul>
+        <li>Editing or preparing your script</li>
+        <li>Adjusting settings frequently</li>
+        <li>Testing dot-commands</li>
+    </ul>
+</p>
+<p>How to enter this mode:
+    <ul>
+        <li>Click the expand icon to expand a compressed control panel, or</li>
+        <li>Right-click anywhere and choose View -> Show Control Panel</li>
+    </ul>
+</p>
+<strong>Compressed Control Panel</strong>
+The control panel collapses into a slim bar, giving more vertical space to your script while still keeping
+essential controls available.
+<div class="image-container">
+<img src="Images/PromptLogic Compressed Control Panel.png" alt="Compressed Control Panel">
+</div>
+<p>Use this mode when:
+    <ul>
+        <li>Rehearsing</li>
+        <li>You want more screen space but still need quick access to controls</li>
+    </ul>
+</p>
+<p>How to enter this mode:
+    <ul>
+        <li>Click the compress icon in the full control panel, or</li>
+        <li>Right-click anywhere and choose View -> Show Compressed Panel</li>
+    </ul>
+</p>
+</div>
+<strong>No Control Panel</strong>
+<p>
+The control panel is completely hidden, allowing the script to fill the entire window.
+All actions are preformed through the right-click menu.
+</p>
+<div class="image-container">
+<img src="Images/PromptLogic With No Control Panel.png" alt="No Control Panel">
+</div>
+<p>Use this mode when:
+    <ul>
+        <li>Presenting live</li>
+        <li>You want a distraction-free reading environment</li>
+    </ul>
+</p>
+<p>How to enter this mode:
+    <ul>
+        <li>Click the Hide Panel on the control panel</li>
+        <li>Right click and choose View -> Hide Control Panel</li>
+    </ul>
+</p>
+<p>How to return:
+    <ul>
+        <li>Right-click anywhere and choose View -> Show Control Panel</li>
+    </ul>
+</p>
+<strong>Borderless:</strong>
+<p>
+Borderless removes the windows frame entirely, allowing you to position the teleprompter directly beneath
+your camera for the most natural eye contact possible.  This mode is ideal when presenting on a webcam, 
+recording video, or using a teleprompter glass setup.
+</p>
+<div class="image-container">
+<img src="Images/PromptLogic Borderless display.png" alt="Borderless">
 </div>
 
 <hr>
