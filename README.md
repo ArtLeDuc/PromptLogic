@@ -11,7 +11,23 @@ This project is part of Vermont Creative Technologies, LLC, and reflects a philo
 - Overlay‑based window controls — clean resizing, dragging, and interaction
 - Maker‑friendly design — built for people who value clarity over magic
 - Actively evolving — new UI refinements, workflow improvements, and community‑driven features
-(Screenshots will be added once the UI stabilizes.)
+
+Full control panel
+
+![Full control panel](docs/Images/PromptLogic%20Main%20Window.png)
+
+Compressed control panel
+
+![Compressed control panel](docs/Images/PromptLogic%20Compressed%20Control%20Panel.png)
+
+Hidden control panel
+
+![Hidden control panel](docs/Images/PromptLogic%20With%20No%20Control%20Panel.png)
+
+Borderless with hidden control panel
+
+![Borderless](docs/Images/PromptLogic%20Borderless%20display.png)
+
 ---
 ## Getting Started
 PromptLogic is currently in active development.
