@@ -2,7 +2,8 @@
 A modular, maker‑friendly teleprompter engine for educators, creators, and performers.
 PromptLogic is a Windows‑native teleprompter designed with clarity, predictability, and teachability at its core. It’s built for people who want full control over their workflow — from educators running live sessions to creators recording video to performers reading scripts with confidence.
 This project is part of Vermont Creative Technologies, LLC, and reflects a philosophy of modular engineering, transparent architecture, and long‑term maintainability.
-
+---
+## **User Guide:**  https://artleduc.github.io/PromptLogic/userguide.html
 ---
 ## Features
 - Modular architecture — predictable, teachable, and easy to reason about
