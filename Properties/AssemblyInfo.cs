@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Teleprompter")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("PromptLogic")]
+[assembly: AssemblyDescription("Windows-native teleprompter engine for creators, educators, and performers who value clarity, control, and predictable workflow.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Default")]
-[assembly: AssemblyProduct("Teleprompter")]
-[assembly: AssemblyCopyright("Copyright © Default 2025")]
+[assembly: AssemblyProduct("PromptLogic")]
+[assembly: AssemblyCopyright("Copyright © Vermont Creative Technologies, LLC, 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

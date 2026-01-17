@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Teleprompter
+namespace PromptLogic
 {
     public partial class Settings : Form
     {

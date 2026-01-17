@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F93F11FC-CAEB-40ED-9BAD-7744817C1840}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Teleprompter</RootNamespace>
-    <AssemblyName>Teleprompter</AssemblyName>
+    <RootNamespace>PromptLogic</RootNamespace>
+    <AssemblyName>PromptLogic</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,6 +33,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>PromptLogic.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.WebView2.Core, Version=1.0.3650.58, Culture=neutral, PublicKeyToken=2a8ab48044d2601e, processorArchitecture=MSIL">
@@ -123,6 +126,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="ScrollSpeed.resx">
       <DependentUpon>ScrollSpeed.cs</DependentUpon>
@@ -175,6 +179,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="PromptLogic.ico" />
     <Content Include="Web\index.html" />
     <Content Include="Web\sample.txt" />
     <Content Include="Web\script.js" />

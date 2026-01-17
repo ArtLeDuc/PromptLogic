@@ -1,4 +1,4 @@
-﻿namespace Teleprompter
+﻿namespace PromptLogic
 {
     partial class MainForm
     {
@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.webView = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.pnlControl = new System.Windows.Forms.Panel();
             this.btnLoadSampleScript = new System.Windows.Forms.Button();
@@ -351,6 +352,7 @@
             this.Controls.Add(this.webView);
             this.Controls.Add(this.pnlCollapsed);
             this.Controls.Add(this.pnlControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
             this.Text = "PromptLogic";

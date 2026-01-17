@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Teleprompter
+namespace PromptLogic
 {
     public interface IWebViewActions
     {

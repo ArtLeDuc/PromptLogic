@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
 
-namespace Teleprompter
+namespace PromptLogic
 {
     public class TransparentOverlay : Control
     {

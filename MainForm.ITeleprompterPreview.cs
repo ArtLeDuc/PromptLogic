@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Teleprompter;
+using PromptLogic;
 
-namespace Teleprompter
+namespace PromptLogic
 {
     public partial class MainForm : ITeleprompterPreview
     {

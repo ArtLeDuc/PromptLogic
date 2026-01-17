@@ -1,4 +1,4 @@
-﻿namespace Teleprompter
+﻿namespace PromptLogic
 {
     partial class HighlightBand
     {

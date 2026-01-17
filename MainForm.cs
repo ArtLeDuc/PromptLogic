@@ -10,6 +10,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -19,11 +20,11 @@ using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
-using static Teleprompter.TransparentOverlay;
+using static PromptLogic.TransparentOverlay;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
-namespace Teleprompter
+namespace PromptLogic
 {
     public partial class MainForm : Form, IWebViewActions, ITeleprompter, ITeleprompterPreview
     {
@@ -113,7 +114,21 @@ namespace Teleprompter
                 }
             };
 
-            await webView.EnsureCoreWebView2Async();
+            var userDataFolder = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "PromptLogic",
+                    "WebView2"
+                );
+
+            var env = await CoreWebView2Environment.CreateAsync(null, userDataFolder);
+            await webView.EnsureCoreWebView2Async(env);
+
+            var htmlPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                _htmlPath
+            );
+            webView.Source = new Uri(_htmlPath);
+
         }
 
         private void ShowContextMenu(System.Drawing.Point screenPos)
@@ -210,8 +225,6 @@ namespace Teleprompter
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
-            webView.Source = new Uri(_htmlPath);
-
             InitializeWebView();
         
             this.FormClosing += MainForm_FormClosing;

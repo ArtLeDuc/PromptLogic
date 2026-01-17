@@ -10,7 +10,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 
 
-namespace Teleprompter
+namespace PromptLogic
 {
     public class AppSettings
     {
@@ -82,10 +82,17 @@ namespace Teleprompter
 
     public static class SettingsManager
     {
-        private static readonly string SettingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
-
         public static AppSettings Settings { get; private set; }
 
+        private static readonly Lazy<string> _settingsPath =
+                new Lazy<string>(() =>
+                {
+                    string baseDir = Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PromptLogic");
+                    Directory.CreateDirectory(baseDir);
+                    return Path.Combine(baseDir, "settings.json");
+                });
+
+        public static string SettingsPath => _settingsPath.Value;
         public static void Load()
         {
             if (File.Exists(SettingsPath))
