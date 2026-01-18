@@ -43,6 +43,8 @@
             this.cmbFontName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnTextColor = new System.Windows.Forms.Button();
+            this.btnBackgroundColor = new System.Windows.Forms.Button();
             this.pnlTextColor = new System.Windows.Forms.Panel();
             this.pnlBackColor = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -72,8 +74,15 @@
             this.trkHighlightbandDistanceFromTop = new System.Windows.Forms.TrackBar();
             this.trkHighlightBandOpacity = new System.Windows.Forms.TrackBar();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.chkNonActivating = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.chkMirrorText = new System.Windows.Forms.CheckBox();
+            this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.radBorderless = new System.Windows.Forms.RadioButton();
+            this.radNormalBorder = new System.Windows.Forms.RadioButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.WebPageLink = new System.Windows.Forms.LinkLabel();
             this.lblCopyright = new System.Windows.Forms.Label();
@@ -89,16 +98,6 @@
             this.btnSupportMe = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnTextColor = new System.Windows.Forms.Button();
-            this.btnBackgroundColor = new System.Windows.Forms.Button();
-            this.chkShowControlSidebar = new System.Windows.Forms.CheckBox();
-            this.chkMirrorText = new System.Windows.Forms.CheckBox();
-            this.chkNonActivating = new System.Windows.Forms.CheckBox();
-            this.chkAlwaysOnTop = new System.Windows.Forms.CheckBox();
-            this.radBorderless = new System.Windows.Forms.RadioButton();
-            this.radNormalBorder = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -118,11 +117,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkHighlightbandDistanceFromTop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkHighlightBandOpacity)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -316,6 +315,28 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = " Colors ";
             // 
+            // btnTextColor
+            // 
+            this.btnTextColor.Location = new System.Drawing.Point(46, 55);
+            this.btnTextColor.Margin = new System.Windows.Forms.Padding(2);
+            this.btnTextColor.Name = "btnTextColor";
+            this.btnTextColor.Size = new System.Drawing.Size(104, 25);
+            this.btnTextColor.TabIndex = 38;
+            this.btnTextColor.Text = "Text";
+            this.btnTextColor.UseVisualStyleBackColor = true;
+            this.btnTextColor.Click += new System.EventHandler(this.btnTextColor_Click);
+            // 
+            // btnBackgroundColor
+            // 
+            this.btnBackgroundColor.Location = new System.Drawing.Point(46, 18);
+            this.btnBackgroundColor.Margin = new System.Windows.Forms.Padding(2);
+            this.btnBackgroundColor.Name = "btnBackgroundColor";
+            this.btnBackgroundColor.Size = new System.Drawing.Size(104, 25);
+            this.btnBackgroundColor.TabIndex = 37;
+            this.btnBackgroundColor.Text = "Background";
+            this.btnBackgroundColor.UseVisualStyleBackColor = true;
+            this.btnBackgroundColor.Click += new System.EventHandler(this.btnBackgroundColor_Click);
+            // 
             // pnlTextColor
             // 
             this.pnlTextColor.Location = new System.Drawing.Point(158, 57);
@@ -336,11 +357,11 @@
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 46);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(244, 357);
+            this.tabPage2.Size = new System.Drawing.Size(244, 378);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Timing";
             // 
@@ -413,11 +434,11 @@
             this.tabPage4.Controls.Add(this.groupBox7);
             this.tabPage4.Controls.Add(this.trkHighlightbandDistanceFromTop);
             this.tabPage4.Controls.Add(this.trkHighlightBandOpacity);
-            this.tabPage4.Location = new System.Drawing.Point(4, 46);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage4.Size = new System.Drawing.Size(244, 357);
+            this.tabPage4.Size = new System.Drawing.Size(244, 378);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Highlight Band";
             // 
@@ -666,9 +687,40 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Window";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.chkNonActivating);
+            this.groupBox3.Location = new System.Drawing.Point(3, 224);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(238, 130);
+            this.groupBox3.TabIndex = 39;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Non-Activating ";
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(33, 50);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(181, 77);
+            this.label8.TabIndex = 39;
+            this.label8.Text = "Note: Setting the window to Non-activating requires an application restart to tak" +
+    "e effect.";
+            // 
+            // chkNonActivating
+            // 
+            this.chkNonActivating.AutoSize = true;
+            this.chkNonActivating.Location = new System.Drawing.Point(58, 23);
+            this.chkNonActivating.Margin = new System.Windows.Forms.Padding(2);
+            this.chkNonActivating.Name = "chkNonActivating";
+            this.chkNonActivating.Size = new System.Drawing.Size(115, 20);
+            this.chkNonActivating.TabIndex = 37;
+            this.chkNonActivating.Text = "Non-activating";
+            this.chkNonActivating.UseVisualStyleBackColor = true;
+            this.chkNonActivating.CheckedChanged += new System.EventHandler(this.chkNonActivating_CheckedChanged_1);
+            // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.chkShowControlSidebar);
             this.groupBox6.Controls.Add(this.chkMirrorText);
             this.groupBox6.Controls.Add(this.chkAlwaysOnTop);
             this.groupBox6.Location = new System.Drawing.Point(2, 117);
@@ -679,6 +731,30 @@
             this.groupBox6.TabIndex = 32;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = " Options ";
+            // 
+            // chkMirrorText
+            // 
+            this.chkMirrorText.AutoSize = true;
+            this.chkMirrorText.Location = new System.Drawing.Point(59, 57);
+            this.chkMirrorText.Margin = new System.Windows.Forms.Padding(2);
+            this.chkMirrorText.Name = "chkMirrorText";
+            this.chkMirrorText.Size = new System.Drawing.Size(86, 20);
+            this.chkMirrorText.TabIndex = 38;
+            this.chkMirrorText.Text = "Mirror text";
+            this.chkMirrorText.UseVisualStyleBackColor = true;
+            this.chkMirrorText.CheckedChanged += new System.EventHandler(this.chkMirrorText_CheckedChanged_1);
+            // 
+            // chkAlwaysOnTop
+            // 
+            this.chkAlwaysOnTop.AutoSize = true;
+            this.chkAlwaysOnTop.Location = new System.Drawing.Point(59, 33);
+            this.chkAlwaysOnTop.Margin = new System.Windows.Forms.Padding(2);
+            this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
+            this.chkAlwaysOnTop.Size = new System.Drawing.Size(120, 20);
+            this.chkAlwaysOnTop.TabIndex = 36;
+            this.chkAlwaysOnTop.Text = "Always On Top";
+            this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
+            this.chkAlwaysOnTop.CheckedChanged += new System.EventHandler(this.chkAlwaysOnTop_CheckedChanged_1);
             // 
             // groupBox5
             // 
@@ -692,6 +768,30 @@
             this.groupBox5.TabIndex = 28;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Teleprompter Display Mode ";
+            // 
+            // radBorderless
+            // 
+            this.radBorderless.AutoSize = true;
+            this.radBorderless.Location = new System.Drawing.Point(59, 58);
+            this.radBorderless.Margin = new System.Windows.Forms.Padding(2);
+            this.radBorderless.Name = "radBorderless";
+            this.radBorderless.Size = new System.Drawing.Size(94, 20);
+            this.radBorderless.TabIndex = 4;
+            this.radBorderless.TabStop = true;
+            this.radBorderless.Text = "Borderless";
+            this.radBorderless.UseVisualStyleBackColor = true;
+            // 
+            // radNormalBorder
+            // 
+            this.radNormalBorder.AutoSize = true;
+            this.radNormalBorder.Location = new System.Drawing.Point(59, 36);
+            this.radNormalBorder.Margin = new System.Windows.Forms.Padding(2);
+            this.radNormalBorder.Name = "radNormalBorder";
+            this.radNormalBorder.Size = new System.Drawing.Size(115, 20);
+            this.radNormalBorder.TabIndex = 3;
+            this.radNormalBorder.TabStop = true;
+            this.radNormalBorder.Text = "Normal border";
+            this.radNormalBorder.UseVisualStyleBackColor = true;
             // 
             // tabPage5
             // 
@@ -886,120 +986,6 @@
             this.label6.TabIndex = 1;
             this.label6.Text = "Support PromptLogic";
             // 
-            // btnTextColor
-            // 
-            this.btnTextColor.Location = new System.Drawing.Point(46, 55);
-            this.btnTextColor.Margin = new System.Windows.Forms.Padding(2);
-            this.btnTextColor.Name = "btnTextColor";
-            this.btnTextColor.Size = new System.Drawing.Size(104, 25);
-            this.btnTextColor.TabIndex = 38;
-            this.btnTextColor.Text = "Text";
-            this.btnTextColor.UseVisualStyleBackColor = true;
-            this.btnTextColor.Click += new System.EventHandler(this.btnTextColor_Click);
-            // 
-            // btnBackgroundColor
-            // 
-            this.btnBackgroundColor.Location = new System.Drawing.Point(46, 18);
-            this.btnBackgroundColor.Margin = new System.Windows.Forms.Padding(2);
-            this.btnBackgroundColor.Name = "btnBackgroundColor";
-            this.btnBackgroundColor.Size = new System.Drawing.Size(104, 25);
-            this.btnBackgroundColor.TabIndex = 37;
-            this.btnBackgroundColor.Text = "Background";
-            this.btnBackgroundColor.UseVisualStyleBackColor = true;
-            this.btnBackgroundColor.Click += new System.EventHandler(this.btnBackgroundColor_Click);
-            // 
-            // chkShowControlSidebar
-            // 
-            this.chkShowControlSidebar.AutoSize = true;
-            this.chkShowControlSidebar.Location = new System.Drawing.Point(59, 23);
-            this.chkShowControlSidebar.Margin = new System.Windows.Forms.Padding(2);
-            this.chkShowControlSidebar.Name = "chkShowControlSidebar";
-            this.chkShowControlSidebar.Size = new System.Drawing.Size(128, 20);
-            this.chkShowControlSidebar.TabIndex = 39;
-            this.chkShowControlSidebar.Text = "Show control bar";
-            this.chkShowControlSidebar.UseVisualStyleBackColor = true;
-            this.chkShowControlSidebar.CheckedChanged += new System.EventHandler(this.chkShowControlSidebar_CheckedChanged);
-            // 
-            // chkMirrorText
-            // 
-            this.chkMirrorText.AutoSize = true;
-            this.chkMirrorText.Location = new System.Drawing.Point(59, 68);
-            this.chkMirrorText.Margin = new System.Windows.Forms.Padding(2);
-            this.chkMirrorText.Name = "chkMirrorText";
-            this.chkMirrorText.Size = new System.Drawing.Size(86, 20);
-            this.chkMirrorText.TabIndex = 38;
-            this.chkMirrorText.Text = "Mirror text";
-            this.chkMirrorText.UseVisualStyleBackColor = true;
-            this.chkMirrorText.CheckedChanged += new System.EventHandler(this.chkMirrorText_CheckedChanged_1);
-            // 
-            // chkNonActivating
-            // 
-            this.chkNonActivating.AutoSize = true;
-            this.chkNonActivating.Location = new System.Drawing.Point(58, 23);
-            this.chkNonActivating.Margin = new System.Windows.Forms.Padding(2);
-            this.chkNonActivating.Name = "chkNonActivating";
-            this.chkNonActivating.Size = new System.Drawing.Size(115, 20);
-            this.chkNonActivating.TabIndex = 37;
-            this.chkNonActivating.Text = "Non-activating";
-            this.chkNonActivating.UseVisualStyleBackColor = true;
-            this.chkNonActivating.CheckedChanged += new System.EventHandler(this.chkNonActivating_CheckedChanged_1);
-            // 
-            // chkAlwaysOnTop
-            // 
-            this.chkAlwaysOnTop.AutoSize = true;
-            this.chkAlwaysOnTop.Location = new System.Drawing.Point(59, 44);
-            this.chkAlwaysOnTop.Margin = new System.Windows.Forms.Padding(2);
-            this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
-            this.chkAlwaysOnTop.Size = new System.Drawing.Size(120, 20);
-            this.chkAlwaysOnTop.TabIndex = 36;
-            this.chkAlwaysOnTop.Text = "Always On Top";
-            this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
-            this.chkAlwaysOnTop.CheckedChanged += new System.EventHandler(this.chkAlwaysOnTop_CheckedChanged_1);
-            // 
-            // radBorderless
-            // 
-            this.radBorderless.AutoSize = true;
-            this.radBorderless.Location = new System.Drawing.Point(59, 58);
-            this.radBorderless.Margin = new System.Windows.Forms.Padding(2);
-            this.radBorderless.Name = "radBorderless";
-            this.radBorderless.Size = new System.Drawing.Size(94, 20);
-            this.radBorderless.TabIndex = 4;
-            this.radBorderless.TabStop = true;
-            this.radBorderless.Text = "Borderless";
-            this.radBorderless.UseVisualStyleBackColor = true;
-            // 
-            // radNormalBorder
-            // 
-            this.radNormalBorder.AutoSize = true;
-            this.radNormalBorder.Location = new System.Drawing.Point(59, 36);
-            this.radNormalBorder.Margin = new System.Windows.Forms.Padding(2);
-            this.radNormalBorder.Name = "radNormalBorder";
-            this.radNormalBorder.Size = new System.Drawing.Size(115, 20);
-            this.radNormalBorder.TabIndex = 3;
-            this.radNormalBorder.TabStop = true;
-            this.radNormalBorder.Text = "Normal border";
-            this.radNormalBorder.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.chkNonActivating);
-            this.groupBox3.Location = new System.Drawing.Point(3, 224);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(238, 130);
-            this.groupBox3.TabIndex = 39;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Non-Activating ";
-            // 
-            // label8
-            // 
-            this.label8.Location = new System.Drawing.Point(33, 50);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(181, 77);
-            this.label8.TabIndex = 39;
-            this.label8.Text = "Note: Setting the window to Non-activating requires an application restart to tak" +
-    "e effect.";
-            // 
             // Settings
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1042,6 +1028,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkHighlightbandDistanceFromTop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkHighlightBandOpacity)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -1050,8 +1038,6 @@
             this.tabPage5.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1120,7 +1106,6 @@
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnTextColor;
         private System.Windows.Forms.Button btnBackgroundColor;
-        private System.Windows.Forms.CheckBox chkShowControlSidebar;
         private System.Windows.Forms.CheckBox chkMirrorText;
         private System.Windows.Forms.CheckBox chkNonActivating;
         private System.Windows.Forms.CheckBox chkAlwaysOnTop;

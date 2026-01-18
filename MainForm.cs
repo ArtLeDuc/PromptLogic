@@ -17,10 +17,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using static PromptLogic.TransparentOverlay;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.AxHost;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
@@ -136,11 +138,16 @@ namespace PromptLogic
             this.ContextMenu.Show(this, this.PointToClient(screenPos));
         }
 
-        MenuItem hideShowMenuItem = null;
         MenuItem pauseResumeMenuItem = null;
         MenuItem stopStartMenuItem = null;
         MenuItem connectMenuItem = null;
         MenuItem settingsMenuItem = null;
+        MenuItem ControlPanelCompressed = null;
+        MenuItem ControlPanelUnCompressed = null;
+        MenuItem ControlPanelHide = null;
+        MenuItem ControlPanelShow = null;
+        MenuItem BorderShow = null;
+        MenuItem BorderHide = null;
         private void CreateContextMenu()
         {
             var menu = new ContextMenu();
@@ -157,7 +164,23 @@ namespace PromptLogic
             settingsMenuItem = menu.MenuItems.Add("Settings...", OpenSettings);
             menu.MenuItems.Add("-");
 
-            hideShowMenuItem = menu.MenuItems.Add("Show Control Panel", ShowControlPanel);
+            var viewOptions = new MenuItem { Text = "Control Panel" };
+            ControlPanelShow = viewOptions.MenuItems.Add("Show", ControlPanelVisibleClicked);
+            ControlPanelHide = viewOptions.MenuItems.Add("Hide", ControlPanelVisibleClicked);
+            viewOptions.MenuItems.Add("-");
+            ControlPanelCompressed = viewOptions.MenuItems.Add("Compress", ControlPanelCompressedClicked);
+            ControlPanelUnCompressed = viewOptions.MenuItems.Add("Uncompress", ControlPanelCompressedClicked);
+            menu.MenuItems.Add(viewOptions);
+
+            ControlPanelShow.Checked = true;
+
+            var borderOptions = new MenuItem { Text = "Border" };
+            BorderShow = borderOptions.MenuItems.Add("Show", BorderButtonClicked);
+            BorderShow.Tag = FormBorderStyle.Sizable;
+            BorderHide = borderOptions.MenuItems.Add("Hide", BorderButtonClicked);
+            BorderHide.Tag = FormBorderStyle.None;
+            menu.MenuItems.Add(borderOptions);
+            BorderShow.Checked = true;
 
             menu.MenuItems.Add("-");
 
@@ -166,6 +189,49 @@ namespace PromptLogic
 
             this.ContextMenu = menu;
         }
+        private void BorderButtonClicked(object sender, EventArgs e)
+        {
+            BorderHide.Checked = false;
+            BorderShow.Checked = false;
+            // Check the clicked radio button
+            MenuItem clickedItem = sender as MenuItem;
+            if (clickedItem != null)
+            {
+                clickedItem.Checked = true;
+            }
+
+             ((ITeleprompterPreview)this).ApplyMainBorderStyle((FormBorderStyle)clickedItem.Tag);
+        }
+        private void UpdateControlPanelMenuChecks(bool isVisible, bool isCompressed)
+        {
+            ControlPanelShow.Checked = isVisible;
+            ControlPanelHide.Checked = !isVisible;
+            ControlPanelCompressed.Checked = isCompressed;
+            ControlPanelUnCompressed.Checked = !isCompressed;
+        }
+
+        private void ControlPanelCompressedClicked(object sender, EventArgs e)
+        {
+            MenuItem clickedItem = sender as MenuItem;
+            if (clickedItem != null)
+            {
+                clickedItem.Checked = true;
+            }
+
+            ((ITeleprompterPreview)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, clickedItem.Text == "Compress");
+
+        }
+
+        private void ControlPanelVisibleClicked(object sender, EventArgs e)
+        {
+            MenuItem clickedItem = sender as MenuItem;
+            if (clickedItem != null)
+            {
+                clickedItem.Checked = true;
+            }
+
+            ((ITeleprompterPreview)this).ApplySetControlPanelState(clickedItem.Text == "Show", SettingsManager.Settings.controlPanelCompressed);
+        }
 
         private void ContextMenu_Popup(object sender, EventArgs e)
         {
@@ -173,11 +239,6 @@ namespace PromptLogic
             settingsMenuItem.Enabled = isStopped;
 
             string s;
-            if (!pnlCollapsed.Visible && !pnlControl.Visible)
-                s = "Show Control Panel";
-            else
-                s = "Hide Control Panel";
-            hideShowMenuItem.Text = s;
 
             if (isStopped)
                 s = "Start";
@@ -215,14 +276,6 @@ namespace PromptLogic
         {
             Close(); 
         }
-        private void ShowControlPanel(object sender, EventArgs e)
-        {
-            if (!pnlCollapsed.Visible && !pnlControl.Visible)
-                ((ITeleprompterPreview)this).ApplyShowControlSidebar(true);
-            else
-                ((ITeleprompterPreview)this).ApplyShowControlSidebar(false);
-
-        }
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitializeWebView();
@@ -248,7 +301,7 @@ namespace PromptLogic
             toolTip1.ReshowDelay = 100;
             toolTip1.ShowAlways = true;
 
-            ToggleCollapse(SettingsManager.Settings.IsCollapsed);
+            ((ITeleprompterPreview)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, SettingsManager.Settings.controlPanelCompressed);
 
 #if !DEBUG
             btnWebDebugger.Visible = false;
@@ -283,6 +336,7 @@ namespace PromptLogic
 
             SettingsManager.Save();
         }
+
         protected override bool ShowWithoutActivation
         {
             get { return true; }
@@ -351,7 +405,7 @@ namespace PromptLogic
 
         private void btnCollapse_Click(object sender, EventArgs e)
         {
-            ToggleCollapse(true);
+            ((ITeleprompterPreview)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, true);
         }
 
         private void Controller_Disconnected(object sender, EventArgs e)
@@ -361,22 +415,7 @@ namespace PromptLogic
         }
         private void btnExpand_Click(object sender, EventArgs e)
         {
-            ToggleCollapse(false);
-        }
-        private void ToggleCollapse(bool Collapse)
-        {
-            if (Collapse)
-            {
-                pnlCollapsed.Visible = true;
-                pnlControl.Visible = false;
-                SettingsManager.Settings.IsCollapsed = true;
-            }
-            else
-            {
-                pnlCollapsed.Visible = false;
-                pnlControl.Visible = true;
-                SettingsManager.Settings.IsCollapsed = false;
-            }
+            ((ITeleprompterPreview)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, false);
         }
         private void ConnectToWebView()
         {
@@ -589,7 +628,7 @@ namespace PromptLogic
             ((ITeleprompterPreview)this).ApplyHighlightBandTriggerPointColor(s.HighlightBandTriggerPointColor);
 
             ((ITeleprompterPreview)this).ApplyMainBorderStyle(s.MainFormBorderStyle);
-            ((ITeleprompterPreview)this).ApplyShowControlSidebar(s.ShowControlSidebar);
+            ((ITeleprompterPreview)this).ApplySetControlPanelState(s.controlPanelVisible, s.controlPanelCompressed);
 
             ((ITeleprompterPreview)this).ApplyMirrorText(s.MirrorText);
 

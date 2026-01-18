@@ -88,8 +88,6 @@ namespace PromptLogic
                 radNormalBorder.Checked = true;
             }
 
-            chkShowControlSidebar.Checked = pending.ShowControlSidebar;
-
             chkMirrorText.Checked = pending.MirrorText;
             chkAlwaysOnTop.Checked = pending.AlwaysOnTop;
             chkNonActivating.Checked = pending.NonActivating;
@@ -396,13 +394,6 @@ namespace PromptLogic
                     preview.ApplyTextColor(css);
                 }
             }
-        }
-
-        private void chkShowControlSidebar_CheckedChanged(object sender, EventArgs e)
-        {
-            bool bShowControlBar = chkShowControlSidebar.Checked;
-            pending.ShowControlSidebar = bShowControlBar;
-            preview.ApplyShowControlSidebar(bShowControlBar);
         }
 
         private void chkAlwaysOnTop_CheckedChanged_1(object sender, EventArgs e)

@@ -121,21 +121,31 @@ namespace PromptLogic
             ApplyAllSettings(); // calls your private MainForm method
         }
 
-        void ITeleprompterPreview.ApplyShowControlSidebar(bool bShowControlSidebar)
+        void ITeleprompterPreview.ApplySetControlPanelState(bool isVisible, bool isCompressed)
         {
-            if (bShowControlSidebar)
-            {
-                if (SettingsManager.Settings.IsCollapsed == true)
-                    pnlCollapsed.Visible = true;
-                else
-                    pnlControl.Visible = true;
+            SettingsManager.Settings.controlPanelVisible = isVisible;
+            SettingsManager.Settings.controlPanelCompressed = isCompressed;
 
+            if (isVisible)
+            {
+                if (isCompressed)
+                {
+                    pnlControl.Visible = false;
+                    pnlCollapsed.Visible = true;
+                }
+                else
+                {
+                    pnlControl.Visible = true;
+                    pnlCollapsed.Visible = false;
+                }
             }
             else
             {
                 pnlControl.Visible = false;
                 pnlCollapsed.Visible = false;
             }
+
+            UpdateControlPanelMenuChecks(isVisible, isCompressed);
         }
         void ITeleprompterPreview.ApplyMirrorText(bool mirrorText)
         {

@@ -20,7 +20,6 @@ namespace PromptLogic
         public string LastScriptPath { get; set; } = "";
         public SlideEngine SelectedEngine { get; set; } = SlideEngine.PowerPoint;
         public int StartSlideIndex { get; set; } = 0;
-        public bool IsCollapsed { get; set; } = false;
         public string TextColor { get; set; } = "#FFFFFF"; // default white
         public string BackColor { get; set; } = "#000000";
 
@@ -36,13 +35,14 @@ namespace PromptLogic
         public bool HighlightBandTriggerPointVisible { get; set; } = false;
         public string HighlightBandTriggerPointColor { get; set; } = "#FF0000";
         public FormBorderStyle MainFormBorderStyle { get; set; } = FormBorderStyle.Sizable;
-        public bool ShowControlSidebar { get; set; } = true;
         public bool MirrorText { get; set; } = false;
         public bool AlwaysOnTop { get; set; } = false;
         public bool NonActivating { get; set; } = false;
         public Size BorderlessSize { get; set; } = new Size(0, 0);
         public Point BorderlessLocation { get; set; } = Point.Empty;
         public Rectangle WindowBounds { get; set; } = Rectangle.Empty;
+        public bool controlPanelVisible { get; set; } = true;
+        public bool controlPanelCompressed { get; set; } = false;
 
         public AppSettings()
         {
@@ -57,7 +57,6 @@ namespace PromptLogic
             LastScriptPath = other.LastScriptPath;
             SelectedEngine = other.SelectedEngine;
             StartSlideIndex = other.StartSlideIndex;
-            IsCollapsed = other.IsCollapsed;
             LineSpacing = other.LineSpacing;
             ParagraphSpacing = other.ParagraphSpacing;
             HighlightHeightLines = other.HighlightHeightLines;
@@ -72,7 +71,8 @@ namespace PromptLogic
             MirrorText = other.MirrorText;
             AlwaysOnTop = other.AlwaysOnTop;
             NonActivating = other.NonActivating;
-            ShowControlSidebar = other.ShowControlSidebar;
+            controlPanelVisible = other.controlPanelVisible;
+            controlPanelCompressed = other.controlPanelCompressed;
             BorderlessSize = other.BorderlessSize;
             BorderlessLocation = other.BorderlessLocation;
             WindowBounds = other.WindowBounds;
