@@ -13,7 +13,5 @@ namespace PromptLogic
         void OnSlideChanged(int index);
         void InvokeOnUIThread(Action action);
         void LoadInitialPage();
-        void PauseSlideShow();
-        void StartSlideShow();
     }
 }

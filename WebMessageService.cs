@@ -46,13 +46,13 @@ namespace PromptLogic
                     if (duration > 0)
                         _ui.SendToWebView(Newtonsoft.Json.JsonConvert.SerializeObject(new { action = "pause", duration }));
                     else
-                        _ui.PauseSlideShow();
+                        ((ITeleprompterControl)_ui).PauseSlideShow();
                     break;
                 case "stop":
                     _ui.ExecuteScriptAsync("stopScroll()");
                     break;
                 case "start":
-                    _ui.StartSlideShow();
+                    ((ITeleprompterControl)_ui).StartSlideShow();
                     break;
                     // future commands:
                     // case "resume":

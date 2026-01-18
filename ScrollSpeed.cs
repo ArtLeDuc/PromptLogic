@@ -14,9 +14,9 @@ namespace PromptLogic
 {
     public partial class ScrollSpeed : Form
     {
-        private readonly ITeleprompterPreview preview;
+        private readonly ITeleprompterControl preview;
 
-        public ScrollSpeed(ITeleprompterPreview preview)
+        public ScrollSpeed(ITeleprompterControl preview)
         {
             InitializeComponent();
 

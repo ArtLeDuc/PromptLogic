@@ -34,6 +34,9 @@ public static class NativeMethods
     public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
     public static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
 
+    [DllImport("user32.dll")] 
+    public static extern uint GetWindowLong(IntPtr hWnd, int nIndex);
+
     // -----------------------------
     // GetWindowLong / GetWindowLongPtr
     // -----------------------------

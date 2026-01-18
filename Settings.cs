@@ -18,8 +18,8 @@ namespace PromptLogic
     {
 
         AppSettings pending = new AppSettings(SettingsManager.Settings);
-        private readonly ITeleprompterPreview preview;
-        public Settings(ITeleprompterPreview preview)
+        private readonly ITeleprompterControl preview;
+        public Settings(ITeleprompterControl preview)
         {
             InitializeComponent();
 

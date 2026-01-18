@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace PromptLogic
 {
-    public interface ITeleprompterPreview
+    public interface ITeleprompterControl
     {
         void ApplyFont(string fontName);
         void ApplyFontSize(int size);
@@ -34,5 +34,15 @@ namespace PromptLogic
         void ApplyScrollSpeed(double speed);
 
         void ApplyAllSettings();
+
+        void ConnectSlideShow();
+        void PauseSlideShow();
+        void StopSlideShow();
+        void StartSlideShow();
+        void CloseApplication();
+        void OpenSpeedSettings();
+        void OpenHighlightSettings();
+        void OpenSettings();
+
     }
 }

@@ -13,9 +13,9 @@ namespace PromptLogic
 {
     public partial class HighlightBand : Form
     {
-        private readonly ITeleprompterPreview preview;
+        private readonly ITeleprompterControl preview;
 
-        public HighlightBand(ITeleprompterPreview preview)
+        public HighlightBand(ITeleprompterControl preview)
         {
             this.preview = preview; 
             InitializeComponent();

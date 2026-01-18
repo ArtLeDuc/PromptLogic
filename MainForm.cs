@@ -28,18 +28,18 @@ using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
 namespace PromptLogic
 {
-    public partial class MainForm : Form, IWebViewActions, ITeleprompter, ITeleprompterPreview
+    public partial class MainForm : Form, IWebViewActions, ITeleprompter, ITeleprompterControl
     {
         private ISlideController _slides = null;
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
         const string _htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
-        private Settings settingsWindow;
+        public readonly WindowManager _windowManager;
+        private TransparentOverlay dragOverlay = null;
         private ScrollSpeed scrollSpeed;
         private HighlightBand highlightBand;
-        private readonly WindowManager _windowManager;
-        private TransparentOverlay dragOverlay = null;
-
+        private Settings settingsWindow;
+        private RightClickMenu rightClickMenu;
         private bool IsOnAnyScreen(Rectangle rect)
         {
             return Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(rect));
@@ -99,7 +99,8 @@ namespace PromptLogic
             this.Controls.Add(dragOverlay);
             dragOverlay.BringToFront();
 
-            CreateContextMenu();
+            rightClickMenu = new RightClickMenu(this);
+            this.ContextMenu = rightClickMenu;
         }
         private async void InitializeWebView()
         {
@@ -138,144 +139,6 @@ namespace PromptLogic
             this.ContextMenu.Show(this, this.PointToClient(screenPos));
         }
 
-        MenuItem pauseResumeMenuItem = null;
-        MenuItem stopStartMenuItem = null;
-        MenuItem connectMenuItem = null;
-        MenuItem settingsMenuItem = null;
-        MenuItem ControlPanelCompressed = null;
-        MenuItem ControlPanelUnCompressed = null;
-        MenuItem ControlPanelHide = null;
-        MenuItem ControlPanelShow = null;
-        MenuItem BorderShow = null;
-        MenuItem BorderHide = null;
-        private void CreateContextMenu()
-        {
-            var menu = new ContextMenu();
-
-            connectMenuItem = menu.MenuItems.Add("Connect", ConnectSlideShow);
-            menu.MenuItems.Add("-");
-
-            stopStartMenuItem = menu.MenuItems.Add("Start", StartSlideShow);
-            pauseResumeMenuItem = menu.MenuItems.Add("Pause", PauseSlideShow);
-
-            menu.MenuItems.Add("-");
-            menu.MenuItems.Add("Speed...", OpenSpeedSetting);
-            menu.MenuItems.Add("Highlight...", OpenHighlightSetting);
-            settingsMenuItem = menu.MenuItems.Add("Settings...", OpenSettings);
-            menu.MenuItems.Add("-");
-
-            var viewOptions = new MenuItem { Text = "Control Panel" };
-            ControlPanelShow = viewOptions.MenuItems.Add("Show", ControlPanelVisibleClicked);
-            ControlPanelHide = viewOptions.MenuItems.Add("Hide", ControlPanelVisibleClicked);
-            viewOptions.MenuItems.Add("-");
-            ControlPanelCompressed = viewOptions.MenuItems.Add("Compress", ControlPanelCompressedClicked);
-            ControlPanelUnCompressed = viewOptions.MenuItems.Add("Uncompress", ControlPanelCompressedClicked);
-            menu.MenuItems.Add(viewOptions);
-
-            ControlPanelShow.Checked = true;
-
-            var borderOptions = new MenuItem { Text = "Border" };
-            BorderShow = borderOptions.MenuItems.Add("Show", BorderButtonClicked);
-            BorderShow.Tag = FormBorderStyle.Sizable;
-            BorderHide = borderOptions.MenuItems.Add("Hide", BorderButtonClicked);
-            BorderHide.Tag = FormBorderStyle.None;
-            menu.MenuItems.Add(borderOptions);
-            BorderShow.Checked = true;
-
-            menu.MenuItems.Add("-");
-
-            menu.MenuItems.Add("Close", CloseApplication);
-            menu.Popup += ContextMenu_Popup;
-
-            this.ContextMenu = menu;
-        }
-        private void BorderButtonClicked(object sender, EventArgs e)
-        {
-            BorderHide.Checked = false;
-            BorderShow.Checked = false;
-            // Check the clicked radio button
-            MenuItem clickedItem = sender as MenuItem;
-            if (clickedItem != null)
-            {
-                clickedItem.Checked = true;
-            }
-
-             ((ITeleprompterPreview)this).ApplyMainBorderStyle((FormBorderStyle)clickedItem.Tag);
-        }
-        private void UpdateControlPanelMenuChecks(bool isVisible, bool isCompressed)
-        {
-            ControlPanelShow.Checked = isVisible;
-            ControlPanelHide.Checked = !isVisible;
-            ControlPanelCompressed.Checked = isCompressed;
-            ControlPanelUnCompressed.Checked = !isCompressed;
-        }
-
-        private void ControlPanelCompressedClicked(object sender, EventArgs e)
-        {
-            MenuItem clickedItem = sender as MenuItem;
-            if (clickedItem != null)
-            {
-                clickedItem.Checked = true;
-            }
-
-            ((ITeleprompterPreview)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, clickedItem.Text == "Compress");
-
-        }
-
-        private void ControlPanelVisibleClicked(object sender, EventArgs e)
-        {
-            MenuItem clickedItem = sender as MenuItem;
-            if (clickedItem != null)
-            {
-                clickedItem.Checked = true;
-            }
-
-            ((ITeleprompterPreview)this).ApplySetControlPanelState(clickedItem.Text == "Show", SettingsManager.Settings.controlPanelCompressed);
-        }
-
-        private void ContextMenu_Popup(object sender, EventArgs e)
-        {
-            connectMenuItem.Enabled = isStopped;
-            settingsMenuItem.Enabled = isStopped;
-
-            string s;
-
-            if (isStopped)
-                s = "Start";
-            else
-                s = "Stop";
-            stopStartMenuItem.Text = s;
-
-            if (isPaused)
-                s = "Resume";
-            else
-                s = "Pause";
-            pauseResumeMenuItem.Text = s;
-            pauseResumeMenuItem.Enabled = !isStopped;
-        }
-        private void ConnectSlideShow(object seder, EventArgs e)
-        {
-            ConnectSlideShow();
-        }
-        private void PauseSlideShow(object sender, EventArgs e)
-        {
-            PauseSlideShow();
-        }
-        private void StopSlideShow(object sender, EventArgs e)
-        {
-            StopSlideShow();
-        }
-        private void StartSlideShow(object sender, EventArgs e)
-        {
-            if (isStopped)
-                StartSlideShow();
-            else
-                StopSlideShow();
-        }
-        private void CloseApplication(object sender, EventArgs e)
-        {
-            Close(); 
-        }
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitializeWebView();
@@ -301,7 +164,7 @@ namespace PromptLogic
             toolTip1.ReshowDelay = 100;
             toolTip1.ShowAlways = true;
 
-            ((ITeleprompterPreview)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, SettingsManager.Settings.controlPanelCompressed);
+            ((ITeleprompterControl)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, SettingsManager.Settings.controlPanelCompressed);
 
 #if !DEBUG
             btnWebDebugger.Visible = false;
@@ -400,12 +263,12 @@ namespace PromptLogic
 
             LoadNotesForSlide(index);
             btnPause.Text = "Pause";
-            isPaused = false;
+            IsPaused = false;
         }
 
         private void btnCollapse_Click(object sender, EventArgs e)
         {
-            ((ITeleprompterPreview)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, true);
+            ((ITeleprompterControl)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, true);
         }
 
         private void Controller_Disconnected(object sender, EventArgs e)
@@ -415,7 +278,7 @@ namespace PromptLogic
         }
         private void btnExpand_Click(object sender, EventArgs e)
         {
-            ((ITeleprompterPreview)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, false);
+            ((ITeleprompterControl)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, false);
         }
         private void ConnectToWebView()
         {
@@ -428,65 +291,25 @@ namespace PromptLogic
             webView.CoreWebView2.WebMessageReceived += _service.Handler;
 
         }
-        private void ConnectSlideShow()
-        {
-            _slides = SlideControllerFactory.Create(_selectedEngine);
-            _slides.Disconnected += Controller_Disconnected;
-
-            if (!_slides.Connect(this))
-            {
-                MessageBox.Show("Could not connect.");
-                return;
-            }
-            _slides.SlideShowBegin += (s, g) => {
-                this.BeginInvoke((Action)(() => LoadSlideSelectionCombo()));
-            };
-
-            if (_slides.PresentationHasTimings())
-            {
-                var result = MessageBox.Show(
-                    "This presentation has recorded timings. Clear them?",
-                    "Timings Detected",
-                    MessageBoxButtons.YesNo);
-
-                if (result == DialogResult.Yes)
-                    _slides.ClearAllTimings();
-            }
-
-            ConnectToWebView();
-
-            if (_slides.IsSlideShowRunning)
-            {
-                LoadNotesForCurrentSlide();
-                LoadSlideSelectionCombo();
-            }
-        }
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            ConnectSlideShow();
+            ((ITeleprompterControl)this).ConnectSlideShow();
         }
         private void btnCollapsedConnect_Click(object sender, EventArgs e)
         {
-            ConnectSlideShow();
-        }
-        public void StartSlideShow()
-        {
-            if (_slides != null)
-                _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
-            StartTeleprompter();
-            UpdateControls();
+            ((ITeleprompterControl)this).ConnectSlideShow();
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
-            StartSlideShow();
+            ((ITeleprompterControl)this).StartSlideShow();
         }
         private void btnCollapsedStart_Click(object sender, EventArgs e)
         {
-            StartSlideShow();
+            ((ITeleprompterControl)this).StartSlideShow();
         }
         public void UpdateControls()
         {
-            if (isPaused)
+            if (IsPaused)
             {
                 btnPause.Text = ">> Resume";
                 btnCollapsedPause.Text = ">>";
@@ -497,103 +320,53 @@ namespace PromptLogic
                 btnCollapsedPause.Text = "||";
             }
 
-            btnCollapsedConnect.Enabled = isStopped;
-            btnLoadSampleScript.Enabled = isStopped;
-            btnSettings.Enabled = isStopped;
-            cmbStartSlide.Enabled = isStopped;
-            btnConnect.Enabled = isStopped;
+            btnCollapsedConnect.Enabled = IsStopped;
+            btnLoadSampleScript.Enabled = IsStopped;
+            btnSettings.Enabled = IsStopped;
+            cmbStartSlide.Enabled = IsStopped;
+            btnConnect.Enabled = IsStopped;
 
-            btnStart.Enabled = isStopped;
-            btnCollapsedStart.Enabled = isStopped;
+            btnStart.Enabled = IsStopped;
+            btnCollapsedStart.Enabled = IsStopped;
 
-            btnPause.Enabled = !isStopped;
-            btnCollapsedPause.Enabled = !isStopped;
+            btnPause.Enabled = !IsStopped;
+            btnCollapsedPause.Enabled = !IsStopped;
 
-            btnStop.Enabled = !isStopped;
-            btnCollapsedStop.Enabled = !isStopped;
+            btnStop.Enabled = !IsStopped;
+            btnCollapsedStop.Enabled = !IsStopped;
 
             if (settingsWindow != null && settingsWindow.Visible)
-                settingsWindow.Enabled = isStopped;
+                settingsWindow.Enabled = IsStopped;
 
             SetManualScrolling();
-        }
-        public void PauseSlideShow()
-        {
-            PauseTeleprompter();
-            UpdateControls();
         }
 
         private void btnPause_Click(object sender, EventArgs e)
         {
-            PauseSlideShow();
+            ((ITeleprompterControl)this).PauseSlideShow();
         }
         private void btnCollapsedPause_Click(object sender, EventArgs e)
         {
-            PauseSlideShow();
-        }
-        private void StopSlideShow()
-        {
-            StopTeleprompter();
-            UpdateControls();
+            ((ITeleprompterControl)this).PauseSlideShow();
         }
         private void btnStop_Click(object sender, EventArgs e)
         {
-            StopSlideShow();
+            ((ITeleprompterControl)this).StopSlideShow();
         }
 
         private void btnCollapsedStop_Click(object sender, EventArgs e)
         {
-            StopSlideShow();
+            ((ITeleprompterControl)this).StopSlideShow();
         }
-
-        [DllImport("user32.dll")] static extern uint GetWindowLong(IntPtr hWnd, int nIndex);
-
-        const int GWL_EXSTYLE = -20;
-        const uint WS_EX_TOPMOST = 0x00000008;
 
         bool IsActuallyTopMost()
         {
-            uint exStyle = GetWindowLong(this.Handle, GWL_EXSTYLE);
-            return (exStyle & WS_EX_TOPMOST) != 0;
-        }
-        private void OpenSettings(object sender, EventArgs e)
-        {
-            if (settingsWindow == null || settingsWindow.IsDisposed)
-            {
-                settingsWindow = new Settings(this);
-
-                // Sync with actual topmost state
-                settingsWindow.TopMost = IsActuallyTopMost();
-
-                var screen = Screen.FromControl(this);
-                var work = screen.WorkingArea;
-
-                int desiredX = this.Right;
-                int desiredY = this.Top;
-
-                bool fitsRight = desiredX + settingsWindow.Width <= work.Right;
-
-                if (fitsRight)
-                {
-                    settingsWindow.StartPosition = FormStartPosition.Manual;
-                    settingsWindow.Location = new System.Drawing.Point(desiredX, desiredY);
-                }
-                else
-                {
-                    settingsWindow.StartPosition = FormStartPosition.CenterParent;
-                }
-
-                settingsWindow.Show();
-                settingsWindow.Focus();
-            }
-            else
-            {
-                settingsWindow.Focus();
-            }
+            uint exStyle = NativeMethods.GetWindowLong((IntPtr)this.Handle, (int)NativeMethods.GWL_EXSTYLE);
+            return (exStyle & NativeMethods.WS_EX_TOPMOST) != 0;
         }
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            OpenSettings(null, null);
+            OpenSettings();
         }
         private void btnWebDebugger_Click(object sender, EventArgs e)
         {
@@ -605,34 +378,34 @@ namespace PromptLogic
             var s = SettingsManager.Settings;
 
             // Font family
-            ((ITeleprompterPreview)this).ApplyFont(s.TeleprompterFont);
+            ((ITeleprompterControl)this).ApplyFont(s.TeleprompterFont);
             // Font size
-            ((ITeleprompterPreview)this).ApplyFontSize(s.FontSize);
+            ((ITeleprompterControl)this).ApplyFontSize(s.FontSize);
             // Text color
-            ((ITeleprompterPreview)this).ApplyTextColor(s.TextColor);
+            ((ITeleprompterControl)this).ApplyTextColor(s.TextColor);
             // Background color
-            ((ITeleprompterPreview)this).ApplyBackgroundColor(s.BackColor);
+            ((ITeleprompterControl)this).ApplyBackgroundColor(s.BackColor);
             //Line spacing
-            ((ITeleprompterPreview)this).ApplyLineSpacing(s.LineSpacing);
+            ((ITeleprompterControl)this).ApplyLineSpacing(s.LineSpacing);
             //Paragraph spacing
-            ((ITeleprompterPreview)this).ApplyParagraphSpacing(s.ParagraphSpacing);
+            ((ITeleprompterControl)this).ApplyParagraphSpacing(s.ParagraphSpacing);
 
-            ((ITeleprompterPreview)this).ApplyHighlightVisible(s.HighlightBandVisible);
-            ((ITeleprompterPreview)this).ApplyHighlightOpacity(s.HighlightBandOpacity);
-            ((ITeleprompterPreview)this).ApplyHighlightColor(s.HighlightBandColor);
-            ((ITeleprompterPreview)this).ApplyHighlightLines(s.HighlightHeightLines);
-            ((ITeleprompterPreview)this).ApplyHighlightTriggerPoint(s.HighlightBandTriggerPoint);
-            ((ITeleprompterPreview)this).ApplyHighlightTop(s.HighlightBandDistanceFromTop);
+            ((ITeleprompterControl)this).ApplyHighlightVisible(s.HighlightBandVisible);
+            ((ITeleprompterControl)this).ApplyHighlightOpacity(s.HighlightBandOpacity);
+            ((ITeleprompterControl)this).ApplyHighlightColor(s.HighlightBandColor);
+            ((ITeleprompterControl)this).ApplyHighlightLines(s.HighlightHeightLines);
+            ((ITeleprompterControl)this).ApplyHighlightTriggerPoint(s.HighlightBandTriggerPoint);
+            ((ITeleprompterControl)this).ApplyHighlightTop(s.HighlightBandDistanceFromTop);
 
-            ((ITeleprompterPreview)this).ApplyHighlightBandTriggerPointVisible(s.HighlightBandTriggerPointVisible);
-            ((ITeleprompterPreview)this).ApplyHighlightBandTriggerPointColor(s.HighlightBandTriggerPointColor);
+            ((ITeleprompterControl)this).ApplyHighlightBandTriggerPointVisible(s.HighlightBandTriggerPointVisible);
+            ((ITeleprompterControl)this).ApplyHighlightBandTriggerPointColor(s.HighlightBandTriggerPointColor);
 
-            ((ITeleprompterPreview)this).ApplyMainBorderStyle(s.MainFormBorderStyle);
-            ((ITeleprompterPreview)this).ApplySetControlPanelState(s.controlPanelVisible, s.controlPanelCompressed);
+            ((ITeleprompterControl)this).ApplyMainBorderStyle(s.MainFormBorderStyle);
+            ((ITeleprompterControl)this).ApplySetControlPanelState(s.controlPanelVisible, s.controlPanelCompressed);
 
-            ((ITeleprompterPreview)this).ApplyMirrorText(s.MirrorText);
+            ((ITeleprompterControl)this).ApplyMirrorText(s.MirrorText);
 
-            ((ITeleprompterPreview)this).ApplyAlwaysOnTop(s.AlwaysOnTop);
+            ((ITeleprompterControl)this).ApplyAlwaysOnTop(s.AlwaysOnTop);
 
         }
 
@@ -680,7 +453,7 @@ namespace PromptLogic
             );
         }
 
-        private void OpenSpeedSetting(object sender, EventArgs e)
+        private void OpenSpeedSetting()
         {
             if (scrollSpeed == null || scrollSpeed.IsDisposed)
             {
@@ -693,7 +466,7 @@ namespace PromptLogic
             }
         }
 
-        private void OpenHighlightSetting(object sender, EventArgs e)
+        private void OpenHighlightSetting()
         {
             if (highlightBand == null || highlightBand.IsDisposed)
             {
@@ -702,28 +475,41 @@ namespace PromptLogic
             }
             else
             {
-                _windowManager.ClosePopup(highlightBand); 
+                _windowManager.ClosePopup(highlightBand);
+            }
+        }
+
+        private void OpenSettings()
+        {
+            if (settingsWindow == null || settingsWindow.IsDisposed)
+            {
+                settingsWindow = new Settings(this);
+                _windowManager.ShowPopup(settingsWindow);
+            }
+            else
+            {
+                _windowManager.ClosePopup(highlightBand);
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenSpeedSetting(null, null);
+            OpenSpeedSetting();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            OpenSpeedSetting(null, null);
+            OpenSpeedSetting();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            OpenHighlightSetting(null, null);
+            OpenHighlightSetting();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            OpenHighlightSetting(null, null);
+            OpenHighlightSetting();
         }
 
         public bool IsAppTopMost() 
