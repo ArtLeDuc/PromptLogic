@@ -205,7 +205,8 @@ namespace PromptLogic
         }
         void ITeleprompterControl.StartSlideShow()
         {
-            InputLocked = true;
+            LockInput();
+
             if (_slides != null)
                 _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
             StartTeleprompter();
@@ -243,11 +244,12 @@ namespace PromptLogic
 
         void ITeleprompterControl.LockInput()
         {
-            InputLocked = true;
+            LockInput();
         }
-        void ITeleprompterControl.UnLockInput()
+
+        void ITeleprompterControl.UnlockInput()
         {
-            InputLocked = false;
+            UnlockInput();
         }
     }
 }

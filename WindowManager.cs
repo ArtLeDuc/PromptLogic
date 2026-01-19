@@ -19,6 +19,7 @@ namespace PromptLogic
             Popup = popup ?? throw new ArgumentNullException(nameof(popup));
         }
     }   
+
     public class WindowManager
     {
         private readonly List<PopupInfo> _openPopups = new List<PopupInfo>();
@@ -36,6 +37,15 @@ namespace PromptLogic
 
             _mainForm.Move += (_, __) => Reflow();
             _mainForm.Resize += (_, __) => Reflow();
+        }
+
+        public void LockInput(bool bLocked)
+        {
+            foreach (var info in _openPopups)
+            {
+                var popup = info.Popup;
+                popup.Enabled = !bLocked;
+            }
         }
 
         public void RegisterMainForm(Form mainForm)

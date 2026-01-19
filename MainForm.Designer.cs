@@ -356,7 +356,6 @@
             this.Name = "MainForm";
             this.Text = "PromptLogic";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
             this.pnlControl.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

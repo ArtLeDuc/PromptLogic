@@ -51,10 +51,24 @@ namespace PromptLogic
             set
             {
                 _inputLocked = value;
-//                UpdateInputState();
+                UpdateInputState();
             }
         }
 
+        public void LockInput()
+        {
+            InputLocked = true;
+        }
+
+        public void UnlockInput()
+        {
+            InputLocked = false;
+        }
+        private void UpdateInputState()
+        {
+            this.Enabled = !InputLocked;
+            _windowManager.LockInput(InputLocked);
+        }
         public MainForm()
         {
             InitializeComponent();
@@ -547,10 +561,5 @@ namespace PromptLogic
             return SettingsManager.Settings.AlwaysOnTop;
         }
 
-        private void MainForm_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (InputLocked)
-                return;
-        }
     }
 }

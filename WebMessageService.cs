@@ -55,7 +55,7 @@ namespace PromptLogic
                     ((ITeleprompterControl)_ui).StartSlideShow();
                     break;
                 case "scrollStarted":
-                    ((ITeleprompterControl)_ui).UnLockInput();
+                    ((ITeleprompterControl)_ui).UnlockInput();
                     break;
                     // future commands:
                     // case "resume":

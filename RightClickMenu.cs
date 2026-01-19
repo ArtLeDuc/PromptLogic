@@ -122,9 +122,6 @@ namespace PromptLogic
 
         private void ContextMenu_Popup(object sender, EventArgs e)
         {
-            if (((MainForm)_ui).InputLocked)
-                    return;
-
             bool isStopped = ((MainForm)_ui).IsStopped;
             bool isPaused = ((MainForm)_ui).IsPaused;
 

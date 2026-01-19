@@ -43,8 +43,8 @@ namespace PromptLogic
         void OpenSpeedSettings();
         void OpenHighlightSettings();
         void LoadSampleScript();
-        void UnLockInput();
         void LockInput();
+        void UnlockInput();
 
         void OpenSettings();
 
