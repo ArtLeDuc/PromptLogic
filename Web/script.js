@@ -272,10 +272,11 @@ function startTeleprompter() {
         resetCommands();
         refocusSlideshow();
         unpauseSlideshow();
-//        const geometry = computeLineGeometry();
-//        const bandGeometry = computeBandGeometry();
+        const geometry = computeLineGeometry();
+        const bandGeometry = computeBandGeometry();
 //        ensureDebugLine();
 //        updateDebugBandBottom(bandGeometry);
+        line = 0;
         startScroll();
     });
 }
@@ -360,7 +361,7 @@ function startScroll() {
     if (scrolling) return;
 
     scrolling = true;
-    line = 0;
+    window.chrome.webview.postMessage({ action: "scrollStarted" });
 
     const bodyStyles = window.getComputedStyle(document.body);
     const paddingTop = parseFloat(bodyStyles.paddingTop);

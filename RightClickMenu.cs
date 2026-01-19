@@ -19,6 +19,7 @@ namespace PromptLogic
         MenuItem ControlPanelShow = null;
         MenuItem BorderShow = null;
         MenuItem BorderHide = null;
+        MenuItem loadSampleScript = null;
         ITeleprompterControl _ui;
 
         public RightClickMenu(ITeleprompterControl ui)
@@ -28,6 +29,7 @@ namespace PromptLogic
             //            var menu = new ContextMenu();
 
             connectMenuItem = MenuItems.Add("Connect", ConnectSlideShow);
+            loadSampleScript = MenuItems.Add("Load Sample Script", LoadSampleScript);
             MenuItems.Add("-");
 
             stopStartMenuItem = MenuItems.Add("Start", StartSlideShow);
@@ -120,11 +122,15 @@ namespace PromptLogic
 
         private void ContextMenu_Popup(object sender, EventArgs e)
         {
+            if (((MainForm)_ui).InputLocked)
+                    return;
+
             bool isStopped = ((MainForm)_ui).IsStopped;
             bool isPaused = ((MainForm)_ui).IsPaused;
 
             connectMenuItem.Enabled = isStopped;
             settingsMenuItem.Enabled = isStopped;
+            loadSampleScript.Enabled = isStopped;
 
             string s;
 
@@ -180,5 +186,9 @@ namespace PromptLogic
             _ui.OpenSettings();
         }
 
+        private void LoadSampleScript(object sender, EventArgs e)
+        {
+            _ui.LoadSampleScript();
+        }
     }
 }

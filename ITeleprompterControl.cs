@@ -42,6 +42,10 @@ namespace PromptLogic
         void CloseApplication();
         void OpenSpeedSettings();
         void OpenHighlightSettings();
+        void LoadSampleScript();
+        void UnLockInput();
+        void LockInput();
+
         void OpenSettings();
 
     }

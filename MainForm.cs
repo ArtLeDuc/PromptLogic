@@ -39,10 +39,20 @@ namespace PromptLogic
         private ScrollSpeed scrollSpeed;
         private HighlightBand highlightBand;
         private Settings settingsWindow;
+        private bool _inputLocked = false;
         private RightClickMenu rightClickMenu;
         private bool IsOnAnyScreen(Rectangle rect)
         {
             return Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(rect));
+        }
+        public bool InputLocked
+        {
+            get => _inputLocked;
+            set
+            {
+                _inputLocked = value;
+//                UpdateInputState();
+            }
         }
 
         public MainForm()
@@ -102,6 +112,7 @@ namespace PromptLogic
             rightClickMenu = new RightClickMenu(this);
             this.ContextMenu = rightClickMenu;
         }
+
         private async void InitializeWebView()
         {
             webView.CoreWebView2InitializationCompleted += (s, g) =>
@@ -134,10 +145,15 @@ namespace PromptLogic
 
         }
 
+        
         private void ShowContextMenu(System.Drawing.Point screenPos)
-        {                       
+        {
+            if (InputLocked)
+                return;
+
             this.ContextMenu.Show(this, this.PointToClient(screenPos));
         }
+        
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -207,7 +223,17 @@ namespace PromptLogic
 
         public void SendToWebView(string message)
         {
-            webView.CoreWebView2.PostWebMessageAsString(message);
+            if (webView.InvokeRequired)
+            {
+                webView.BeginInvoke(new Action(() => SendToWebView(message)));
+                return;
+            }
+
+            var core = webView.CoreWebView2;
+            if (core == null || webView.IsDisposed)
+                return;
+
+            core.PostWebMessageAsString(message);
         }
 
         private void LoadSlideSelectionCombo()
@@ -409,10 +435,14 @@ namespace PromptLogic
 
         }
 
-        private void btnLoadSampleScript_Click(object sender, EventArgs e)
+        public void LoadSampleScript()
         {
             SendNotesToWebView(SampleScripts.Default);
             ConnectToWebView();
+        }
+        private void btnLoadSampleScript_Click(object sender, EventArgs e)
+        {
+            LoadSampleScript();
         }
 
         private void DragArea_MouseDown(object sender, MouseEventArgs e)
@@ -515,6 +545,12 @@ namespace PromptLogic
         public bool IsAppTopMost() 
         {
             return SettingsManager.Settings.AlwaysOnTop;
+        }
+
+        private void MainForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (InputLocked)
+                return;
         }
     }
 }
