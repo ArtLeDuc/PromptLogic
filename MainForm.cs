@@ -33,7 +33,7 @@ namespace PromptLogic
         private ISlideController _slides = null;
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
-        const string _htmlPath = @"E:\source\Teleprompter\Teleprompter\Web\index.html";
+        const string _htmlPath = @"Web\index.html";
         public readonly WindowManager _windowManager;
         private TransparentOverlay dragOverlay = null;
         private ScrollSpeed scrollSpeed;
@@ -156,7 +156,7 @@ namespace PromptLogic
                 AppDomain.CurrentDomain.BaseDirectory,
                 _htmlPath
             );
-            webView.Source = new Uri(_htmlPath);
+            webView.Source = new Uri(htmlPath);
 
         }
 

@@ -132,7 +132,7 @@
             this.panel1.Controls.Add(this.btnOk);
             this.panel1.Controls.Add(this.tabControl1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
@@ -170,10 +170,10 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(199, 460);
+            this.btnApply.Location = new System.Drawing.Point(201, 460);
             this.btnApply.Margin = new System.Windows.Forms.Padding(2);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(56, 25);
+            this.btnApply.Size = new System.Drawing.Size(63, 28);
             this.btnApply.TabIndex = 43;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -181,10 +181,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(127, 460);
+            this.btnCancel.Location = new System.Drawing.Point(123, 460);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(56, 25);
+            this.btnCancel.Size = new System.Drawing.Size(63, 28);
             this.btnCancel.TabIndex = 42;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -192,10 +192,10 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(57, 460);
+            this.btnOk.Location = new System.Drawing.Point(53, 460);
             this.btnOk.Margin = new System.Windows.Forms.Padding(2);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(56, 25);
+            this.btnOk.Size = new System.Drawing.Size(63, 28);
             this.btnOk.TabIndex = 41;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -215,7 +215,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(306, 407);
+            this.tabControl1.Size = new System.Drawing.Size(306, 420);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl1.TabIndex = 44;
             // 
@@ -224,11 +224,11 @@
             this.tabPage1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Location = new System.Drawing.Point(4, 48);
+            this.tabPage1.Location = new System.Drawing.Point(4, 54);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(298, 355);
+            this.tabPage1.Size = new System.Drawing.Size(298, 362);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Appearance";
             // 
@@ -242,14 +242,14 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(236, 67);
+            this.groupBox2.Size = new System.Drawing.Size(236, 81);
             this.groupBox2.TabIndex = 31;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Font";
             // 
             // numFontSize
             // 
-            this.numFontSize.Location = new System.Drawing.Point(76, 37);
+            this.numFontSize.Location = new System.Drawing.Point(76, 46);
             this.numFontSize.Margin = new System.Windows.Forms.Padding(2);
             this.numFontSize.Maximum = new decimal(new int[] {
             120,
@@ -262,7 +262,7 @@
             0,
             0});
             this.numFontSize.Name = "numFontSize";
-            this.numFontSize.Size = new System.Drawing.Size(45, 25);
+            this.numFontSize.Size = new System.Drawing.Size(45, 27);
             this.numFontSize.TabIndex = 33;
             this.numFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numFontSize.Value = new decimal(new int[] {
@@ -275,30 +275,30 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 38);
+            this.label2.Location = new System.Drawing.Point(11, 47);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 17);
+            this.label2.Size = new System.Drawing.Size(36, 20);
             this.label2.TabIndex = 32;
             this.label2.Text = "Size";
             // 
             // cmbFontName
             // 
             this.cmbFontName.FormattingEnabled = true;
-            this.cmbFontName.Location = new System.Drawing.Point(76, 13);
+            this.cmbFontName.Location = new System.Drawing.Point(76, 16);
             this.cmbFontName.Margin = new System.Windows.Forms.Padding(2);
             this.cmbFontName.Name = "cmbFontName";
-            this.cmbFontName.Size = new System.Drawing.Size(143, 25);
+            this.cmbFontName.Size = new System.Drawing.Size(143, 28);
             this.cmbFontName.TabIndex = 30;
             this.cmbFontName.SelectedIndexChanged += new System.EventHandler(this.cmbFontName_SelectedIndexChanged_1);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 20);
+            this.label1.Location = new System.Drawing.Point(11, 23);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(43, 17);
+            this.label1.Size = new System.Drawing.Size(49, 20);
             this.label1.TabIndex = 31;
             this.label1.Text = "Name";
             // 
@@ -322,7 +322,7 @@
             this.btnTextColor.Location = new System.Drawing.Point(46, 55);
             this.btnTextColor.Margin = new System.Windows.Forms.Padding(2);
             this.btnTextColor.Name = "btnTextColor";
-            this.btnTextColor.Size = new System.Drawing.Size(104, 25);
+            this.btnTextColor.Size = new System.Drawing.Size(104, 28);
             this.btnTextColor.TabIndex = 38;
             this.btnTextColor.Text = "Text";
             this.btnTextColor.UseVisualStyleBackColor = true;
@@ -333,7 +333,7 @@
             this.btnBackgroundColor.Location = new System.Drawing.Point(46, 18);
             this.btnBackgroundColor.Margin = new System.Windows.Forms.Padding(2);
             this.btnBackgroundColor.Name = "btnBackgroundColor";
-            this.btnBackgroundColor.Size = new System.Drawing.Size(104, 25);
+            this.btnBackgroundColor.Size = new System.Drawing.Size(104, 28);
             this.btnBackgroundColor.TabIndex = 37;
             this.btnBackgroundColor.Text = "Background";
             this.btnBackgroundColor.UseVisualStyleBackColor = true;
@@ -359,11 +359,11 @@
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 48);
+            this.tabPage2.Location = new System.Drawing.Point(4, 54);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(298, 355);
+            this.tabPage2.Size = new System.Drawing.Size(298, 362);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Timing";
             // 
@@ -385,26 +385,26 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(86, 117);
+            this.label7.Location = new System.Drawing.Point(86, 122);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(69, 17);
+            this.label7.Size = new System.Drawing.Size(76, 20);
             this.label7.TabIndex = 17;
             this.label7.Text = "Paragraph";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(107, 57);
+            this.label3.Location = new System.Drawing.Point(107, 62);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(31, 17);
+            this.label3.Size = new System.Drawing.Size(36, 20);
             this.label3.TabIndex = 9;
             this.label3.Text = "Line";
             // 
             // trkParagraphSpacing
             // 
-            this.trkParagraphSpacing.Location = new System.Drawing.Point(9, 77);
+            this.trkParagraphSpacing.Location = new System.Drawing.Point(9, 82);
             this.trkParagraphSpacing.Margin = new System.Windows.Forms.Padding(2);
             this.trkParagraphSpacing.Maximum = 40;
             this.trkParagraphSpacing.Minimum = 5;
@@ -416,7 +416,7 @@
             // 
             // trkLineSpacing
             // 
-            this.trkLineSpacing.Location = new System.Drawing.Point(9, 17);
+            this.trkLineSpacing.Location = new System.Drawing.Point(9, 22);
             this.trkLineSpacing.Margin = new System.Windows.Forms.Padding(2);
             this.trkLineSpacing.Maximum = 20;
             this.trkLineSpacing.Name = "trkLineSpacing";
@@ -436,17 +436,17 @@
             this.tabPage4.Controls.Add(this.groupBox7);
             this.tabPage4.Controls.Add(this.trkHighlightbandDistanceFromTop);
             this.tabPage4.Controls.Add(this.trkHighlightBandOpacity);
-            this.tabPage4.Location = new System.Drawing.Point(4, 48);
+            this.tabPage4.Location = new System.Drawing.Point(4, 54);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage4.Size = new System.Drawing.Size(298, 355);
+            this.tabPage4.Size = new System.Drawing.Size(298, 362);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Highlight Band";
             // 
             // pnlHighlightBandColor
             // 
-            this.pnlHighlightBandColor.Location = new System.Drawing.Point(184, 10);
+            this.pnlHighlightBandColor.Location = new System.Drawing.Point(207, 10);
             this.pnlHighlightBandColor.Margin = new System.Windows.Forms.Padding(2);
             this.pnlHighlightBandColor.Name = "pnlHighlightBandColor";
             this.pnlHighlightBandColor.Size = new System.Drawing.Size(28, 19);
@@ -457,7 +457,7 @@
             this.btnHighLightBandColor.Location = new System.Drawing.Point(132, 7);
             this.btnHighLightBandColor.Margin = new System.Windows.Forms.Padding(2);
             this.btnHighLightBandColor.Name = "btnHighLightBandColor";
-            this.btnHighLightBandColor.Size = new System.Drawing.Size(39, 25);
+            this.btnHighLightBandColor.Size = new System.Drawing.Size(63, 28);
             this.btnHighLightBandColor.TabIndex = 46;
             this.btnHighLightBandColor.Text = "Color";
             this.btnHighLightBandColor.UseVisualStyleBackColor = true;
@@ -469,7 +469,7 @@
             this.label10.Location = new System.Drawing.Point(113, 119);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(67, 17);
+            this.label10.Size = new System.Drawing.Size(76, 20);
             this.label10.TabIndex = 45;
             this.label10.Text = "Opacity %";
             // 
@@ -479,7 +479,7 @@
             this.label12.Location = new System.Drawing.Point(86, 67);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(131, 17);
+            this.label12.Size = new System.Drawing.Size(148, 20);
             this.label12.TabIndex = 52;
             this.label12.Text = "Distance from top %:";
             // 
@@ -515,7 +515,7 @@
             0,
             0});
             this.numHighLightBandLinesCustom.Name = "numHighLightBandLinesCustom";
-            this.numHighLightBandLinesCustom.Size = new System.Drawing.Size(43, 25);
+            this.numHighLightBandLinesCustom.Size = new System.Drawing.Size(43, 27);
             this.numHighLightBandLinesCustom.TabIndex = 4;
             this.numHighLightBandLinesCustom.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numHighLightBandLinesCustom.Value = new decimal(new int[] {
@@ -531,7 +531,7 @@
             this.radHighLightBandCustom.Location = new System.Drawing.Point(40, 63);
             this.radHighLightBandCustom.Margin = new System.Windows.Forms.Padding(2);
             this.radHighLightBandCustom.Name = "radHighLightBandCustom";
-            this.radHighLightBandCustom.Size = new System.Drawing.Size(73, 21);
+            this.radHighLightBandCustom.Size = new System.Drawing.Size(80, 24);
             this.radHighLightBandCustom.TabIndex = 3;
             this.radHighLightBandCustom.TabStop = true;
             this.radHighLightBandCustom.Text = "Custom";
@@ -544,7 +544,7 @@
             this.radHighLightBand5Lines.Location = new System.Drawing.Point(40, 42);
             this.radHighLightBand5Lines.Margin = new System.Windows.Forms.Padding(2);
             this.radHighLightBand5Lines.Name = "radHighLightBand5Lines";
-            this.radHighLightBand5Lines.Size = new System.Drawing.Size(69, 21);
+            this.radHighLightBand5Lines.Size = new System.Drawing.Size(75, 24);
             this.radHighLightBand5Lines.TabIndex = 2;
             this.radHighLightBand5Lines.TabStop = true;
             this.radHighLightBand5Lines.Text = "5 Lines";
@@ -557,7 +557,7 @@
             this.radHighLightBand3Lines.Location = new System.Drawing.Point(40, 20);
             this.radHighLightBand3Lines.Margin = new System.Windows.Forms.Padding(2);
             this.radHighLightBand3Lines.Name = "radHighLightBand3Lines";
-            this.radHighLightBand3Lines.Size = new System.Drawing.Size(69, 21);
+            this.radHighLightBand3Lines.Size = new System.Drawing.Size(75, 24);
             this.radHighLightBand3Lines.TabIndex = 1;
             this.radHighLightBand3Lines.TabStop = true;
             this.radHighLightBand3Lines.Tag = "";
@@ -571,7 +571,7 @@
             this.label9.Location = new System.Drawing.Point(114, 65);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(44, 17);
+            this.label9.Size = new System.Drawing.Size(49, 20);
             this.label9.TabIndex = 0;
             this.label9.Text = "Lines :";
             // 
@@ -581,7 +581,7 @@
             this.chkHighlightbandVisible.Location = new System.Drawing.Point(52, 9);
             this.chkHighlightbandVisible.Margin = new System.Windows.Forms.Padding(2);
             this.chkHighlightbandVisible.Name = "chkHighlightbandVisible";
-            this.chkHighlightbandVisible.Size = new System.Drawing.Size(72, 21);
+            this.chkHighlightbandVisible.Size = new System.Drawing.Size(80, 24);
             this.chkHighlightbandVisible.TabIndex = 0;
             this.chkHighlightbandVisible.Text = "Display";
             this.chkHighlightbandVisible.UseVisualStyleBackColor = true;
@@ -605,7 +605,7 @@
             // 
             // pnlTriggerColor
             // 
-            this.pnlTriggerColor.Location = new System.Drawing.Point(147, 25);
+            this.pnlTriggerColor.Location = new System.Drawing.Point(170, 25);
             this.pnlTriggerColor.Margin = new System.Windows.Forms.Padding(2);
             this.pnlTriggerColor.Name = "pnlTriggerColor";
             this.pnlTriggerColor.Size = new System.Drawing.Size(28, 19);
@@ -616,7 +616,7 @@
             this.btnTriggerPointColor.Location = new System.Drawing.Point(103, 22);
             this.btnTriggerPointColor.Margin = new System.Windows.Forms.Padding(2);
             this.btnTriggerPointColor.Name = "btnTriggerPointColor";
-            this.btnTriggerPointColor.Size = new System.Drawing.Size(39, 25);
+            this.btnTriggerPointColor.Size = new System.Drawing.Size(63, 28);
             this.btnTriggerPointColor.TabIndex = 58;
             this.btnTriggerPointColor.Text = "Color";
             this.btnTriggerPointColor.UseVisualStyleBackColor = true;
@@ -628,17 +628,17 @@
             this.label11.Location = new System.Drawing.Point(96, 81);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(43, 17);
+            this.label11.Size = new System.Drawing.Size(49, 20);
             this.label11.TabIndex = 57;
             this.label11.Text = "Offset";
             // 
             // chkTrigger
             // 
             this.chkTrigger.AutoSize = true;
-            this.chkTrigger.Location = new System.Drawing.Point(32, 25);
+            this.chkTrigger.Location = new System.Drawing.Point(22, 25);
             this.chkTrigger.Margin = new System.Windows.Forms.Padding(2);
             this.chkTrigger.Name = "chkTrigger";
-            this.chkTrigger.Size = new System.Drawing.Size(72, 21);
+            this.chkTrigger.Size = new System.Drawing.Size(80, 24);
             this.chkTrigger.TabIndex = 56;
             this.chkTrigger.Text = "Display";
             this.chkTrigger.UseVisualStyleBackColor = true;
@@ -682,10 +682,10 @@
             this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.groupBox5);
-            this.tabPage3.Location = new System.Drawing.Point(4, 48);
+            this.tabPage3.Location = new System.Drawing.Point(4, 54);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(298, 355);
+            this.tabPage3.Size = new System.Drawing.Size(298, 362);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Window";
             // 
@@ -695,7 +695,7 @@
             this.groupBox3.Controls.Add(this.chkNonActivating);
             this.groupBox3.Location = new System.Drawing.Point(30, 221);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(238, 130);
+            this.groupBox3.Size = new System.Drawing.Size(238, 125);
             this.groupBox3.TabIndex = 39;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Non-Activating ";
@@ -704,7 +704,7 @@
             // 
             this.label8.Location = new System.Drawing.Point(33, 50);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(181, 77);
+            this.label8.Size = new System.Drawing.Size(181, 66);
             this.label8.TabIndex = 39;
             this.label8.Text = "Note: Setting the window to Non-activating requires an application restart to tak" +
     "e effect.";
@@ -715,7 +715,7 @@
             this.chkNonActivating.Location = new System.Drawing.Point(58, 23);
             this.chkNonActivating.Margin = new System.Windows.Forms.Padding(2);
             this.chkNonActivating.Name = "chkNonActivating";
-            this.chkNonActivating.Size = new System.Drawing.Size(115, 21);
+            this.chkNonActivating.Size = new System.Drawing.Size(130, 24);
             this.chkNonActivating.TabIndex = 37;
             this.chkNonActivating.Text = "Non-activating";
             this.chkNonActivating.UseVisualStyleBackColor = true;
@@ -740,7 +740,7 @@
             this.chkMirrorText.Location = new System.Drawing.Point(59, 57);
             this.chkMirrorText.Margin = new System.Windows.Forms.Padding(2);
             this.chkMirrorText.Name = "chkMirrorText";
-            this.chkMirrorText.Size = new System.Drawing.Size(93, 21);
+            this.chkMirrorText.Size = new System.Drawing.Size(101, 24);
             this.chkMirrorText.TabIndex = 38;
             this.chkMirrorText.Text = "Mirror text";
             this.chkMirrorText.UseVisualStyleBackColor = true;
@@ -752,7 +752,7 @@
             this.chkAlwaysOnTop.Location = new System.Drawing.Point(59, 33);
             this.chkAlwaysOnTop.Margin = new System.Windows.Forms.Padding(2);
             this.chkAlwaysOnTop.Name = "chkAlwaysOnTop";
-            this.chkAlwaysOnTop.Size = new System.Drawing.Size(116, 21);
+            this.chkAlwaysOnTop.Size = new System.Drawing.Size(129, 24);
             this.chkAlwaysOnTop.TabIndex = 36;
             this.chkAlwaysOnTop.Text = "Always On Top";
             this.chkAlwaysOnTop.UseVisualStyleBackColor = true;
@@ -777,7 +777,7 @@
             this.radBorderless.Location = new System.Drawing.Point(59, 58);
             this.radBorderless.Margin = new System.Windows.Forms.Padding(2);
             this.radBorderless.Name = "radBorderless";
-            this.radBorderless.Size = new System.Drawing.Size(91, 21);
+            this.radBorderless.Size = new System.Drawing.Size(99, 24);
             this.radBorderless.TabIndex = 4;
             this.radBorderless.TabStop = true;
             this.radBorderless.Text = "Borderless";
@@ -789,7 +789,7 @@
             this.radNormalBorder.Location = new System.Drawing.Point(59, 36);
             this.radNormalBorder.Margin = new System.Windows.Forms.Padding(2);
             this.radNormalBorder.Name = "radNormalBorder";
-            this.radNormalBorder.Size = new System.Drawing.Size(118, 21);
+            this.radNormalBorder.Size = new System.Drawing.Size(129, 24);
             this.radNormalBorder.TabIndex = 3;
             this.radNormalBorder.TabStop = true;
             this.radNormalBorder.Text = "Normal border";
@@ -804,10 +804,10 @@
             this.tabPage5.Controls.Add(this.label5);
             this.tabPage5.Controls.Add(this.label4);
             this.tabPage5.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.tabPage5.Location = new System.Drawing.Point(4, 48);
+            this.tabPage5.Location = new System.Drawing.Point(4, 54);
             this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(298, 355);
+            this.tabPage5.Size = new System.Drawing.Size(298, 362);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "About";
             // 
@@ -817,7 +817,7 @@
             this.WebPageLink.Location = new System.Drawing.Point(113, 307);
             this.WebPageLink.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.WebPageLink.Name = "WebPageLink";
-            this.WebPageLink.Size = new System.Drawing.Size(67, 17);
+            this.WebPageLink.Size = new System.Drawing.Size(75, 20);
             this.WebPageLink.TabIndex = 5;
             this.WebPageLink.TabStop = true;
             this.WebPageLink.Text = "Web Page";
@@ -860,7 +860,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(105, 25);
             this.label5.TabIndex = 1;
-            this.label5.Text = "Version 1.0";
+            this.label5.Text = "Version 0.1";
             // 
             // label4
             // 
@@ -885,21 +885,21 @@
             this.tabPage6.Controls.Add(this.btnSupportMe);
             this.tabPage6.Controls.Add(this.label13);
             this.tabPage6.Controls.Add(this.label6);
-            this.tabPage6.Location = new System.Drawing.Point(4, 48);
+            this.tabPage6.Location = new System.Drawing.Point(4, 54);
             this.tabPage6.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage6.Size = new System.Drawing.Size(298, 355);
+            this.tabPage6.Size = new System.Drawing.Size(298, 362);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Support";
             // 
             // CommunityLink
             // 
             this.CommunityLink.AutoSize = true;
-            this.CommunityLink.Location = new System.Drawing.Point(53, 258);
+            this.CommunityLink.Location = new System.Drawing.Point(46, 258);
             this.CommunityLink.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.CommunityLink.Name = "CommunityLink";
-            this.CommunityLink.Size = new System.Drawing.Size(144, 17);
+            this.CommunityLink.Size = new System.Drawing.Size(164, 20);
             this.CommunityLink.TabIndex = 9;
             this.CommunityLink.TabStop = true;
             this.CommunityLink.Text = "Community Discussions";
@@ -908,10 +908,10 @@
             // BugLink
             // 
             this.BugLink.AutoSize = true;
-            this.BugLink.Location = new System.Drawing.Point(53, 235);
+            this.BugLink.Location = new System.Drawing.Point(46, 235);
             this.BugLink.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.BugLink.Name = "BugLink";
-            this.BugLink.Size = new System.Drawing.Size(211, 17);
+            this.BugLink.Size = new System.Drawing.Size(236, 20);
             this.BugLink.TabIndex = 8;
             this.BugLink.TabStop = true;
             this.BugLink.Text = "Report a Bug or Request a Feature";
@@ -920,10 +920,10 @@
             // DocumentationLink
             // 
             this.DocumentationLink.AutoSize = true;
-            this.DocumentationLink.Location = new System.Drawing.Point(53, 211);
+            this.DocumentationLink.Location = new System.Drawing.Point(46, 211);
             this.DocumentationLink.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.DocumentationLink.Name = "DocumentationLink";
-            this.DocumentationLink.Size = new System.Drawing.Size(96, 17);
+            this.DocumentationLink.Size = new System.Drawing.Size(112, 20);
             this.DocumentationLink.TabIndex = 7;
             this.DocumentationLink.TabStop = true;
             this.DocumentationLink.Text = "Documentation";
@@ -957,7 +957,7 @@
             this.btnSupportMe.Location = new System.Drawing.Point(81, 96);
             this.btnSupportMe.Margin = new System.Windows.Forms.Padding(2);
             this.btnSupportMe.Name = "btnSupportMe";
-            this.btnSupportMe.Size = new System.Drawing.Size(137, 23);
+            this.btnSupportMe.Size = new System.Drawing.Size(137, 28);
             this.btnSupportMe.TabIndex = 4;
             this.btnSupportMe.Text = "Support PromptLogic";
             this.btnSupportMe.UseVisualStyleBackColor = true;

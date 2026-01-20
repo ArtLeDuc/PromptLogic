@@ -69,16 +69,16 @@
             this.label10.Location = new System.Drawing.Point(126, 150);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(54, 13);
+            this.label10.Size = new System.Drawing.Size(54, 17);
             this.label10.TabIndex = 54;
             this.label10.Text = "Opacity %";
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(104, 97);
+            this.label12.Location = new System.Drawing.Point(104, 96);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(104, 13);
+            this.label12.Size = new System.Drawing.Size(120, 20);
             this.label12.TabIndex = 55;
             this.label12.Text = "Distance from top %:";
             // 
@@ -122,7 +122,7 @@
             // numHighLightBandLinesCustom
             // 
             this.numHighLightBandLinesCustom.Enabled = false;
-            this.numHighLightBandLinesCustom.Location = new System.Drawing.Point(110, 63);
+            this.numHighLightBandLinesCustom.Location = new System.Drawing.Point(140, 63);
             this.numHighLightBandLinesCustom.Margin = new System.Windows.Forms.Padding(2);
             this.numHighLightBandLinesCustom.Maximum = new decimal(new int[] {
             10,
@@ -150,7 +150,7 @@
             this.radHighLightBandCustom.Location = new System.Drawing.Point(20, 63);
             this.radHighLightBandCustom.Margin = new System.Windows.Forms.Padding(2);
             this.radHighLightBandCustom.Name = "radHighLightBandCustom";
-            this.radHighLightBandCustom.Size = new System.Drawing.Size(60, 17);
+            this.radHighLightBandCustom.Size = new System.Drawing.Size(73, 17);
             this.radHighLightBandCustom.TabIndex = 3;
             this.radHighLightBandCustom.TabStop = true;
             this.radHighLightBandCustom.Text = "Custom";
@@ -184,10 +184,10 @@
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(77, 65);
+            this.label9.Location = new System.Drawing.Point(98, 65);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(38, 13);
+            this.label9.Size = new System.Drawing.Size(39, 13);
             this.label9.TabIndex = 0;
             this.label9.Text = "Lines :";
             // 
