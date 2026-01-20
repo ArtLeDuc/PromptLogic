@@ -65,6 +65,12 @@
   <ItemGroup>
     <Compile Include="ActivationMode.cs" />
     <Compile Include="AppSettings.cs" />
+    <Compile Include="ControlPanelOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlPanelOptions.Designer.cs">
+      <DependentUpon>ControlPanelOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="HighlightBand.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     </Compile>
     <Compile Include="WebMessageService.cs" />
     <Compile Include="WindowManager.cs" />
+    <EmbeddedResource Include="ControlPanelOptions.resx">
+      <DependentUpon>ControlPanelOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HighlightBand.resx">
       <DependentUpon>HighlightBand.cs</DependentUpon>
     </EmbeddedResource>

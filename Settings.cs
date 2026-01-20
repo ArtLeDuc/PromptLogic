@@ -29,6 +29,16 @@ namespace PromptLogic
             this.AcceptButton = btnOk;
             this.CancelButton = btnCancel;
 
+            ContextMenu = new ContextMenu();
+            var closeItem = new MenuItem("Close");
+            closeItem.Click += (s, ev) => this.Close();
+            ContextMenu.MenuItems.Add(closeItem);
+
+            this.Load += (s, e) =>
+            {
+                Debug.WriteLine("Settings size: " + this.Size);
+            };
+
         }
         private void Settings_Load(object sender, EventArgs e)
         {

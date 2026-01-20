@@ -24,6 +24,12 @@ namespace PromptLogic
             traSpeed.Value = (int)speedValue;
 
             this.preview = preview;
+
+            ContextMenu = new ContextMenu();
+            var closeItem = new MenuItem("Close");
+            closeItem.Click += (s, ev) => this.Close();
+            ContextMenu.MenuItems.Add(closeItem);
+
         }
 
         public ScrollSpeed()

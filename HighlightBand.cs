@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
@@ -33,7 +34,18 @@ namespace PromptLogic
             else
                 radHighLightBandCustom.Checked = true;
 
-            numHighLightBandLinesCustom.Value = lines; 
+            numHighLightBandLinesCustom.Value = lines;
+
+            ContextMenu = new ContextMenu();
+            var closeItem = new MenuItem("Close");
+            closeItem.Click += (s, ev) => this.Close();
+            ContextMenu.MenuItems.Add(closeItem);
+
+            this.Load += (s, e) =>
+            {
+                Debug.WriteLine("Highlight size: " + this.Size);
+            };
+
         }
 
         private void chkHighlightDisplay_CheckedChanged(object sender, EventArgs e)

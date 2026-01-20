@@ -59,16 +59,14 @@
             this.panel1.Controls.Add(this.groupBox8);
             this.panel1.Controls.Add(this.chkHighlightDisplay);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(243, 269);
+            this.panel1.Size = new System.Drawing.Size(324, 269);
             this.panel1.TabIndex = 0;
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(89, 150);
+            this.label10.Location = new System.Drawing.Point(126, 150);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(54, 13);
@@ -77,8 +75,7 @@
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(67, 97);
+            this.label12.Location = new System.Drawing.Point(104, 97);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(104, 13);
@@ -87,22 +84,22 @@
             // 
             // trkHighlightbandDistanceFromTop
             // 
-            this.trkHighlightbandDistanceFromTop.Location = new System.Drawing.Point(32, 62);
+            this.trkHighlightbandDistanceFromTop.Location = new System.Drawing.Point(69, 62);
             this.trkHighlightbandDistanceFromTop.Margin = new System.Windows.Forms.Padding(2);
             this.trkHighlightbandDistanceFromTop.Maximum = 80;
             this.trkHighlightbandDistanceFromTop.Name = "trkHighlightbandDistanceFromTop";
-            this.trkHighlightbandDistanceFromTop.Size = new System.Drawing.Size(175, 45);
+            this.trkHighlightbandDistanceFromTop.Size = new System.Drawing.Size(175, 56);
             this.trkHighlightbandDistanceFromTop.TabIndex = 53;
             this.trkHighlightbandDistanceFromTop.Value = 10;
             this.trkHighlightbandDistanceFromTop.Scroll += new System.EventHandler(this.trkHighlightbandDistanceFromTop_Scroll);
             // 
             // trkHighlightBandOpacity
             // 
-            this.trkHighlightBandOpacity.Location = new System.Drawing.Point(32, 111);
+            this.trkHighlightBandOpacity.Location = new System.Drawing.Point(69, 111);
             this.trkHighlightBandOpacity.Margin = new System.Windows.Forms.Padding(2);
             this.trkHighlightBandOpacity.Maximum = 100;
             this.trkHighlightBandOpacity.Name = "trkHighlightBandOpacity";
-            this.trkHighlightBandOpacity.Size = new System.Drawing.Size(175, 45);
+            this.trkHighlightBandOpacity.Size = new System.Drawing.Size(175, 56);
             this.trkHighlightBandOpacity.TabIndex = 52;
             this.trkHighlightBandOpacity.Scroll += new System.EventHandler(this.trkHighlightBandOpacity_Scroll);
             // 
@@ -113,7 +110,7 @@
             this.groupBox8.Controls.Add(this.radHighLightBand5Lines);
             this.groupBox8.Controls.Add(this.radHighLightBand3Lines);
             this.groupBox8.Controls.Add(this.label9);
-            this.groupBox8.Location = new System.Drawing.Point(21, 168);
+            this.groupBox8.Location = new System.Drawing.Point(58, 168);
             this.groupBox8.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(2);
@@ -138,7 +135,7 @@
             0,
             0});
             this.numHighLightBandLinesCustom.Name = "numHighLightBandLinesCustom";
-            this.numHighLightBandLinesCustom.Size = new System.Drawing.Size(43, 20);
+            this.numHighLightBandLinesCustom.Size = new System.Drawing.Size(43, 22);
             this.numHighLightBandLinesCustom.TabIndex = 4;
             this.numHighLightBandLinesCustom.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.numHighLightBandLinesCustom.Value = new decimal(new int[] {
@@ -150,7 +147,6 @@
             // 
             // radHighLightBandCustom
             // 
-            this.radHighLightBandCustom.AutoSize = true;
             this.radHighLightBandCustom.Location = new System.Drawing.Point(20, 63);
             this.radHighLightBandCustom.Margin = new System.Windows.Forms.Padding(2);
             this.radHighLightBandCustom.Name = "radHighLightBandCustom";
@@ -163,7 +159,6 @@
             // 
             // radHighLightBand5Lines
             // 
-            this.radHighLightBand5Lines.AutoSize = true;
             this.radHighLightBand5Lines.Location = new System.Drawing.Point(20, 42);
             this.radHighLightBand5Lines.Margin = new System.Windows.Forms.Padding(2);
             this.radHighLightBand5Lines.Name = "radHighLightBand5Lines";
@@ -176,7 +171,6 @@
             // 
             // radHighLightBand3Lines
             // 
-            this.radHighLightBand3Lines.AutoSize = true;
             this.radHighLightBand3Lines.Location = new System.Drawing.Point(20, 20);
             this.radHighLightBand3Lines.Margin = new System.Windows.Forms.Padding(2);
             this.radHighLightBand3Lines.Name = "radHighLightBand3Lines";
@@ -190,7 +184,6 @@
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(77, 65);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
@@ -200,10 +193,9 @@
             // 
             // chkHighlightDisplay
             // 
-            this.chkHighlightDisplay.AutoSize = true;
-            this.chkHighlightDisplay.Location = new System.Drawing.Point(21, 38);
+            this.chkHighlightDisplay.Location = new System.Drawing.Point(58, 38);
             this.chkHighlightDisplay.Name = "chkHighlightDisplay";
-            this.chkHighlightDisplay.Size = new System.Drawing.Size(60, 17);
+            this.chkHighlightDisplay.Size = new System.Drawing.Size(79, 19);
             this.chkHighlightDisplay.TabIndex = 1;
             this.chkHighlightDisplay.Text = "Display";
             this.chkHighlightDisplay.UseVisualStyleBackColor = true;
@@ -217,12 +209,11 @@
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(243, 23);
+            this.panel2.Size = new System.Drawing.Size(324, 23);
             this.panel2.TabIndex = 0;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label1.Location = new System.Drawing.Point(13, 4);
             this.label1.Name = "label1";
@@ -232,10 +223,9 @@
             // 
             // HighlightBand
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.ClientSize = new System.Drawing.Size(243, 269);
+            this.ClientSize = new System.Drawing.Size(324, 269);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "HighlightBand";
@@ -245,10 +235,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkHighlightbandDistanceFromTop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkHighlightBandOpacity)).EndInit();
             this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numHighLightBandLinesCustom)).EndInit();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }

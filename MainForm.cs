@@ -39,6 +39,7 @@ namespace PromptLogic
         private ScrollSpeed scrollSpeed;
         private HighlightBand highlightBand;
         private Settings settingsWindow;
+        private ControlPanelOptions controlPanelOptions;
         private bool _inputLocked = false;
         private RightClickMenu rightClickMenu;
         private bool IsOnAnyScreen(Rectangle rect)
@@ -351,13 +352,13 @@ namespace PromptLogic
         {
             if (IsPaused)
             {
-                btnPause.Text = ">> Resume";
-                btnCollapsedPause.Text = ">>";
+                btnPause.Text = "» Resume";
+                btnCollapsedPause.Text = "»";
             }
             else
             {
-                btnPause.Text = "|| Pause";
-                btnCollapsedPause.Text = "||";
+                btnPause.Text = "❚❚Pause";
+                btnCollapsedPause.Text = "❚❚";
             }
 
             btnCollapsedConnect.Enabled = IsStopped;
@@ -559,6 +560,30 @@ namespace PromptLogic
         public bool IsAppTopMost() 
         {
             return SettingsManager.Settings.AlwaysOnTop;
+        }
+
+        public void OpenBorderNControl()
+        {
+            if (controlPanelOptions == null || controlPanelOptions.IsDisposed)
+            {
+                controlPanelOptions = new ControlPanelOptions(this);
+                _windowManager.ShowPopup(controlPanelOptions);
+            }
+            else
+            {
+                _windowManager.ClosePopup(controlPanelOptions);
+            }
+
+        }
+
+        private void btnBorderNControl_Click(object sender, EventArgs e)
+        {
+            OpenBorderNControl();
+        }
+
+        private void btnCollapsedControlPnl_Click(object sender, EventArgs e)
+        {
+            OpenBorderNControl();
         }
 
     }

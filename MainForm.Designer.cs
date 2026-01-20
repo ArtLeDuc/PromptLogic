@@ -47,14 +47,16 @@
             this.btnPause = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.pnlCollapsed = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnCollapsedHighlight = new System.Windows.Forms.Button();
+            this.btnCollapsedSpeed = new System.Windows.Forms.Button();
             this.btnExpand = new System.Windows.Forms.Button();
             this.btnCollapsedStop = new System.Windows.Forms.Button();
             this.btnCollapsedPause = new System.Windows.Forms.Button();
             this.btnCollapsedStart = new System.Windows.Forms.Button();
             this.btnCollapsedConnect = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnBorderNControl = new System.Windows.Forms.Button();
+            this.btnCollapsedControlPnl = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
             this.pnlControl.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -71,29 +73,29 @@
             this.webView.Location = new System.Drawing.Point(0, 0);
             this.webView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(517, 450);
+            this.webView.Size = new System.Drawing.Size(595, 450);
             this.webView.TabIndex = 0;
             this.webView.ZoomFactor = 1D;
             // 
             // pnlControl
             // 
             this.pnlControl.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pnlControl.Controls.Add(this.btnLoadSampleScript);
             this.pnlControl.Controls.Add(this.btnSettings);
             this.pnlControl.Controls.Add(this.btnWebDebugger);
             this.pnlControl.Controls.Add(this.btnCollapse);
             this.pnlControl.Controls.Add(this.groupBox1);
             this.pnlControl.Controls.Add(this.grpShowControls);
             this.pnlControl.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlControl.Location = new System.Drawing.Point(552, 0);
+            this.pnlControl.Location = new System.Drawing.Point(633, 0);
             this.pnlControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlControl.Name = "pnlControl";
-            this.pnlControl.Size = new System.Drawing.Size(259, 450);
+            this.pnlControl.Size = new System.Drawing.Size(255, 450);
             this.pnlControl.TabIndex = 1;
             // 
             // btnLoadSampleScript
             // 
-            this.btnLoadSampleScript.Location = new System.Drawing.Point(53, 350);
+            this.btnLoadSampleScript.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadSampleScript.Location = new System.Drawing.Point(47, 53);
             this.btnLoadSampleScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLoadSampleScript.Name = "btnLoadSampleScript";
             this.btnLoadSampleScript.Size = new System.Drawing.Size(156, 28);
@@ -105,7 +107,8 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(53, 379);
+            this.btnSettings.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSettings.Location = new System.Drawing.Point(53, 387);
             this.btnSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(156, 28);
@@ -116,7 +119,8 @@
             // 
             // btnWebDebugger
             // 
-            this.btnWebDebugger.Location = new System.Drawing.Point(53, 408);
+            this.btnWebDebugger.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnWebDebugger.Location = new System.Drawing.Point(53, 416);
             this.btnWebDebugger.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnWebDebugger.Name = "btnWebDebugger";
             this.btnWebDebugger.Size = new System.Drawing.Size(156, 28);
@@ -127,7 +131,7 @@
             // 
             // btnCollapse
             // 
-            this.btnCollapse.Location = new System.Drawing.Point(0, 332);
+            this.btnCollapse.Location = new System.Drawing.Point(0, 391);
             this.btnCollapse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCollapse.Name = "btnCollapse";
             this.btnCollapse.Size = new System.Drawing.Size(32, 23);
@@ -138,22 +142,24 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnLoadSampleScript);
             this.groupBox1.Controls.Add(this.btnConnect);
             this.groupBox1.Location = new System.Drawing.Point(5, 14);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(243, 62);
+            this.groupBox1.Size = new System.Drawing.Size(243, 97);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " Select Presentation ";
             // 
             // btnConnect
             // 
+            this.btnConnect.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConnect.Location = new System.Drawing.Point(47, 21);
             this.btnConnect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(156, 23);
+            this.btnConnect.Size = new System.Drawing.Size(156, 28);
             this.btnConnect.TabIndex = 3;
             this.btnConnect.Text = "🔌 Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -161,6 +167,7 @@
             // 
             // grpShowControls
             // 
+            this.grpShowControls.Controls.Add(this.btnBorderNControl);
             this.grpShowControls.Controls.Add(this.button3);
             this.grpShowControls.Controls.Add(this.button1);
             this.grpShowControls.Controls.Add(this.cmbStartSlide);
@@ -168,21 +175,22 @@
             this.grpShowControls.Controls.Add(this.label1);
             this.grpShowControls.Controls.Add(this.btnPause);
             this.grpShowControls.Controls.Add(this.btnStart);
-            this.grpShowControls.Location = new System.Drawing.Point(5, 78);
+            this.grpShowControls.Location = new System.Drawing.Point(6, 115);
             this.grpShowControls.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpShowControls.Name = "grpShowControls";
             this.grpShowControls.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.grpShowControls.Size = new System.Drawing.Size(243, 240);
+            this.grpShowControls.Size = new System.Drawing.Size(243, 264);
             this.grpShowControls.TabIndex = 9;
             this.grpShowControls.TabStop = false;
             this.grpShowControls.Text = " Show Controls ";
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(65, 201);
+            this.button3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(47, 194);
             this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(109, 28);
+            this.button3.Size = new System.Drawing.Size(156, 28);
             this.button3.TabIndex = 10;
             this.button3.Text = "▬ Highlight";
             this.button3.UseVisualStyleBackColor = true;
@@ -190,10 +198,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(65, 164);
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(47, 166);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(109, 28);
+            this.button1.Size = new System.Drawing.Size(156, 28);
             this.button1.TabIndex = 9;
             this.button1.Text = "⏩Speed...";
             this.button1.UseVisualStyleBackColor = true;
@@ -210,10 +219,11 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(65, 113);
+            this.btnStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStop.Location = new System.Drawing.Point(47, 114);
             this.btnStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(109, 28);
+            this.btnStop.Size = new System.Drawing.Size(156, 28);
             this.btnStop.TabIndex = 2;
             this.btnStop.Text = "■ Stop";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -230,21 +240,23 @@
             // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(65, 84);
+            this.btnPause.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPause.Location = new System.Drawing.Point(47, 86);
             this.btnPause.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(109, 28);
+            this.btnPause.Size = new System.Drawing.Size(156, 28);
             this.btnPause.TabIndex = 1;
-            this.btnPause.Text = "|| Pause";
+            this.btnPause.Text = "❚❚  Pause";
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(65, 57);
+            this.btnStart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStart.Location = new System.Drawing.Point(47, 59);
             this.btnStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(109, 28);
+            this.btnStart.Size = new System.Drawing.Size(156, 28);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "▶ Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -253,58 +265,60 @@
             // pnlCollapsed
             // 
             this.pnlCollapsed.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.pnlCollapsed.Controls.Add(this.button4);
-            this.pnlCollapsed.Controls.Add(this.button2);
+            this.pnlCollapsed.Controls.Add(this.btnCollapsedControlPnl);
+            this.pnlCollapsed.Controls.Add(this.btnCollapsedHighlight);
+            this.pnlCollapsed.Controls.Add(this.btnCollapsedSpeed);
             this.pnlCollapsed.Controls.Add(this.btnExpand);
             this.pnlCollapsed.Controls.Add(this.btnCollapsedStop);
             this.pnlCollapsed.Controls.Add(this.btnCollapsedPause);
             this.pnlCollapsed.Controls.Add(this.btnCollapsedStart);
             this.pnlCollapsed.Controls.Add(this.btnCollapsedConnect);
             this.pnlCollapsed.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlCollapsed.Location = new System.Drawing.Point(517, 0);
+            this.pnlCollapsed.Location = new System.Drawing.Point(595, 0);
             this.pnlCollapsed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlCollapsed.Name = "pnlCollapsed";
-            this.pnlCollapsed.Size = new System.Drawing.Size(35, 450);
+            this.pnlCollapsed.Size = new System.Drawing.Size(38, 450);
             this.pnlCollapsed.TabIndex = 2;
             // 
-            // button4
+            // btnCollapsedHighlight
             // 
-            this.button4.Location = new System.Drawing.Point(0, 278);
-            this.button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(32, 28);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "▬";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnCollapsedHighlight.Location = new System.Drawing.Point(3, 309);
+            this.btnCollapsedHighlight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCollapsedHighlight.Name = "btnCollapsedHighlight";
+            this.btnCollapsedHighlight.Size = new System.Drawing.Size(32, 28);
+            this.btnCollapsedHighlight.TabIndex = 6;
+            this.btnCollapsedHighlight.Text = "▬";
+            this.btnCollapsedHighlight.UseVisualStyleBackColor = true;
+            this.btnCollapsedHighlight.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button2
+            // btnCollapsedSpeed
             // 
-            this.button2.Location = new System.Drawing.Point(0, 241);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(32, 28);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "⏩";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnCollapsedSpeed.Location = new System.Drawing.Point(3, 281);
+            this.btnCollapsedSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCollapsedSpeed.Name = "btnCollapsedSpeed";
+            this.btnCollapsedSpeed.Size = new System.Drawing.Size(32, 28);
+            this.btnCollapsedSpeed.TabIndex = 5;
+            this.btnCollapsedSpeed.Text = "⏩";
+            this.btnCollapsedSpeed.UseVisualStyleBackColor = true;
+            this.btnCollapsedSpeed.Click += new System.EventHandler(this.button2_Click);
             // 
             // btnExpand
             // 
-            this.btnExpand.Location = new System.Drawing.Point(0, 332);
+            this.btnExpand.Location = new System.Drawing.Point(0, 391);
             this.btnExpand.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnExpand.Name = "btnExpand";
             this.btnExpand.Size = new System.Drawing.Size(32, 23);
             this.btnExpand.TabIndex = 4;
             this.btnExpand.Text = "◀";
             this.btnExpand.UseVisualStyleBackColor = true;
+            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
             // 
             // btnCollapsedStop
             // 
-            this.btnCollapsedStop.Location = new System.Drawing.Point(0, 190);
+            this.btnCollapsedStop.Location = new System.Drawing.Point(3, 229);
             this.btnCollapsedStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCollapsedStop.Name = "btnCollapsedStop";
-            this.btnCollapsedStop.Size = new System.Drawing.Size(32, 23);
+            this.btnCollapsedStop.Size = new System.Drawing.Size(32, 28);
             this.btnCollapsedStop.TabIndex = 3;
             this.btnCollapsedStop.Text = "■";
             this.btnCollapsedStop.UseVisualStyleBackColor = true;
@@ -312,10 +326,10 @@
             // 
             // btnCollapsedPause
             // 
-            this.btnCollapsedPause.Location = new System.Drawing.Point(0, 160);
+            this.btnCollapsedPause.Location = new System.Drawing.Point(3, 201);
             this.btnCollapsedPause.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCollapsedPause.Name = "btnCollapsedPause";
-            this.btnCollapsedPause.Size = new System.Drawing.Size(32, 23);
+            this.btnCollapsedPause.Size = new System.Drawing.Size(32, 28);
             this.btnCollapsedPause.TabIndex = 2;
             this.btnCollapsedPause.Text = "||";
             this.btnCollapsedPause.UseVisualStyleBackColor = true;
@@ -323,10 +337,10 @@
             // 
             // btnCollapsedStart
             // 
-            this.btnCollapsedStart.Location = new System.Drawing.Point(0, 133);
+            this.btnCollapsedStart.Location = new System.Drawing.Point(3, 174);
             this.btnCollapsedStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCollapsedStart.Name = "btnCollapsedStart";
-            this.btnCollapsedStart.Size = new System.Drawing.Size(32, 23);
+            this.btnCollapsedStart.Size = new System.Drawing.Size(32, 28);
             this.btnCollapsedStart.TabIndex = 1;
             this.btnCollapsedStart.Text = "▶";
             this.btnCollapsedStart.UseVisualStyleBackColor = true;
@@ -334,20 +348,42 @@
             // 
             // btnCollapsedConnect
             // 
-            this.btnCollapsedConnect.Location = new System.Drawing.Point(0, 34);
+            this.btnCollapsedConnect.Location = new System.Drawing.Point(3, 35);
             this.btnCollapsedConnect.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCollapsedConnect.Name = "btnCollapsedConnect";
-            this.btnCollapsedConnect.Size = new System.Drawing.Size(32, 23);
+            this.btnCollapsedConnect.Size = new System.Drawing.Size(32, 28);
             this.btnCollapsedConnect.TabIndex = 0;
             this.btnCollapsedConnect.Text = "🔌";
             this.btnCollapsedConnect.UseVisualStyleBackColor = true;
             this.btnCollapsedConnect.Click += new System.EventHandler(this.btnCollapsedConnect_Click);
             // 
+            // btnBorderNControl
+            // 
+            this.btnBorderNControl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBorderNControl.Location = new System.Drawing.Point(47, 222);
+            this.btnBorderNControl.Name = "btnBorderNControl";
+            this.btnBorderNControl.Size = new System.Drawing.Size(156, 28);
+            this.btnBorderNControl.TabIndex = 11;
+            this.btnBorderNControl.Text = "🗔 Control Panel...";
+            this.btnBorderNControl.UseVisualStyleBackColor = true;
+            this.btnBorderNControl.Click += new System.EventHandler(this.btnBorderNControl_Click);
+            // 
+            // btnCollapsedControlPnl
+            // 
+            this.btnCollapsedControlPnl.Location = new System.Drawing.Point(3, 337);
+            this.btnCollapsedControlPnl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCollapsedControlPnl.Name = "btnCollapsedControlPnl";
+            this.btnCollapsedControlPnl.Size = new System.Drawing.Size(32, 28);
+            this.btnCollapsedControlPnl.TabIndex = 7;
+            this.btnCollapsedControlPnl.Text = "🗔";
+            this.btnCollapsedControlPnl.UseVisualStyleBackColor = true;
+            this.btnCollapsedControlPnl.Click += new System.EventHandler(this.btnCollapsedControlPnl_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 450);
+            this.ClientSize = new System.Drawing.Size(888, 450);
             this.Controls.Add(this.webView);
             this.Controls.Add(this.pnlCollapsed);
             this.Controls.Add(this.pnlControl);
@@ -390,9 +426,11 @@
         private System.Windows.Forms.Button btnWebDebugger;
         private System.Windows.Forms.Button btnLoadSampleScript;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnCollapsedSpeed;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnCollapsedHighlight;
+        private System.Windows.Forms.Button btnBorderNControl;
+        private System.Windows.Forms.Button btnCollapsedControlPnl;
     }
 }
 

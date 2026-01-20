@@ -117,6 +117,16 @@ namespace PromptLogic
             ApplyAllSettings(); // calls your private MainForm method
         }
 
+        void ITeleprompterControl.SetControlPanelVisible(bool isVisible)
+        {
+            ((ITeleprompterControl)this).ApplySetControlPanelState(isVisible, SettingsManager.Settings.controlPanelCompressed);
+        }
+
+        void ITeleprompterControl.SetControlPanelCompressed(bool compressed)
+        {
+            ((ITeleprompterControl)this).ApplySetControlPanelState(SettingsManager.Settings.controlPanelVisible, compressed);
+        }
+
         void ITeleprompterControl.ApplySetControlPanelState(bool isVisible, bool isCompressed)
         {
             SettingsManager.Settings.controlPanelVisible = isVisible;

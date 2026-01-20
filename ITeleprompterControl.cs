@@ -29,6 +29,8 @@ namespace PromptLogic
         void ApplyHighlightBandTriggerPointColor(string color);
         void ApplyMainBorderStyle(FormBorderStyle borderStyle);
         void ApplySetControlPanelState(bool isVisible, bool isCompressed);
+        void SetControlPanelCompressed(bool compressed);
+        void SetControlPanelVisible(bool isVisible);
         void ApplyMirrorText(bool mirrorText);
         void ApplyAlwaysOnTop(bool alwaysOnTop);
         void ApplyScrollSpeed(double speed);
