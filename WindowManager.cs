@@ -29,7 +29,7 @@ namespace PromptLogic
         private const int HorizontalGap = 10;
         private const int VerticalGap = 1;
         private const int TopMargin = 0;
-        private const int ColumnWidth = 260; // or width of your widest popup
+        private const int ColumnWidth = 324; // or width of your widest popup
 
         public WindowManager(Form mainForm)
         {
