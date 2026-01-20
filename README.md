@@ -11,23 +11,18 @@ This project is part of Vermont Creative Technologies, LLC, and reflects a philo
 - Overlay‑based window controls — clean resizing, dragging, and interaction
 - Maker‑friendly design — built for people who value clarity over magic
 - Actively evolving — new UI refinements, workflow improvements, and community‑driven features
-
-Full control panel
-
-![Full control panel](docs/Images/PromptLogic%20Main%20Window.png)
-
-Compressed control panel
-
-![Compressed control panel](docs/Images/PromptLogic%20Compressed%20Control%20Panel.png)
-
-Hidden control panel
-
-![Hidden control panel](docs/Images/PromptLogic%20With%20No%20Control%20Panel.png)
-
-Borderless with hidden control panel
-
-![Borderless](docs/Images/PromptLogic%20Borderless%20display.png)
-
+---
+## Why PromptLogic?
+PromptLogic grew out of a simple need: I couldn’t find a teleprompter that matched the way I think and work. Most tools were either too opaque, too automated, or too rigid for the kind of predictable, maker‑friendly workflow I wanted.
+So PromptLogic was built around a different philosophy — one centered on clarity, control, and long‑term maintainability.
+It’s designed for educators, creators, and performers who appreciate:
+- Predictable behavior — the script moves exactly when and how you expect
+- A clear mental model — no hidden logic or surprising side effects
+- A tool you can trust — stable, teachable, and easy to reason about
+- Full workflow control — from display modes to dot‑command scripting
+- A foundation that grows with you — modular, maintainable, and built for extension
+PromptLogic isn’t a reaction to other teleprompters.
+It’s simply the tool I wanted but couldn’t find — and now it’s here for anyone who values the same principles.
 ---
 ## Getting Started
 PromptLogic is currently in active development.
@@ -37,6 +32,112 @@ For now, you can:
 - Join the community discussions
 - Report bugs or request features
 - Share your workflow needs and ideas
+---
+## Installation
+PromptLogic is distributed as a lightweight Windows application.
+You can install it using the standard installer or run it as a portable app.
+Option 1: Installer (recommended)
+- Download the latest PromptLogic‑Setup.exe from the Releases page.
+- Run the installer.
+- No administrator permissions are required.
+- PromptLogic installs into your AppData\Local folder so it can update and run without UAC prompts.
+- Launch PromptLogic from the Start Menu under PromptLogic.
+
+Option 2: Portable Edition
+A portable ZIP package is also available for users who prefer a self‑contained folder.
+- Download PromptLogic_Portable.zip from the release.
+- Extract it anywhere you like.
+- Run PromptLogic.exe.
+  
+  Note: The portable version does not auto‑update and may require the WebView2 Runtime if it’s not already installed on your system.
+---
+
+## Display Modes
+PromptLogic supports multiple presentation modes depending on your workflow:
+- Full Control Panel — all controls visible
+![Full control panel](docs/Images/PromptLogic%20Main%20Window.png)
+
+- Compressed Panel — minimal controls, more screen space
+![Compressed control panel](docs/Images/PromptLogic%20Compressed%20Control%20Panel.png)
+
+- No Panel — right‑click menu only
+![Hidden control panel](docs/Images/PromptLogic%20With%20No%20Control%20Panel.png)
+
+- Borderless Mode — clean, distraction‑free teleprompter window
+![Borderless](docs/Images/PromptLogic%20Borderless%20display.png)
+
+  These modes can be switched at any time during operation.
+---
+
+## Running PromptLogic
+Start Menu<br>
+- Open the Start Menu and search for PromptLogic.<br>
+
+Portable Edition<br>
+- Double‑click PromptLogic.exe from the extracted folder.
+
+First‑Run Behavior
+On first launch, PromptLogic will:
+- Open in Full Control Panel mode
+- Detect your system DPI and scale accordingly
+- Load a sample script (depending on build configuration)
+No configuration is required to begin using the teleprompter.
+---
+## Known Limitations (rev 0.1)
+PromptLogic integrates with PowerPoint for slide tracking and notes‑based scripting.
+However, PowerPoint’s automation layer can temporarily block events during animations that include audio.
+During slides with sound effects or embedded audio, you may notice:
+- Delayed dot‑command execution
+- Brief pauses in UI responsiveness
+- Slight stuttering in scroll timing
+  
+This is a limitation of PowerPoint’s COM model, not PromptLogic.
+Recommendation for the smoothest experience, avoid:
+- Slide animations with audio
+- Auto‑play sound effects
+- Media‑triggered transitions
+PromptLogic will continue running, but command timing may be affected.
+---
+## Version Information
+rev 0.1 — First Public Release
+- Core teleprompter engine
+- Deterministic scrolling
+- Dot‑command scripting
+- Multiple display modes
+- PowerPoint integration (notes‑based)
+- Window overlays for resizing and interaction
+- Initial user guide and documentation
+---
+## Roadmap
+PromptLogic is early in its journey, and the foundation is intentionally simple, stable, and modular. The roadmap focuses on expanding capability without compromising predictability.
+
+Near‑Term (0.2 – 0.4)
+- Additional dot‑command features
+- Improved script editor ergonomics
+- More display‑mode refinements
+- Optional auto‑save and recovery
+- Better PowerPoint integration
+- OBS WebSocket integration (scene switching, recording control)
+- Expanded user guide and examples
+
+Mid‑Term (0.5 – 0.8)
+- Script library and quick‑switching
+- Customizable themes and color profiles
+- Presenter notes overlay
+- Multi‑monitor workflow improvements
+- OBS status feedback and two‑way communication
+- Optional “presentation mode” with simplified UI
+
+Long‑Term (1.0 and beyond)
+- Plugin architecture
+- Network‑controlled teleprompter mode
+- Remote operator console
+- Deep OBS plugin integration
+- Scripting API for automation
+- Cross‑platform exploration
+
+
+
 ---
 ## Community & Support
 PromptLogic has a few clear “doors” depending on what you need:
