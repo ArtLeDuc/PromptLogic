@@ -41,7 +41,13 @@ Option 1: Installer (recommended)
 - Download the latest PromptLogic‑Setup.exe from the Releases page.
 - Run the installer.
 - No administrator permissions are required.
-- PromptLogic installs into your AppData\Local folder so it can update and run without UAC prompts.
+- PromptLogic default installs into C:\Program Files\PromptLogic folder.
+- All writeable data lives under %LOCALAPPDATA%\PromptLogic
+  <br>This includes:
+  - Webview2 user data
+  - Settings
+  - Logs
+  - Any future script caches or autosaves
 - Launch PromptLogic from the Start Menu under PromptLogic.
 
 Option 2: Portable Edition<br>
