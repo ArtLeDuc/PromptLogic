@@ -1,5 +1,6 @@
 ﻿using Microsoft.Office.Interop.PowerPoint;
 using Microsoft.Web.WebView2.Core;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,51 @@ namespace PromptLogic
 {
     public class WebMessageService
     {
+        private readonly Dictionary<string, Action<JObject>> _handlers;
+
         private ISlideController _slides;
         private readonly IWebViewActions _ui;
 
         public WebMessageService(IWebViewActions ui)
         {
             _ui = ui;
+            _handlers = new Dictionary<string, Action<JObject>>(StringComparer.OrdinalIgnoreCase)
+            {
+                ["unpauseSlideshow"] = _ => UnpauseSlideShowWindow(),
+                ["refocusSlideshow"] = _ => RefocusSlideShowWindow(),
+                ["nextSlide"] = _ => _slides?.NextSlide(),
+                ["pause"] = HandlePause,
+                ["stop"] = _ => _ui.ExecuteScriptAsync("stopScroll()"),
+                ["start"] = _ => ((ITeleprompterControl)_ui).StartSlideShow(),
+                ["scrollStarted"] = _ => ((ITeleprompterControl)_ui).UnlockInput(),
+                ["obs_enable"] = ObsEnable,
+                ["obs_mute"] = ExecuteCommand
+                // Future:
+                // ["obs_scene"]  = HandleObsScene,
+                // ["obs_mute"]   = HandleObsMute,
+            };
+        }
+
+        private void ExecuteCommand(JObject obj)
+        {
+            string command = (string)obj["action"];
+            string source = (string)obj["argument"];
+//            ((ITeleprompterControl)_ui).Command("obs", source);
+        }
+        private void ObsEnable(JObject obj)
+        {
+            string sceneCollection = (string)obj["argument"];
+            ((ITeleprompterControl)_ui).EnableController("obs", sceneCollection);
+        }
+
+        private void HandlePause(JObject obj)
+        {
+            int duration = obj["duration"]?.Value<int>() ?? 0;
+
+            if (duration > 0)
+                _ui.SendToWebView(JsonConvert.SerializeObject(new { action = "pause", duration }));
+            else
+                ((ITeleprompterControl)_ui).PauseSlideShow();
         }
 
         public void Handler(object sender, CoreWebView2WebMessageReceivedEventArgs e)
@@ -28,41 +68,16 @@ namespace PromptLogic
             var obj = JObject.Parse(e.WebMessageAsJson);
             string action = (string)obj["action"];
 
-            switch (action)
+            if (_handlers.TryGetValue(action, out var handler))
             {
-                case "unpauseSlideshow":
-                    UnpauseSlideShowWindow();
-                    break;
-                case "refocusSlideshow":
-                    RefocusSlideShowWindow();
-                    break;
-                case "nextSlide":
-                    _slides?.NextSlide();
-                    break;
-                case "pause":
-                    int duration = obj["duration"]?.Value<int>() ?? 0;
-                    //if duration is > 0 we will just send it down to JS to pause loop
-                    //if 0 or < we need to send it to the mainform to pause that updates all the controls
-                    if (duration > 0)
-                        _ui.SendToWebView(Newtonsoft.Json.JsonConvert.SerializeObject(new { action = "pause", duration }));
-                    else
-                        ((ITeleprompterControl)_ui).PauseSlideShow();
-                    break;
-                case "stop":
-                    _ui.ExecuteScriptAsync("stopScroll()");
-                    break;
-                case "start":
-                    ((ITeleprompterControl)_ui).StartSlideShow();
-                    break;
-                case "scrollStarted":
-                    ((ITeleprompterControl)_ui).UnlockInput();
-                    break;
-                    // future commands:
-                    // case "resume":
-                    // case "speed":
-                    // case "goto":
+                handler(obj);
+            }
+            else
+            {
+                // Optional: log unknown command
             }
         }
+
         void UnpauseSlideShowWindow() => _slides?.Resume();
 
         private void RefocusSlideShowWindow() => _slides?.RefocusSlideShowWindow();

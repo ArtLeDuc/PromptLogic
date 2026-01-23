@@ -48,8 +48,15 @@ function loadNotes(text) {
 
         // 1. Dot-commands (skip display, attach to current logicalIndex)
         if (trimmed.startsWith(".")) {
-            const cmdText = trimmed.substring(1).toLowerCase();
+            // Special case: enable commands
+            // obs_enable
+            if (trimmed.startsWith(".obs_enable")) {
+                handleEnableCommand(trimmed);
+                // Do NOT add to commands list
+                continue;
+            }
 
+            const cmdText = trimmed.substring(1).toLowerCase();
             const match = cmdText.match(/^pause\((\d+)\)$/);
             if (match) {
                 commands.push({
@@ -117,6 +124,32 @@ function loadNotes(text) {
     setHighlightBand(bandLines);            // *** still here, but now sets bandHeightPx
     const geometry = computeLineGeometry();
     const bandGeometry = computeBandGeometry();
+}
+
+function handleEnableCommand(trimmed) {
+
+    if (!trimmed.startsWith("."))
+        return false;
+
+    // Split into command + optional argument
+    const match = trimmed.match(/^\.(\w+_enable)(?:\((.*)\))?$/);
+
+    cmd = match[1];
+    let arg = match[2];
+    if (arg != undefined) {
+        arg = arg.trim();
+        if (arg.length === 0)
+            arg = null;
+    } else {
+        arg = null;
+    }   
+
+    window.chrome.webview.postMessage({
+        action: cmd,
+        argument: arg && arg.length > 0 ? arg : null
+    });
+    return true;
+
 }
 
 /**

@@ -3,6 +3,7 @@ using Microsoft.Office.Interop.PowerPoint;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PromptLogic.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,8 @@ namespace PromptLogic
 {
     public partial class MainForm : Form, IWebViewActions, ITeleprompter, ITeleprompterControl
     {
+        private ControllerManager _controllerManager;
+
         private ISlideController _slides = null;
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
@@ -42,6 +45,7 @@ namespace PromptLogic
         private ControlPanelOptions controlPanelOptions;
         private bool _inputLocked = false;
         private RightClickMenu rightClickMenu;
+        private readonly Dictionary<string, Func<string, Task>> _obsCommandMap;
         private bool IsOnAnyScreen(Rectangle rect)
         {
             return Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(rect));
@@ -74,7 +78,7 @@ namespace PromptLogic
         {
             InitializeComponent();
             _windowManager = new WindowManager(this);
-
+            _controllerManager = new ControllerManager();
             _selectedEngine = SettingsManager.Settings.SelectedEngine;
 
             var s = SettingsManager.Settings;
@@ -126,6 +130,7 @@ namespace PromptLogic
 
             rightClickMenu = new RightClickMenu(this);
             this.ContextMenu = rightClickMenu;
+
         }
 
         private async void InitializeWebView()
@@ -229,6 +234,10 @@ namespace PromptLogic
             }              
 
             SettingsManager.Save();
+
+            if (_controllerManager != null)
+                _controllerManager.Dispose();
+
         }
 
         protected override bool ShowWithoutActivation
@@ -586,5 +595,68 @@ namespace PromptLogic
             OpenBorderNControl();
         }
 
+        public bool EnableController(string prefix, string arg)
+        {
+            bool bOk = true;
+            if (!_controllerManager.IsEnabled(prefix))
+            {
+                IController controller = null;
+
+                if (prefix == "obs")
+                {
+                    if (_controllerManager.IsEnabled("obs"))
+                        _controllerManager.Get("obs")?.Dispose();
+                    controller = new ObsController(arg);
+                }
+                //                else if (prefix == "ppt")
+                //                    controller = new PowerPointController();
+                // future: audio, camera, overlays...
+
+                if (controller != null)
+                {
+                    controller.ControllerEvent += ControllerEventHandler;
+                    _controllerManager.Register(prefix, controller);
+
+                    try
+                    {
+                        controller.Enable();
+                        _controllerManager.Register(prefix, controller);
+                    }
+                    catch
+                    {
+                        controller.Dispose();
+                        bOk = false;
+                        throw;
+                    }
+                }
+            }
+            return bOk;
+        }
+
+        private void ControllerEventHandler(object sender, ControllerEventArgs e)
+        {
+            if (e.Type == ControllerEventType.Error)
+            {
+                MessageBox.Show($"[{e.Prefix}] {e.Type}: {e.Message}");
+                IController controller = _controllerManager.Get(e.Prefix);
+                controller.ControllerEvent -= ControllerEventHandler;
+                _controllerManager.Remove(e.Prefix);
+            }
+        }
+
+        public void DispatchControllerCommand(string command, string[] args)
+        {
+            _controllerManager.Dispatch(command, args);
+        }
+
+        private void HandleObsEnable(JObject obj)
+        {
+            // Avoid duplicate initialization
+
+            var obs = new ObsController();
+            obs.Enable();
+
+            _controllerManager.Register("obs", obs);
+        }
     }
 }

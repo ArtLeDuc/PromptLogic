@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,10 @@ namespace PromptLogic
         void UnlockInput();
 
         void OpenSettings();
+
+        // New controller-related methods
+        bool EnableController(string prefix, string arg);
+        void DispatchControllerCommand(string command, string[] args);
 
     }
 }

@@ -8,22 +8,23 @@ namespace PromptLogic
 {
     public static class SampleScripts
     {
-        public static string Default = @"This is a sample script for testing the teleprompter.
+        public static string Default = @".obs_enable(Arts Test)
+This is a sample script for testing the teleprompter.
 It is written with natural pacing, clear sentences,
 and enough variation to help evaluate scrolling behavior.
-
+.obs_mute(Mic)
 As the text moves, pay attention to how easily your eyes
 track each line. Notice whether the highlight band feels
 comfortable, and whether the font size supports relaxed reading.
-
+.obs_unmute(Mic)
 You can adjust the speed, spacing, and colors at any time.
 The goal is to find a combination that feels effortless.
-
+.obs_scene(Scene 2)
 Longer passages help test smooth scrolling, so here is a bit more.
 Imagine you are preparing for a presentation, a tutorial,
 or a recorded message. The teleprompter should support your flow,
 not distract from it.
-
+.obs_scene(Scene)
 If the text feels too fast, slow it down.
 If it feels too small, increase the font size.
 If the lines feel crowded, adjust the spacing.

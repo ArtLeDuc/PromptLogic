@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="ActivationMode.cs" />
     <Compile Include="AppSettings.cs" />
+    <Compile Include="ControllerManager.cs" />
     <Compile Include="ControlPanelOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +78,7 @@
     <Compile Include="HighlightBand.Designer.cs">
       <DependentUpon>HighlightBand.cs</DependentUpon>
     </Compile>
+    <Compile Include="IController.cs" />
     <Compile Include="ITeleprompter.cs" />
     <Compile Include="ITeleprompterControl.cs" />
     <Compile Include="MainForm.cs">
@@ -94,6 +96,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="ObsController.cs" />
     <Compile Include="PowerPointSlideController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
