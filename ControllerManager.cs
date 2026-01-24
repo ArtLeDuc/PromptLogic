@@ -51,7 +51,7 @@ namespace PromptLogic.Controllers
             IController controller;
             if (_controllers.TryGetValue(prefix, out controller) && controller.IsEnabled)
             {
-                controller.EnqueueCommand(command, args);
+                controller.ExecuteCommandAsync(command, args);
             }
             else
             {

@@ -644,9 +644,11 @@ namespace PromptLogic
             }
         }
 
-        public void DispatchControllerCommand(string command, string[] args)
+        public async Task ExecuteControllerCommand(string controllerName, string command, string[] args)
         {
-            _controllerManager.Dispatch(command, args);
+            var controller = _controllerManager.Get(controllerName);
+            if (controller != null)
+                await controller.ExecuteCommandAsync(command, args);
         }
 
         private void HandleObsEnable(JObject obj)

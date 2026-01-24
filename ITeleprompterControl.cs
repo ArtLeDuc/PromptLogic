@@ -53,7 +53,7 @@ namespace PromptLogic
 
         // New controller-related methods
         bool EnableController(string prefix, string arg);
-        void DispatchControllerCommand(string command, string[] args);
+        Task ExecuteControllerCommand(string controllerName, string command, string[] args);
 
     }
 }

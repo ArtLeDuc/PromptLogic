@@ -44,8 +44,11 @@ namespace PromptLogic
         private void ExecuteCommand(JObject obj)
         {
             string command = (string)obj["action"];
-            string source = (string)obj["argument"];
-//            ((ITeleprompterControl)_ui).Command("obs", source);
+            string argument = (string)obj["argument"];
+            Task.Run(() =>
+                ((ITeleprompterControl)_ui)
+                    .ExecuteControllerCommand("obs", command, new[] { argument })
+            );
         }
         private void ObsEnable(JObject obj)
         {

@@ -52,7 +52,7 @@ namespace PromptLogic.Controllers
 
         private readonly object _connectionLock = new object();
         public event EventHandler<ControllerEventArgs> ControllerEvent;
-
+        private readonly Dictionary<string, Func<string[], Task>> _commandMap;
 
         // ---------------------------------------------------------
         // Constructor
@@ -68,8 +68,54 @@ namespace PromptLogic.Controllers
                 Name = "OBS Worker Thread"
             };
             _workerThread.Start();
+
+            _commandMap = new Dictionary<string, Func<string[], Task>>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "obs_scene", args =>
+                    {
+                        SendRequest("SetCurrentProgramScene", new JObject { ["sceneName"] = args[0] });
+                        return Task.CompletedTask;
+                    }
+                },
+
+                { "obs_mute", args =>
+                    {
+                        SendRequest("ToggleInputMute", new JObject { ["inputName"] = args[0] });
+                        return Task.CompletedTask;
+                    }
+                },
+
+                { "obs_unmute", args =>
+                    {
+                        SendRequest("ToggleInputMute", new JObject { ["inputName"] = args[0] });
+                        return Task.CompletedTask;
+                    }
+                },
+
+                { "obs_record_start", args =>
+                    {
+                        SendRequest("StartRecord");
+                        return Task.CompletedTask;
+                    }
+                },
+
+                { "obs_record_stop", args =>
+                    {
+                        SendRequest("StopRecord");
+                        return Task.CompletedTask;
+                    }
+                }
+            };
+
         }
 
+        public Task ExecuteCommandAsync(string command, string[] args)
+        {
+            if (_commandMap.TryGetValue(command, out var handler))
+                return handler(args);
+
+            return Task.CompletedTask;
+        }
 
         // ---------------------------------------------------------
         // Public API

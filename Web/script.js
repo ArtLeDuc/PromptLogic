@@ -57,14 +57,25 @@ function loadNotes(text) {
             }
 
             const cmdText = trimmed.substring(1).toLowerCase();
-            const match = cmdText.match(/^pause\((\d+)\)$/);
+//            const match = cmdText.match(/^pause\((\d+)\)$/);
+            const match = trimmed.match(/^\.([a-zA-Z0-9_]+)(?:\((.*)\))?$/);
             if (match) {
+                const cmd = match[1];
+                const argRaw = match[2] || "";
+                const arg = argRaw.replace(/^["']|["']$/g, "");
                 commands.push({
                     lineIndex: logicalIndex,
-                    command: "pause",
-                    duration: parseInt(match[1], 10),
+                    command: cmd,
+                    argument: arg.length > 0 ? arg : null,
                     fired: false
                 });
+
+//                commands.push({
+//                    lineIndex: logicalIndex,
+//                    command: "pause",
+//                    duration: parseInt(match[1], 10),
+//                    fired: false
+//                });
             } else {
                 commands.push({
                     lineIndex: logicalIndex,
@@ -328,6 +339,9 @@ function triggerCommand(cmd) {
             break;
         case "start":
             window.chrome.webview.postMessage({ action: "start" });
+            break;
+        default:
+            window.chrome.webview.postMessage({ action: cmd.command, argument: cmd.argument })
             break;
         // future commands:
         // case "speed+50":
