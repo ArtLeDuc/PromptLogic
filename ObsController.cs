@@ -71,13 +71,6 @@ namespace PromptLogic.Controllers
 
             _commandMap = new Dictionary<string, Func<string[], Task>>(StringComparer.OrdinalIgnoreCase)
             {
-                { "obs_scene", args =>
-                    {
-                        SendRequest("SetCurrentProgramScene", new JObject { ["sceneName"] = args[0] });
-                        return Task.CompletedTask;
-                    }
-                },
-
                 { "obs_mute", args =>
                     {
                         SendRequest("ToggleInputMute", new JObject { ["inputName"] = args[0] });
@@ -92,6 +85,13 @@ namespace PromptLogic.Controllers
                     }
                 },
 
+                { "obs_scene", args =>
+                    {
+                        SendRequest("SetCurrentProgramScene", new JObject { ["sceneName"] = args[0] });
+                        return Task.CompletedTask;
+                    }
+                },
+
                 { "obs_record_start", args =>
                     {
                         SendRequest("StartRecord");
@@ -102,6 +102,34 @@ namespace PromptLogic.Controllers
                 { "obs_record_stop", args =>
                     {
                         SendRequest("StopRecord");
+                        return Task.CompletedTask;
+                    }
+                },
+
+                { "obs_source_show", args =>
+                    {
+                        SendRequest("SetSceneItemEnabled", new JObject {
+                                                                ["sceneName"] = args[1],
+                                                                ["sceneItemId"] = 0,
+                                                                ["sceneItemEnabled"] = true
+                                                                });
+                        return Task.CompletedTask;
+                    }
+                },
+
+                { "obs_source_hide", args =>
+                    {
+                        SendRequest("SetSceneItemEnabled", new JObject {
+                                                                ["sceneName"] = args[1],
+                                                                ["sceneItemId"] = 0,
+                                                                ["sceneItemEnabled"] = false });
+                        return Task.CompletedTask;
+                    }
+                },
+
+                { "obs_tranition", args =>
+                    {
+                        SendRequest("SetCurrentSceneTransition", new JObject { ["transitionName"] = args[0] }); 
                         return Task.CompletedTask;
                     }
                 }

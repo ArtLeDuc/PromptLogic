@@ -332,7 +332,7 @@ function triggerCommand(cmd) {
             window.chrome.webview.postMessage({ action: "nextSlide" });
             break;
         case "pause":
-            window.chrome.webview.postMessage({ action: "pause", duration: cmd.duration });
+            window.chrome.webview.postMessage({ action: "pause", argument: cmd.argument });
             break;
         case "stop":
             window.chrome.webview.postMessage({ action: "stop" });

@@ -34,7 +34,14 @@ namespace PromptLogic
                 ["start"] = _ => ((ITeleprompterControl)_ui).StartSlideShow(),
                 ["scrollStarted"] = _ => ((ITeleprompterControl)_ui).UnlockInput(),
                 ["obs_enable"] = ObsEnable,
-                ["obs_mute"] = ExecuteCommand
+                ["obs_mute"] = ExecuteCommand,
+                ["obs_unmute"] = ExecuteCommand,
+                ["obs_scene"] = ExecuteCommand,
+                ["obs_record_start"] = ExecuteCommand,
+                ["obs_record_stop"] = ExecuteCommand,
+                ["obs_source_show"] = ExecuteCommand,
+                ["obs_source_hide"] = ExecuteCommand,
+                ["obs_trasnition"] = ExecuteCommand
                 // Future:
                 // ["obs_scene"]  = HandleObsScene,
                 // ["obs_mute"]   = HandleObsMute,
@@ -58,7 +65,7 @@ namespace PromptLogic
 
         private void HandlePause(JObject obj)
         {
-            int duration = obj["duration"]?.Value<int>() ?? 0;
+            int duration = obj["argument"]?.Value<int>() ?? 0;
 
             if (duration > 0)
                 _ui.SendToWebView(JsonConvert.SerializeObject(new { action = "pause", duration }));
