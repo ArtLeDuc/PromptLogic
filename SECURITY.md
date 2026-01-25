@@ -9,7 +9,7 @@ Security issues should be reported privately so they can be investigated and res
 
 Please email your report to:
 
-**[ajleduc@gmail.com]**
+**[promptlogic.app@gmail.com]**
 
 Include as much detail as you can:
 - A clear description of the issue
