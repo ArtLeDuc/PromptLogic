@@ -41,7 +41,7 @@ namespace PromptLogic
                 ["obs_record_stop"] = ExecuteCommand,
                 ["obs_source_show"] = ExecuteCommand,
                 ["obs_source_hide"] = ExecuteCommand,
-                ["obs_trasnition"] = ExecuteCommand
+                ["obs_transition"] = ExecuteCommand
             };
         }
 
