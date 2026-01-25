@@ -9,6 +9,7 @@ namespace PromptLogic
     public static class SampleScripts
     {
         public static string Default = @".obs_enable(Two Scenes)
+.obs_scene(Scene)
 This is a sample script for testing the teleprompter.
 It is written with natural pacing, clear sentences,
 and enough variation to help evaluate scrolling behavior.

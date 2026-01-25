@@ -57,25 +57,23 @@ function loadNotes(text) {
             }
 
             const cmdText = trimmed.substring(1).toLowerCase();
-//            const match = cmdText.match(/^pause\((\d+)\)$/);
             const match = trimmed.match(/^\.([a-zA-Z0-9_]+)(?:\((.*)\))?$/);
             if (match) {
                 const cmd = match[1];
                 const argRaw = match[2] || "";
-                const arg = argRaw.replace(/^["']|["']$/g, "");
+
+                // Split on commas, trim whitespace, strip quotes
+                const args = argRaw
+                    .split(',')
+                    .map(a => a.trim().replace(/^["']|["']$/g, ""))
+                    .filter(a => a.length > 0);
+
                 commands.push({
                     lineIndex: logicalIndex,
                     command: cmd,
-                    argument: arg.length > 0 ? arg : null,
+                    args: args,
                     fired: false
                 });
-
-//                commands.push({
-//                    lineIndex: logicalIndex,
-//                    command: "pause",
-//                    duration: parseInt(match[1], 10),
-//                    fired: false
-//                });
             } else {
                 commands.push({
                     lineIndex: logicalIndex,
@@ -318,39 +316,10 @@ function startTeleprompter() {
         unpauseSlideshow();
         const geometry = computeLineGeometry();
         const bandGeometry = computeBandGeometry();
-//        ensureDebugLine();
-//        updateDebugBandBottom(bandGeometry);
         line = 0;
         startScroll();
     });
 }
-
-
-function triggerCommand(cmd) {
-    switch (cmd.command) {
-        case "nextslide":
-            window.chrome.webview.postMessage({ action: "nextSlide" });
-            break;
-        case "pause":
-            window.chrome.webview.postMessage({ action: "pause", argument: cmd.argument });
-            break;
-        case "stop":
-            window.chrome.webview.postMessage({ action: "stop" });
-            break;
-        case "start":
-            window.chrome.webview.postMessage({ action: "start" });
-            break;
-        default:
-            window.chrome.webview.postMessage({ action: cmd.command, argument: cmd.argument })
-            break;
-        // future commands:
-        // case "speed+50":
-        // case "speed-20":
-        // case "goto 5":
-        // case "color red":
-    }
-}
-
 function scrollByWheel(delta) {
     const scaled = delta.delta * 0.05
     manualScrollPos -= scaled;
@@ -364,7 +333,7 @@ function checkCommands() {
     for (let cmd of commands) {
         if (cmd.lineIndex === line && !cmd.fired) {
             cmd.fired = true;
-            triggerCommand(cmd);
+            window.chrome.webview.postMessage({ action: cmd.command, args: cmd.args });
         }
     }
 }

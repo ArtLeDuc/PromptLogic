@@ -42,19 +42,17 @@ namespace PromptLogic
                 ["obs_source_show"] = ExecuteCommand,
                 ["obs_source_hide"] = ExecuteCommand,
                 ["obs_trasnition"] = ExecuteCommand
-                // Future:
-                // ["obs_scene"]  = HandleObsScene,
-                // ["obs_mute"]   = HandleObsMute,
             };
         }
 
         private void ExecuteCommand(JObject obj)
         {
             string command = (string)obj["action"];
-            string argument = (string)obj["argument"];
+            string[] args = obj["args"]?.ToObject<string[]>() ?? Array.Empty<string>();
+
             Task.Run(() =>
                 ((ITeleprompterControl)_ui)
-                    .ExecuteControllerCommand("obs", command, new[] { argument })
+                    .ExecuteControllerCommand("obs", command, args)
             );
         }
         private void ObsEnable(JObject obj)
@@ -65,7 +63,8 @@ namespace PromptLogic
 
         private void HandlePause(JObject obj)
         {
-            int duration = obj["argument"]?.Value<int>() ?? 0;
+            string[] args = obj["args"]?.ToObject<string[]>() ?? Array.Empty<string>();
+            int duration = int.TryParse(args?[0], out var value) ? value : 0;
 
             if (duration > 0)
                 _ui.SendToWebView(JsonConvert.SerializeObject(new { action = "pause", duration }));
