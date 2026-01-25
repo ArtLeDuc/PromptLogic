@@ -13,14 +13,13 @@ namespace PromptLogic
 This is a sample script for testing the teleprompter.
 It is written with natural pacing, clear sentences,
 and enough variation to help evaluate scrolling behavior.
-.obs_mute(Mic)
+.obs_scene(Scene 2)
 As the text moves, pay attention to how easily your eyes
 track each line. Notice whether the highlight band feels
 comfortable, and whether the font size supports relaxed reading.
-.obs_unmute(Mic)
+.obs_source_show(Scene 2, Text)
 You can adjust the speed, spacing, and colors at any time.
 The goal is to find a combination that feels effortless.
-.obs_scene(Scene 2)
 Longer passages help test smooth scrolling, so here is a bit more.
 Imagine you are preparing for a presentation, a tutorial,
 or a recorded message. The teleprompter should support your flow,

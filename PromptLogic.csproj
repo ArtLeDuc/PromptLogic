@@ -150,6 +150,7 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="docs\index.html" />
+    <None Include="docs\changlog.md" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -194,6 +195,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="docs\userguide.html" />
     <Content Include="PromptLogic.ico" />
     <Content Include="Web\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
