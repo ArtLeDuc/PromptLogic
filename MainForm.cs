@@ -45,7 +45,6 @@ namespace PromptLogic
         private ControlPanelOptions controlPanelOptions;
         private bool _inputLocked = false;
         private RightClickMenu rightClickMenu;
-        private readonly Dictionary<string, Func<string, Task>> _obsCommandMap;
         private bool IsOnAnyScreen(Rectangle rect)
         {
             return Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(rect));

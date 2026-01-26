@@ -40,9 +40,7 @@ namespace PromptLogic.Controllers
         // Fields
         // ---------------------------------------------------------
 
-        private Thread _workerThread;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
-        private readonly ConcurrentQueue<ObsCommand> _commandQueue = new ConcurrentQueue<ObsCommand>();
         private ClientWebSocket _webSocket;
         private bool _isConnected = false;
         private bool _socketInitialized = false;
@@ -53,21 +51,50 @@ namespace PromptLogic.Controllers
         private readonly object _connectionLock = new object();
         public event EventHandler<ControllerEventArgs> ControllerEvent;
         private readonly Dictionary<string, Func<string[], Task>> _commandMap;
+        private readonly ConcurrentDictionary<SceneSourceKey, int> _cache = new ConcurrentDictionary<SceneSourceKey, int>();
+        
+        private readonly Dictionary<string, int> _sceneItemIdCache = new Dictionary<string, int>();
+        private TaskCompletionSource<JObject> _pendingResponse;
+        private string _pendingRequestId;
+        private readonly TimeSpan _requestTimeout = TimeSpan.FromSeconds(5);
+
+        public readonly struct SceneSourceKey : IEquatable<SceneSourceKey>
+        {
+            public string Scene { get; }
+            public string Source { get; }
+
+            public SceneSourceKey(string scene, string source)
+            {
+                Scene = scene;
+                Source = source;
+            }
+
+            public bool Equals(SceneSourceKey other) =>
+                string.Equals(Scene, other.Scene, StringComparison.Ordinal) &&
+                string.Equals(Source, other.Source, StringComparison.Ordinal);
+
+            public override bool Equals(object obj) =>
+                obj is SceneSourceKey other && Equals(other);
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    int hash = 17;
+                    hash = hash * 23 + (Scene?.GetHashCode() ?? 0);
+                    hash = hash * 23 + (Source?.GetHashCode() ?? 0);
+                    return hash;
+                }
+            }
+        }
 
         // ---------------------------------------------------------
         // Constructor
         // ---------------------------------------------------------
-
         public ObsController(string sceneCollection = null)
         {
             _sceneCollection = sceneCollection;
             // Start background worker
-            _workerThread = new Thread(WorkerLoop)
-            {
-                IsBackground = true,
-                Name = "OBS Worker Thread"
-            };
-            _workerThread.Start();
 
             _commandMap = new Dictionary<string, Func<string[], Task>>(StringComparer.OrdinalIgnoreCase)
             {
@@ -108,21 +135,14 @@ namespace PromptLogic.Controllers
 
                 { "obs_source_show", args =>
                     {
-                        SendRequest("SetSceneItemEnabled", new JObject {
-                                                                ["sceneName"] = args[1],
-                                                                ["sceneItemId"] = 0,
-                                                                ["sceneItemEnabled"] = true
-                                                                });
+                        _ = HandleSourceVisibility(args[0], args[1], true);
                         return Task.CompletedTask;
                     }
                 },
 
                 { "obs_source_hide", args =>
                     {
-                        SendRequest("SetSceneItemEnabled", new JObject {
-                                                                ["sceneName"] = args[1],
-                                                                ["sceneItemId"] = 0,
-                                                                ["sceneItemEnabled"] = false });
+                        _ = HandleSourceVisibility(args[0], args[1], false);
                         return Task.CompletedTask;
                     }
                 },
@@ -198,7 +218,9 @@ namespace PromptLogic.Controllers
                     if (!string.IsNullOrEmpty(_sceneCollection))
                         SetCurrentSceneCollection(_sceneCollection);
 
-                    OnControllerEvent("obs", "Connected", ControllerEventType.Info); 
+                    OnControllerEvent("obs", "Connected", ControllerEventType.Info);
+
+                    StartReceiveLoop();
                 }
             }
             catch (Exception ex)
@@ -259,26 +281,6 @@ namespace PromptLogic.Controllers
             }
         }
 
-        private void ToggleMute(string sourceName)
-        {
-            var data = new JObject
-            {
-                ["source"] = sourceName
-            };
-
-            SendRequest("ToggleInputMute", data);
-        }
-
-        private void SetCurrentProgramScene(string sceneName)
-        {
-            var data = new JObject
-            {
-                ["sceneName"] = sceneName
-            };
-
-            SendRequest("SetCurrentProgramScene", data);
-        }
-
         private void SetCurrentSceneCollection(string name)
         {
             var data = new JObject
@@ -308,6 +310,136 @@ namespace PromptLogic.Controllers
             });
         }
 
+        private async Task<int> ResolveSceneItemId(string scene, string source)
+        {
+            string key = $"{scene}::{source}";
+
+            // 1. Cache check
+            if (_sceneItemIdCache.TryGetValue(key, out int cachedId))
+                return cachedId;
+
+            try
+            {
+                // 2. Build request payload
+                var requestData = new JObject
+                {
+                    ["sceneName"] = scene,
+                    ["sourceName"] = source
+                };
+
+                // 3. Ask OBS for the ID
+                JObject response = await SendRequestAsync("GetSceneItemId", requestData);
+
+                // 4. Extract ID safely
+                int id = response["responseData"]?["sceneItemId"]?.Value<int>() ?? 0;
+
+                if (id <= 0)
+                    throw new Exception($"OBS returned invalid sceneItemId for {scene}/{source}");
+
+                // 5. Cache it
+                _sceneItemIdCache[key] = id;
+
+                return id;
+            }
+            catch (TimeoutException)
+            {
+                throw new Exception($"Timed out resolving sceneItemId for {scene}/{source}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to resolve sceneItemId for {scene}/{source}: {ex.Message}");
+            }
+        }
+        private async Task<JObject> SendRequestAsync(string requestType, JObject requestData = null)
+        {
+            // 1. Create a new requestId
+            string requestId = Guid.NewGuid().ToString();
+
+            // 2. Build the request envelope
+            var request = new JObject
+            {
+                ["op"] = 6, // Request
+                ["d"] = new JObject
+                {
+                    ["requestType"] = requestType,
+                    ["requestId"] = requestId,
+                    ["requestData"] = requestData ?? new JObject()
+                }
+            };
+
+            // 3. Prepare to wait for the response
+            _pendingRequestId = requestId;
+            _pendingResponse = new TaskCompletionSource<JObject>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            // 4. Send the request
+            await SendMessageAsync(request.ToString());
+
+            // 5. Wait for the response OR timeout
+            using (var cts = new CancellationTokenSource(_requestTimeout))
+            {
+                var completed = await Task.WhenAny(_pendingResponse.Task, Task.Delay(Timeout.Infinite, cts.Token));
+
+                if (completed != _pendingResponse.Task)
+                {
+                    throw new TimeoutException($"OBS request '{requestType}' with id '{requestId}' timed out.");
+                }
+            }
+
+            JObject response = await _pendingResponse.Task;
+
+            // 6. Optional: check for OBS-side errors
+            var status = response["requestStatus"];
+            if (status != null)
+            {
+                bool ok = status["result"]?.Value<bool>() ?? true;
+                if (!ok)
+                {
+                    string code = status["code"]?.ToString() ?? "unknown";
+                    string comment = status["comment"]?.ToString() ?? "no details";
+                    throw new Exception($"OBS request '{requestType}' failed: {code} - {comment}");
+                }
+            }
+
+            return response;
+        }
+
+        private async Task<int> GetSceneItemId(string sceneName, string sourceName)
+        {
+            // Build the request
+            var request = new JObject
+            {
+                ["sceneName"] = sceneName,
+                ["sourceName"] = sourceName
+            };
+
+            // Send the request and wait for the response
+            JObject response = await SendRequestAsync("GetSceneItemId", request);
+
+            // Extract the ID
+            int id = response["sceneItemId"].Value<int>();
+
+            return id;
+        }
+
+        private async Task HandleSourceVisibility(string scene, string source, bool enabled)
+        {
+            try
+            {
+                int id = await ResolveSceneItemId(scene, source);
+
+                SendRequest("SetSceneItemEnabled", new JObject
+                {
+                    ["sceneName"] = scene,
+                    ["sceneItemId"] = id,
+                    ["sceneItemEnabled"] = enabled
+                });
+            }
+            catch (Exception ex)
+            {
+                // Optional: log or surface this
+                OnControllerEvent("obs", $"Error setting visibility: {ex.Message}", ControllerEventType.Error);
+            }
+        }
         private static string ComputeAuthResponse(string password, string salt, string challenge)
         {
             // secret = Base64(SHA256(password + salt))
@@ -352,47 +484,9 @@ namespace PromptLogic.Controllers
                 // Optional: log or trigger reconnect
             }
 
-
-/*
-            var bytes = Encoding.UTF8.GetBytes(json);
-            var buffer = new ArraySegment<byte>(bytes);
-            await _webSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
-*/
-        }
-
-
-        public void EnqueueCommand(string command, params string[] args)
-        {
-            var obsCmd = new ObsCommand(command, args);
-            _commandQueue.Enqueue(obsCmd);
         }
 
         public bool IsConnected => _isConnected;
-
-
-        // ---------------------------------------------------------
-        // Worker Thread Loop
-        // ---------------------------------------------------------
-
-        private void WorkerLoop()
-        {
-            while (!_cts.IsCancellationRequested)
-            {
-                if (!_isConnected)
-                {
-                    Thread.Sleep(500);
-                    continue;
-                }
-
-                if (_commandQueue.TryDequeue(out var cmd))
-                {
-                    SendCommand(cmd);
-                }
-
-                Thread.Sleep(10);
-            }
-        }
-
 
         // ---------------------------------------------------------
         // Sending Commands
@@ -430,8 +524,6 @@ namespace PromptLogic.Controllers
         public void Dispose()
         {
             _cts.Cancel();
-
-            try { _workerThread.Join(500); } catch { }
 
             SafeDispose();
 
@@ -485,18 +577,51 @@ namespace PromptLogic.Controllers
                     WorkingDirectory = Path.GetDirectoryName(obsExePath),
                     UseShellExecute = false
                 };
-/*
-                if (!string.IsNullOrEmpty(_sceneCollection))
-                {
-                    startInfo.Arguments = $"--scene-collection \"{_sceneCollection}\"";
-                }
-*/
                 Process.Start(startInfo);
                 return true;
             }
             catch
             {
                 return false;
+            }
+        }
+
+        private void HandleIncomingMessage(string json)
+        {
+            var msg = JObject.Parse(json);
+
+            int op = msg["op"].Value<int>();
+            var d = (JObject)msg["d"];
+
+            // Handle request responses
+            if (op == 7) // RequestResponse
+            {
+                string requestId = d["requestId"].Value<string>();
+
+                if (requestId == _pendingRequestId)
+                {
+                    _pendingResponse?.TrySetResult(d);
+                    return;
+                }
+            }
+
+            // Later: handle events (op == 5), scene changes, etc.
+        }
+
+        private async void StartReceiveLoop()
+        {
+            try
+            {
+                while (_webSocket != null && _webSocket.State == WebSocketState.Open)
+                {
+                    string json = await ReceiveMessageAsync();
+                    HandleIncomingMessage(json);
+                }
+            }
+            catch
+            {
+                // Optional: log or reconnect
+                SafeDispose();
             }
         }
 
