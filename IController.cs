@@ -25,6 +25,7 @@ namespace PromptLogic
 
     public interface IController : IDisposable
     {
+        string Name { get; }
         void Enable();
         Task ExecuteCommandAsync(string command, string[] args);
         bool IsEnabled { get; }

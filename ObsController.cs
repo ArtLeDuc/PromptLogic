@@ -39,6 +39,7 @@ namespace PromptLogic.Controllers
         // ---------------------------------------------------------
         // Fields
         // ---------------------------------------------------------
+        public string Name => "obs";
 
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
         private ClientWebSocket _webSocket;
@@ -218,7 +219,7 @@ namespace PromptLogic.Controllers
                     if (!string.IsNullOrEmpty(_sceneCollection))
                         SetCurrentSceneCollection(_sceneCollection);
 
-                    OnControllerEvent("obs", "Connected", ControllerEventType.Info);
+                    OnControllerEvent(Name, "Connected", ControllerEventType.Info);
 
                     StartReceiveLoop();
                 }
@@ -229,7 +230,7 @@ namespace PromptLogic.Controllers
 
                 if (!retryIfObsNotRunning)
                 {
-                    OnControllerEvent("obs", "Connection failed: " + ex.Message, ControllerEventType.Error);
+                    OnControllerEvent(Name, "Connection failed: " + ex.Message, ControllerEventType.Error);
                     return;
                 }
 
@@ -248,7 +249,7 @@ namespace PromptLogic.Controllers
                 }
 
                 //                    Debug.WriteLine("OBS connection/auth failed: " + ex.Message);
-                OnControllerEvent("obs", "Connection failed: " + ex.Message, ControllerEventType.Error);
+                OnControllerEvent(Name, "Connection failed: " + ex.Message, ControllerEventType.Error);
                 _isConnected = false;
             }
         }
@@ -437,7 +438,7 @@ namespace PromptLogic.Controllers
             catch (Exception ex)
             {
                 // Optional: log or surface this
-                OnControllerEvent("obs", $"Error setting visibility: {ex.Message}", ControllerEventType.Error);
+                OnControllerEvent(Name, $"Error setting visibility: {ex.Message}", ControllerEventType.Error);
             }
         }
         private static string ComputeAuthResponse(string password, string salt, string challenge)
