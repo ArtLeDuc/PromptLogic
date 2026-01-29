@@ -42,12 +42,14 @@ namespace PromptLogic
         void PauseSlideShow();
         void StopSlideShow();
         void StartSlideShow();
+        void EndSlideShow();
         void CloseApplication();
         void OpenSpeedSettings();
         void OpenHighlightSettings();
         void LoadSampleScript();
         void LockInput();
         void UnlockInput();
+        void MonitorTimerStop();
 
         void OpenSettings();
 

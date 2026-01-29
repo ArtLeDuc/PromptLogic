@@ -30,7 +30,7 @@ namespace PromptLogic
                 ["refocusSlideshow"] = _ => RefocusSlideShowWindow(),
                 ["nextSlide"] = _ => _slides?.NextSlide(),
                 ["pause"] = HandlePause,
-                ["stop"] = _ => _ui.ExecuteScriptAsync("stopScroll()"),
+                ["stop"] = _ => ((ITeleprompterControl)_ui).EndSlideShow(),
                 ["start"] = _ => ((ITeleprompterControl)_ui).StartSlideShow(),
                 ["scrollStarted"] = _ => ((ITeleprompterControl)_ui).UnlockInput(),
                 ["obs_enable"] = ObsEnable,

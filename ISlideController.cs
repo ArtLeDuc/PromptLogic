@@ -10,7 +10,9 @@ namespace PromptLogic
 {
     public interface ISlideController
     {
-        bool Connect(IWebViewActions ui);
+        bool Connect(); // (IWebViewActions ui);
+        void Disconnect();
+
         int SlideCount { get; }
         int CurrentSlide { get; }
         bool IsSlideShowRunning { get; }
@@ -30,11 +32,15 @@ namespace PromptLogic
         string GetNotesForSlide(int index);
         SlideShowState State { get; }
         string GetSlideTitle(int index);
+        void MonitorTimerStop();
+        void EndSlideShow();
 
         // Events
         event Action<int> SlideChanged; // event raised when the current slide changes
         event EventHandler SlideShowBegin;
         event EventHandler Disconnected;
+        event EventHandler SlideShowEnded;
+
 
     }
 }

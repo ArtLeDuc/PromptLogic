@@ -9,6 +9,8 @@ let line = 0;
 let bandGeometry = null;
 let geometry = null;
 let manualScrollPos = 0;
+let stopped = true;
+
 function loadNotes(text) {
     let dataParent = "";
     manualScrollPos = 0;
@@ -317,6 +319,7 @@ function startTeleprompter() {
         const geometry = computeLineGeometry();
         const bandGeometry = computeBandGeometry();
         line = 0;
+        stopped = false;
         startScroll();
     });
 }
@@ -374,7 +377,7 @@ window.chrome.webview.addEventListener('message', event => {
 
 // ----- Scrolling -----
 function startScroll() {
-    if (scrolling) return;
+    if (scrolling || stopped) return;
 
     scrolling = true;
     window.chrome.webview.postMessage({ action: "scrollStarted" });
@@ -410,6 +413,7 @@ function pauseScroll() {
 
 function stopScroll() {
     scrolling = false;
+    stopped = true;
     clearInterval(scrollInterval);
     scrollPos = 0;
     const content = document.getElementById("content");

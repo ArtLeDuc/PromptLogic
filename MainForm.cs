@@ -292,6 +292,7 @@ namespace PromptLogic
         }
         public void ClearTeleprompter()
         {
+            _slides = null;
             SendNotesToWebView("Waiting for slide notes press Connect Or Choose Load Sample Script.<br>When ready press Start.</br>");
         }
         public void InvokeOnUIThread(Action action)
@@ -301,6 +302,22 @@ namespace PromptLogic
             else
                 action();
         }
+        private void SlideShowEnd(object sender, EventArgs e)
+        {
+            // Slideshow is over — stop the heartbeat
+            if (InvokeRequired)
+            {
+                this.BeginInvoke((Action)(() =>
+                {
+                    ((ITeleprompterControl)this).MonitorTimerStop();
+                }));
+            }
+            else
+            {
+                ((ITeleprompterControl)this).MonitorTimerStop();
+            };
+        }
+
 
         public void OnSlideChanged(int index)
         {

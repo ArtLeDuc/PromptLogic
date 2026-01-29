@@ -25,13 +25,14 @@ namespace PromptLogic
         private PowerPoint.SlideShowView _slideShowView = null;
 
         // Services
-        private WebMessageService _service = null;
-        private IWebViewActions _ui = null;
+//        private WebMessageService _service = null;
+//        private IWebViewActions _ui = null;
 
         // Events exposed to the UI
         public event Action<int> SlideChanged;
         public event EventHandler SlideShowBegin;
         public event EventHandler Disconnected;
+        public event EventHandler SlideShowEnded;
 
         // Internal state
         private bool _isConnected = false;
@@ -190,6 +191,11 @@ namespace PromptLogic
             return false;
         }
 
+        public void EndSlideShow()
+        {
+            var win = GetWindow();
+//            win.View.Exit();
+        }
         public void ClearAllTimings()
         {
             foreach (PowerPoint.Slide slide in _presentation.Slides)
@@ -213,12 +219,17 @@ namespace PromptLogic
             }
 
         }
+        public void MonitorTimerStop()
+        {
+            _monitorTimer?.Stop();
+        }
 
         public void HookSlideShowEvents()
         {
             // Hook PowerPoint.Application events
             _app.SlideShowNextSlide += SlideShowNextSlide;
             _app.SlideShowBegin += OnSlideShowBegin;
+            _app.SlideShowEnd += OnSlideShowEnd;
 
             // If a slideshow is already running, attach to it
             if (_app.SlideShowWindows.Count > 0)
@@ -243,16 +254,16 @@ namespace PromptLogic
             SlideShowBegin?.Invoke(this, EventArgs.Empty);
         }
 
-        public bool Connect(IWebViewActions ui)
+        public bool Connect() // (IWebViewActions ui)
         {
-            Disconnect();
+//            Disconnect();
 
             // Prevent double-connect
             //            if (_isConnected)
             //                return false;
 
-            _service = new WebMessageService(ui);
-            _ui = ui;
+//            _service = new WebMessageService(ui);
+//            _ui = ui;
 
             // Try to get the running PowerPoint instance
             try
@@ -309,7 +320,7 @@ namespace PromptLogic
             {
                 try
                 {
-                    return _app.SlideShowWindows.Count > 0;
+                    return _app?.SlideShowWindows.Count > 0 ? true : false;
                 }
                 catch
                 {
@@ -342,7 +353,7 @@ namespace PromptLogic
                 {
                     _app.SlideShowNextSlide -= SlideShowNextSlide;
                     _app.SlideShowBegin -= OnSlideShowBegin;
-                    _app.SlideShowEnd += OnSlideShowEnd;
+                    _app.SlideShowEnd -= OnSlideShowEnd;
                 }
             }
             catch
@@ -358,7 +369,7 @@ namespace PromptLogic
             // DO NOT release _app or call Quit() because we did NOT create PowerPoint.
 
             // --- 3. Clear service reference ---
-            _service = null;
+//            _service = null;
 
             // --- 4. Notify UI ---
             try
@@ -370,20 +381,18 @@ namespace PromptLogic
                 // UI errors should never break disconnect
             }
         }
-        private void SlideShowEnd()
+
+        private void OnSlideShowEnd()
         {
-            // Slideshow is over — stop the heartbeat
-            _ui.InvokeOnUIThread(() =>
-            {
-                _monitorTimer?.Stop();
-            });
+            SlideShowEnded?.Invoke(this, EventArgs.Empty);
 
             // Optionally trigger Disconnect()
             Disconnect();
         }
+
         private void OnSlideShowEnd(PowerPoint.Presentation Pres)
         {
-            SlideShowEnd();
+            OnSlideShowEnd();
         }
 
         private void ReleaseComObject<T>(ref T obj) where T : class
@@ -418,7 +427,7 @@ namespace PromptLogic
                 }
                 else
                 {
-                    SlideShowEnd();
+                    OnSlideShowEnd();
                     return;
                 }
 

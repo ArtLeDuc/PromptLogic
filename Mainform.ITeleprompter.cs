@@ -61,7 +61,6 @@ namespace PromptLogic
         }
         public void StopTeleprompter()
         {
-
             webView.ExecuteScriptAsync("stopScroll()");
             IsPaused = false;
             IsStopped = true;

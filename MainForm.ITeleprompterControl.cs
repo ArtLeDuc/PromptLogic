@@ -171,14 +171,19 @@ namespace PromptLogic
 
         void ITeleprompterControl.ConnectSlideShow()
         {
+            if (_slides != null)
+                _slides.Disconnect();
+
             _slides = SlideControllerFactory.Create(_selectedEngine);
             _slides.Disconnected += Controller_Disconnected;
+            _slides.SlideShowEnded += SlideShowEnd;
 
-            if (!_slides.Connect(this))
+            if (!_slides.Connect())
             {
                 MessageBox.Show("Could not connect.");
                 return;
             }
+
             _slides.SlideShowBegin += (s, g) => {
                 this.BeginInvoke((Action)(() => LoadSlideSelectionCombo()));
             };
@@ -196,7 +201,7 @@ namespace PromptLogic
 
             ConnectToWebView();
 
-            if (_slides.IsSlideShowRunning)
+            if (_slides != null && _slides.IsSlideShowRunning)
             {
                 LoadNotesForCurrentSlide();
                 LoadSlideSelectionCombo();
@@ -222,7 +227,11 @@ namespace PromptLogic
             StartTeleprompter();
             UpdateControls();
         }
-
+        void ITeleprompterControl.EndSlideShow()
+        {
+            StopTeleprompter();
+            _slides.EndSlideShow();
+        }
         void ITeleprompterControl.CloseApplication()
         {
             Close();
@@ -260,6 +269,10 @@ namespace PromptLogic
         void ITeleprompterControl.UnlockInput()
         {
             UnlockInput();
+        }
+        public void MonitorTimerStop()
+        {
+            _slides.MonitorTimerStop();
         }
     }
 }
