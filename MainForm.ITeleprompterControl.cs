@@ -169,6 +169,7 @@ namespace PromptLogic
             webView.ExecuteScriptAsync($"setSpeed({jsSpeed});");
         }
 
+        /*
         void ITeleprompterControl.ConnectSlideShow()
         {
             if (_slides != null)
@@ -207,6 +208,7 @@ namespace PromptLogic
                 LoadSlideSelectionCombo();
             }
         }
+        */
 
         void ITeleprompterControl.PauseSlideShow()
         {

@@ -32,6 +32,8 @@ namespace PromptLogic
         public event Action<int> SlideChanged;
         public event EventHandler SlideShowBegin;
         public event EventHandler Disconnected;
+//        public event EventHandler SlideShowEnd;
+        public event EventHandler TimingsDetected;
         public event EventHandler SlideShowEnded;
 
         // Internal state
@@ -289,6 +291,9 @@ namespace PromptLogic
 
             // Hook events and attach to slideshow if already running
             HookSlideShowEvents();
+
+            if (PresentationHasTimings())
+                TimingsDetected?.Invoke(this, EventArgs.Empty);
 
             return true;
         }

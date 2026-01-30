@@ -261,11 +261,13 @@ namespace PromptLogic
 
         private void LoadSlideSelectionCombo()
         {
+            PptController controller = (PptController)_controllerManager.Get("ppt");
+
             cmbStartSlide.Items.Clear();
 
-            for (int i = 1; i <= _slides.SlideCount; i++)
+            for (int i = 1; i <= controller.SlideCount; i++)
             {
-                string title = _slides.GetSlideTitle(i);
+                string title = controller.GetSlideTitle(i);
                 if (string.IsNullOrWhiteSpace(title))
                     title = $"Slide {i}";
 
@@ -283,7 +285,9 @@ namespace PromptLogic
         }
         private void LoadNotesForSlide(int index)
         {
-            string notes = _slides.GetNotesForSlide(index);
+            PptController controller = (PptController)_controllerManager.Get("ppt");
+
+            string notes = controller.GetNotesForSlide(index);
             SendNotesToWebView(notes);
         }
         public void LoadInitialPage()
@@ -359,11 +363,13 @@ namespace PromptLogic
         }
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            ((ITeleprompterControl)this).ConnectSlideShow();
+            EnableController("ppt");
+//            ((ITeleprompterControl)this).ConnectSlideShow();
         }
         private void btnCollapsedConnect_Click(object sender, EventArgs e)
         {
-            ((ITeleprompterControl)this).ConnectSlideShow();
+            EnableController("ppt");
+//            ((ITeleprompterControl)this).ConnectSlideShow();
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -611,42 +617,77 @@ namespace PromptLogic
             OpenBorderNControl();
         }
 
-        public bool EnableController(string prefix, string arg)
+        public bool EnableController(string prefix, string arg = null)
         {
             bool bOk = true;
             if (!_controllerManager.IsEnabled(prefix))
             {
-                IController controller = null;
+                IController iController = null;
 
                 if (prefix == "obs")
                 {
                     if (_controllerManager.IsEnabled("obs"))
                         _controllerManager.Get("obs")?.Dispose();
-                    controller = new ObsController(arg);
+                    iController = new ObsController(arg);
                 }
-                //                else if (prefix == "ppt")
-                //                    controller = new PowerPointController();
-                // future: audio, camera, overlays...
-
-                if (controller != null)
+                else if (prefix == "ppt")
                 {
-                    controller.ControllerEvent += ControllerEventHandler;
-                    _controllerManager.Register(prefix, controller);
+                    if (_controllerManager.IsEnabled("ppt"))
+                        _controllerManager.Get("ppt")?.Dispose();
+
+                    PptController controller = new PptController();
+                    controller.Disconnected += Controller_Disconnected;
+                    controller.SlideShowBegin += (s, e) => 
+                    { 
+                        this.BeginInvoke((Action)(() => LoadSlideSelectionCombo()));
+                    };
+
+
+                    controller.SlideShowEnd += SlideShowEnd;
+                    controller.SlideChanged += OnSlideChanged;
+                    controller.TimingsDetected += TimingsDetected;
+
+                    iController = controller;
+                }
+
+                if (iController != null)
+                {
+                    iController.ControllerEvent += ControllerEventHandler;
+                    _controllerManager.Register(prefix, iController);
 
                     try
                     {
-                        controller.Enable();
-                        _controllerManager.Register(prefix, controller);
+                        iController.Enable();
+                        _controllerManager.Register(prefix, iController);
                     }
                     catch
                     {
-                        controller.Dispose();
+                        iController.Dispose();
                         bOk = false;
                         throw;
                     }
                 }
             }
             return bOk;
+        }
+
+        private void TimingsDetected(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "This presentation has recorded timings. Clear them?",
+                "Timings Detected",
+                MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                PptController controller = (PptController)_controllerManager.Get("ppt");
+                controller?.ClearAllTimings();
+            }
+        }
+
+        private void Controller_SlideChanged(int obj)
+        {
+            throw new NotImplementedException();
         }
 
         private void ControllerEventHandler(object sender, ControllerEventArgs e)

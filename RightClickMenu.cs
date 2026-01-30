@@ -146,7 +146,9 @@ namespace PromptLogic
         }
         private void ConnectSlideShow(object seder, EventArgs e)
         {
-            _ui.ConnectSlideShow();
+            _ui.EnableController("ppt");
+
+//            _ui.ConnectSlideShow();
         }
         private void PauseSlideShow(object sender, EventArgs e)
         {

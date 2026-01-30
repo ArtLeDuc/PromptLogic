@@ -38,7 +38,7 @@ namespace PromptLogic
 
         void ApplyAllSettings();
 
-        void ConnectSlideShow();
+ //       void ConnectSlideShow();
         void PauseSlideShow();
         void StopSlideShow();
         void StartSlideShow();
@@ -54,7 +54,7 @@ namespace PromptLogic
         void OpenSettings();
 
         // New controller-related methods
-        bool EnableController(string prefix, string arg);
+        bool EnableController(string prefix, string arg = null);
         Task ExecuteControllerCommand(string controllerName, string command, string[] args);
 
     }
