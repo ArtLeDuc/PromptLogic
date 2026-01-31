@@ -18,60 +18,54 @@ namespace PromptLogic
     {
         private readonly Dictionary<string, Action<JObject>> _handlers;
 
-        private ISlideController _slides;
-        private readonly IWebViewActions _ui;
+        public event Action NextSlide;
+        public event Action Resume;
+        public event Action Refocus;
+        public event Action EndSlideShow;
+        public event Action StartSlideShow;
+        public event Action UnlockInput;
+        public event Action<int> Pause;
 
-        public WebMessageService(IWebViewActions ui)
+        public event Action<string> ObsEnable;
+        public event Action<string, string[]> ObsCommandRequested;
+
+        public WebMessageService()
         {
-            _ui = ui;
             _handlers = new Dictionary<string, Action<JObject>>(StringComparer.OrdinalIgnoreCase)
             {
-                ["unpauseSlideshow"] = _ => UnpauseSlideShowWindow(),
-                ["refocusSlideshow"] = _ => RefocusSlideShowWindow(),
-                ["nextSlide"] = _ => _slides?.NextSlide(),
-                ["pause"] = HandlePause,
-                ["stop"] = _ => ((ITeleprompterControl)_ui).EndSlideShow(),
-                ["start"] = _ => ((ITeleprompterControl)_ui).StartSlideShow(),
-                ["scrollStarted"] = _ => ((ITeleprompterControl)_ui).UnlockInput(),
-                ["obs_enable"] = ObsEnable,
-                ["obs_mute"] = ExecuteCommand,
-                ["obs_unmute"] = ExecuteCommand,
-                ["obs_scene"] = ExecuteCommand,
-                ["obs_record_start"] = ExecuteCommand,
-                ["obs_record_stop"] = ExecuteCommand,
-                ["obs_source_show"] = ExecuteCommand,
-                ["obs_source_hide"] = ExecuteCommand,
-                ["obs_transition"] = ExecuteCommand
+                ["unpauseSlideshow"] = _ => Resume?.Invoke(),
+                ["refocusSlideshow"] = _ => Refocus?.Invoke(),
+                ["nextSlide"] = _ =>
+                {
+                    NextSlide?.Invoke();
+                },
+                ["pause"] = obj => 
+                {
+                    string[] args = obj["args"]?.ToObject<string[]>() ?? Array.Empty<string>();
+                    int duration = int.TryParse(args?[0], out var value) ? value : 0;
+                    Pause?.Invoke(duration); 
+                },
+                ["stop"] = _ => EndSlideShow?.Invoke(),
+                ["start"] = _ => StartSlideShow?.Invoke(),
+                ["scrollStarted"] = _ => UnlockInput?.Invoke(),
+                ["obs_enable"] = obj => { string sceneCollection = (string)obj["argument"] ?? ""; ObsEnable?.Invoke(sceneCollection); },
+                ["obs_mute"] = RequestObsCommand,
+                ["obs_unmute"] = RequestObsCommand,
+                ["obs_scene"] = RequestObsCommand,
+                ["obs_record_start"] = RequestObsCommand,
+                ["obs_record_stop"] = RequestObsCommand,
+                ["obs_source_show"] = RequestObsCommand,
+                ["obs_source_hide"] = RequestObsCommand,
+                ["obs_transition"] = RequestObsCommand
             };
         }
 
-        private void ExecuteCommand(JObject obj)
+        private void RequestObsCommand(JObject obj)
         {
             string command = (string)obj["action"];
             string[] args = obj["args"]?.ToObject<string[]>() ?? Array.Empty<string>();
-
-            Task.Run(() =>
-                ((ITeleprompterControl)_ui)
-                    .ExecuteControllerCommand("obs", command, args)
-            );
+            ObsCommandRequested?.Invoke(command, args);
         }
-        private void ObsEnable(JObject obj)
-        {
-            string sceneCollection = (string)obj["argument"];
-            ((ITeleprompterControl)_ui).EnableController("obs", sceneCollection);
-        }
-
-        private void HandlePause(JObject obj)
-        {
-            string[] args = obj["args"]?.ToObject<string[]>() ?? Array.Empty<string>();
-            int duration = int.TryParse(args?[0], out var value) ? value : 0;
-
-            if (duration > 0)
-                _ui.SendToWebView(JsonConvert.SerializeObject(new { action = "pause", duration }));
-            else
-                ((ITeleprompterControl)_ui).PauseSlideShow();
-        }
-
         public void Handler(object sender, CoreWebView2WebMessageReceivedEventArgs e)
         {
             var obj = JObject.Parse(e.WebMessageAsJson);
@@ -86,26 +80,5 @@ namespace PromptLogic
                 // Optional: log unknown command
             }
         }
-
-        void UnpauseSlideShowWindow() => _slides?.Resume();
-
-        private void RefocusSlideShowWindow() => _slides?.RefocusSlideShowWindow();
-
-        public void SetSlideController(ISlideController slides)
-        {
-            _slides = slides;
-
-            if (slides != null)
-            {
-                // Subscribe to controller events
-                _slides.SlideChanged += OnSlideChanged;
-            }
-        }
-
-        private void OnSlideChanged(int index)
-        {
-            _ui.OnSlideChanged(index);
-        }
-
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PromptLogic;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
@@ -8,7 +10,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PromptLogic;
 
 namespace PromptLogic
 {
@@ -169,47 +170,6 @@ namespace PromptLogic
             webView.ExecuteScriptAsync($"setSpeed({jsSpeed});");
         }
 
-        /*
-        void ITeleprompterControl.ConnectSlideShow()
-        {
-            if (_slides != null)
-                _slides.Disconnect();
-
-            _slides = SlideControllerFactory.Create(_selectedEngine);
-            _slides.Disconnected += Controller_Disconnected;
-            _slides.SlideShowEnded += SlideShowEnd;
-
-            if (!_slides.Connect())
-            {
-                MessageBox.Show("Could not connect.");
-                return;
-            }
-
-            _slides.SlideShowBegin += (s, g) => {
-                this.BeginInvoke((Action)(() => LoadSlideSelectionCombo()));
-            };
-
-            if (_slides.PresentationHasTimings())
-            {
-                var result = MessageBox.Show(
-                    "This presentation has recorded timings. Clear them?",
-                    "Timings Detected",
-                    MessageBoxButtons.YesNo);
-
-                if (result == DialogResult.Yes)
-                    _slides.ClearAllTimings();
-            }
-
-            ConnectToWebView();
-
-            if (_slides != null && _slides.IsSlideShowRunning)
-            {
-                LoadNotesForCurrentSlide();
-                LoadSlideSelectionCombo();
-            }
-        }
-        */
-
         void ITeleprompterControl.PauseSlideShow()
         {
             PauseTeleprompter();
@@ -224,15 +184,15 @@ namespace PromptLogic
         {
             LockInput();
 
-            if (_slides != null)
-                _slides.GoToSlide(cmbStartSlide.SelectedIndex + 1);
+            if (_slideController != null)
+                _slideController.GoToSlide(cmbStartSlide.SelectedIndex + 1);
             StartTeleprompter();
             UpdateControls();
         }
         void ITeleprompterControl.EndSlideShow()
         {
             StopTeleprompter();
-            _slides.EndSlideShow();
+            _slideController?.EndSlideShow();
         }
         void ITeleprompterControl.CloseApplication()
         {
@@ -274,7 +234,7 @@ namespace PromptLogic
         }
         public void MonitorTimerStop()
         {
-            _slides.MonitorTimerStop();
+            _slideController.MonitorTimerStop();
         }
     }
 }

@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -33,7 +34,8 @@ namespace PromptLogic
     {
         private ControllerManager _controllerManager;
 
-        private ISlideController _slides = null;
+        private ISlideController _slideController = null;
+        private ObsController _obsController = null;
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
         const string _htmlPath = @"Web\index.html";
@@ -45,6 +47,7 @@ namespace PromptLogic
         private ControlPanelOptions controlPanelOptions;
         private bool _inputLocked = false;
         private RightClickMenu rightClickMenu;
+
         private bool IsOnAnyScreen(Rectangle rect)
         {
             return Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(rect));
@@ -279,7 +282,7 @@ namespace PromptLogic
         }
         private void LoadNotesForCurrentSlide()
         {
-            string notes = _slides.GetNotesForCurrentSlide();
+            string notes = _slideController.GetNotesForCurrentSlide();
             SendNotesToWebView(notes);
             ApplyAllSettings();
         }
@@ -296,7 +299,6 @@ namespace PromptLogic
         }
         public void ClearTeleprompter()
         {
-            _slides = null;
             SendNotesToWebView("Waiting for slide notes press Connect Or Choose Load Sample Script.<br>When ready press Start.</br>");
         }
         public void InvokeOnUIThread(Action action)
@@ -355,21 +357,39 @@ namespace PromptLogic
             if (_service != null)
                 webView.CoreWebView2.WebMessageReceived -= _service.Handler;
 
-            _service = new WebMessageService(this);   // inject controller
-            _service.SetSlideController(_slides);
+            _service = new WebMessageService();   // inject controller
 
             webView.CoreWebView2.WebMessageReceived += _service.Handler;
 
+            _service.NextSlide += () =>
+            {
+                _slideController?.NextSlide();
+            };
+            _service.Resume += () => _slideController?.Resume();
+            _service.Refocus += () => _slideController?.RefocusSlideShowWindow();
+            _service.EndSlideShow += () => ((ITeleprompterControl)this).EndSlideShow();
+            _service.StartSlideShow += () => ((ITeleprompterControl)this).StartSlideShow();
+            _service.UnlockInput += () => ((ITeleprompterControl)this).UnlockInput();
+            _service.Pause += duration => PauseSlideShow(duration);
+
+            _service.ObsCommandRequested += (command, args) => _obsController?.ExecuteCommandAsync(command, args);
+            _service.ObsEnable += sceneCollection => EnableController("obs", sceneCollection);
+        }
+
+        void PauseSlideShow(int duration)
+        {
+            if (duration > 0)
+                SendToWebView(JsonConvert.SerializeObject(new { action = "pause", duration }));
+            else
+                ((ITeleprompterControl)this).PauseSlideShow();
         }
         private void btnConnect_Click(object sender, EventArgs e)
         {
             EnableController("ppt");
-//            ((ITeleprompterControl)this).ConnectSlideShow();
         }
         private void btnCollapsedConnect_Click(object sender, EventArgs e)
         {
             EnableController("ppt");
-//            ((ITeleprompterControl)this).ConnectSlideShow();
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -617,6 +637,15 @@ namespace PromptLogic
             OpenBorderNControl();
         }
 
+        private void SlideShowConnected()
+        {
+            if (_slideController.IsSlideShowRunning)
+            {
+                LoadNotesForCurrentSlide();
+                LoadSlideSelectionCombo();
+            }
+        }
+
         public bool EnableController(string prefix, string arg = null)
         {
             bool bOk = true;
@@ -628,26 +657,25 @@ namespace PromptLogic
                 {
                     if (_controllerManager.IsEnabled("obs"))
                         _controllerManager.Get("obs")?.Dispose();
-                    iController = new ObsController(arg);
+                    _obsController = new ObsController(arg);
+                    iController = _obsController;
                 }
                 else if (prefix == "ppt")
                 {
                     if (_controllerManager.IsEnabled("ppt"))
                         _controllerManager.Get("ppt")?.Dispose();
 
-                    PptController controller = new PptController();
-                    controller.Disconnected += Controller_Disconnected;
-                    controller.SlideShowBegin += (s, e) => 
-                    { 
-                        this.BeginInvoke((Action)(() => LoadSlideSelectionCombo()));
-                    };
+                    PptController slideController = new PptController();
+                    _slideController = slideController.SlideController;
+                    slideController.ConnectToWebView += ConnectToWebView;
+                    _slideController.Disconnected += Controller_Disconnected;
+                    _slideController.SlideShowEnded += SlideShowEnd;
+                    _slideController.SlideChanged += OnSlideChanged;
+                    slideController.TimingsDetected += TimingsDetected;
+                    slideController.Connected += SlideShowConnected;
+//                    _slideController.SlideShowBegin += (s, e) => { this.BeginInvoke((Action)(() => LoadSlideSelectionCombo())); };
 
-
-                    controller.SlideShowEnd += SlideShowEnd;
-                    controller.SlideChanged += OnSlideChanged;
-                    controller.TimingsDetected += TimingsDetected;
-
-                    iController = controller;
+                    iController = slideController;
                 }
 
                 if (iController != null)

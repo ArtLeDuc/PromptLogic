@@ -12,12 +12,16 @@ namespace PromptLogic.Controllers
 
         private readonly PowerPointSlideController _ppt;
         bool _isConnected = false;
+        public ISlideController SlideController => (ISlideController)_ppt;
         public bool IsEnabled => _isConnected;
 
         public event Action<int> SlideChanged;
         public event EventHandler SlideShowBegin;
-        public event EventHandler SlideShowEnd;
+        public event EventHandler SlideShowEnded;
         public event EventHandler TimingsDetected;
+        public event Action ConnectToWebView;
+        public event Action Connected;
+
         public PptController() 
         {
             _ppt = new PowerPointSlideController();
@@ -44,13 +48,16 @@ namespace PromptLogic.Controllers
 
             //Forward all SlideController events
             _ppt.SlideShowBegin += (s, e) => { SlideShowBegin?.Invoke(this, EventArgs.Empty); };
-//            _ppt.SlideShowEnd += (s, e) => { SlideShowEnd?.Invoke(this, EventArgs.Empty); };
+            _ppt.SlideShowEnded += (s, e) => { SlideShowEnded?.Invoke(this, EventArgs.Empty); };
             _ppt.SlideChanged += index => { SlideChanged?.Invoke(index); };
             _ppt.TimingsDetected += (s, e) => { TimingsDetected?.Invoke(this, EventArgs.Empty); };
-           
+
+            ConnectToWebView?.Invoke();
             // Handle timings
             if (_ppt.PresentationHasTimings())
                 TimingsDetected?.Invoke(this, EventArgs.Empty);
+
+            Connected?.Invoke();
         }
         public Task ExecuteCommandAsync(string command, string[] args) { return Task.CompletedTask; }
         public void Dispose() { }

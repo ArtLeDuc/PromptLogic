@@ -38,7 +38,6 @@ namespace PromptLogic
 
         void ApplyAllSettings();
 
- //       void ConnectSlideShow();
         void PauseSlideShow();
         void StopSlideShow();
         void StartSlideShow();

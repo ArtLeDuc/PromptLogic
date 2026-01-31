@@ -40,7 +40,5 @@ namespace PromptLogic
         event EventHandler SlideShowBegin;
         event EventHandler Disconnected;
         event EventHandler SlideShowEnded;
-
-
     }
 }

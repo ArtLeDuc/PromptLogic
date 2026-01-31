@@ -254,6 +254,7 @@ namespace PromptLogic
         private void OnSlideShowBegin(PowerPoint.SlideShowWindow Wn)
         {
             SlideShowBegin?.Invoke(this, EventArgs.Empty);
+            _slideShowView = GetWindow()?.View;
         }
 
         public bool Connect() // (IWebViewActions ui)
@@ -295,6 +296,7 @@ namespace PromptLogic
             if (PresentationHasTimings())
                 TimingsDetected?.Invoke(this, EventArgs.Empty);
 
+            
             return true;
         }
 
