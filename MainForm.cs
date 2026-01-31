@@ -673,7 +673,6 @@ namespace PromptLogic
                     _slideController.SlideChanged += OnSlideChanged;
                     slideController.TimingsDetected += TimingsDetected;
                     slideController.Connected += SlideShowConnected;
-//                    _slideController.SlideShowBegin += (s, e) => { this.BeginInvoke((Action)(() => LoadSlideSelectionCombo())); };
 
                     iController = slideController;
                 }

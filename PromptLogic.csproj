@@ -117,7 +117,6 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="SlideControllerFactory.cs" />
     <Compile Include="SlideEngine.cs" />
     <Compile Include="SlideShowState.cs" />
     <Compile Include="TransparentOverlay.cs">

@@ -24,15 +24,10 @@ namespace PromptLogic
         private PowerPoint.SlideShowWindow _slideShowWindow = null;
         private PowerPoint.SlideShowView _slideShowView = null;
 
-        // Services
-//        private WebMessageService _service = null;
-//        private IWebViewActions _ui = null;
-
         // Events exposed to the UI
         public event Action<int> SlideChanged;
         public event EventHandler SlideShowBegin;
         public event EventHandler Disconnected;
-//        public event EventHandler SlideShowEnd;
         public event EventHandler TimingsDetected;
         public event EventHandler SlideShowEnded;
 
@@ -259,15 +254,6 @@ namespace PromptLogic
 
         public bool Connect() // (IWebViewActions ui)
         {
-//            Disconnect();
-
-            // Prevent double-connect
-            //            if (_isConnected)
-            //                return false;
-
-//            _service = new WebMessageService(ui);
-//            _ui = ui;
-
             // Try to get the running PowerPoint instance
             try
             {
