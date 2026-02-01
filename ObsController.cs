@@ -100,19 +100,23 @@ namespace PromptLogic.Controllers
             _commandMap = new Dictionary<string, Func<string[], Task>>(StringComparer.OrdinalIgnoreCase)
             {
                 { "obs_mute", args =>
-                    {
-                        SendRequest("ToggleInputMute", new JObject { ["inputName"] = args[0] });
-                        return Task.CompletedTask;
-                    }
+                  {
+                      SendRequest("SetInputMute", new JObject {
+                          ["inputName"] = args[0],
+                          ["inputMuted"] = true
+                      });
+                      return Task.CompletedTask;
+                  }
                 },
-
                 { "obs_unmute", args =>
-                    {
-                        SendRequest("ToggleInputMute", new JObject { ["inputName"] = args[0] });
-                        return Task.CompletedTask;
-                    }
+                  {
+                      SendRequest("SetInputMute", new JObject {
+                          ["inputName"] = args[0],
+                          ["inputMuted"] = false
+                      });
+                      return Task.CompletedTask;
+                  }
                 },
-
                 { "obs_scene", args =>
                     {
                         SendRequest("SetCurrentProgramScene", new JObject { ["sceneName"] = args[0] });
