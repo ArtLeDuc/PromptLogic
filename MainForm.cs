@@ -33,8 +33,8 @@ namespace PromptLogic
     public partial class MainForm : Form, IWebViewActions, ITeleprompter, ITeleprompterControl
     {
         private ControllerManager _controllerManager;
+        private IController _slideController;
 
-        private ISlideController _slideController = null;
         private ObsController _obsController = null;
         WebMessageService _service = null;
         private SlideEngine _selectedEngine;
@@ -282,7 +282,9 @@ namespace PromptLogic
         }
         private void LoadNotesForCurrentSlide()
         {
-            string notes = _slideController.GetNotesForCurrentSlide();
+            PptController controller = (PptController)_controllerManager.Get("ppt");
+            string notes = controller.GetNotesForCurrentSlide();
+
             SendNotesToWebView(notes);
             ApplyAllSettings();
         }
@@ -325,15 +327,9 @@ namespace PromptLogic
         }
 
 
-        public void OnSlideChanged(int index)
+        public void OnSlideChanged(object sender, SlideChangedEventArgs e)
         {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new Action(() => OnSlideChanged(index)));
-                return;
-            }
-
-            LoadNotesForSlide(index);
+            LoadNotesForSlide(e.NewSlideIndex);
             btnPause.Text = "Pause";
             IsPaused = false;
         }
@@ -361,12 +357,11 @@ namespace PromptLogic
 
             webView.CoreWebView2.WebMessageReceived += _service.Handler;
 
-            _service.NextSlide += () =>
-            {
-                _slideController?.NextSlide();
-            };
-            _service.Resume += () => _slideController?.Resume();
-            _service.Refocus += () => _slideController?.RefocusSlideShowWindow();
+            PptController slideController = (PptController)_controllerManager.Get("ppt");
+            _service.NextSlide += () => slideController?.NextSlide();
+            _service.Resume += () => slideController?.Resume();
+            _service.Refocus += () => slideController?.Refocus();
+            
             _service.EndSlideShow += () => ((ITeleprompterControl)this).EndSlideShow();
             _service.StartSlideShow += () => ((ITeleprompterControl)this).StartSlideShow();
             _service.UnlockInput += () => ((ITeleprompterControl)this).UnlockInput();
@@ -639,11 +634,18 @@ namespace PromptLogic
 
         private void SlideShowConnected()
         {
-            if (_slideController.IsSlideShowRunning)
+            PptController slideController = (PptController)_controllerManager.Get("ppt");
+
+            if (slideController.IsSlideShowRunning())
             {
                 LoadNotesForCurrentSlide();
                 LoadSlideSelectionCombo();
             }
+        }
+
+        private void OnSlideShowBegin(object sender, EventArgs e)
+        {
+            SlideShowConnected();
         }
 
         public bool EnableController(string prefix, string arg = null)
@@ -666,11 +668,13 @@ namespace PromptLogic
                         _controllerManager.Get("ppt")?.Dispose();
 
                     PptController slideController = new PptController();
-                    _slideController = slideController.SlideController;
+                    _slideController = slideController;
+
                     slideController.ConnectToWebView += ConnectToWebView;
-                    _slideController.Disconnected += Controller_Disconnected;
-                    _slideController.SlideShowEnded += SlideShowEnd;
-                    _slideController.SlideChanged += OnSlideChanged;
+                    slideController.Disconnected += Controller_Disconnected;
+                    slideController.SlideShowEnded += SlideShowEnd;
+                    slideController.SlideShowBegin += OnSlideShowBegin;
+                    slideController.SlideChanged += OnSlideChanged;
                     slideController.TimingsDetected += TimingsDetected;
                     slideController.Connected += SlideShowConnected;
 

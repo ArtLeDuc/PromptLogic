@@ -47,7 +47,9 @@ namespace PromptLogic
                 },
                 ["stop"] = _ => EndSlideShow?.Invoke(),
                 ["start"] = _ => StartSlideShow?.Invoke(),
-                ["scrollStarted"] = _ => UnlockInput?.Invoke(),
+                ["scrollStarted"] = _ => {
+                    UnlockInput?.Invoke();
+                    },
                 ["obs_enable"] = obj => { string sceneCollection = (string)obj["argument"] ?? ""; ObsEnable?.Invoke(sceneCollection); },
                 ["obs_mute"] = RequestObsCommand,
                 ["obs_unmute"] = RequestObsCommand,

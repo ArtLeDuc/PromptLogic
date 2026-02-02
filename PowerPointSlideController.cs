@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static PromptLogic.Controllers.PptController;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
 
@@ -25,7 +26,7 @@ namespace PromptLogic
         private PowerPoint.SlideShowView _slideShowView = null;
 
         // Events exposed to the UI
-        public event Action<int> SlideChanged;
+        public event EventHandler<SlideChangedEventArgs> SlideChanged;
         public event EventHandler SlideShowBegin;
         public event EventHandler Disconnected;
         public event EventHandler TimingsDetected;
@@ -84,8 +85,7 @@ namespace PromptLogic
 
         public int SlideCount => _app.ActivePresentation.Slides.Count;
 
-        public int CurrentSlide =>
-            GetWindow().View.CurrentShowPosition;
+        public int CurrentSlide => GetWindow().View.CurrentShowPosition;
 
         public void NextSlide()
         {
@@ -208,7 +208,7 @@ namespace PromptLogic
             try
             {
                 int index = Wn.View.Slide.SlideIndex;
-                SlideChanged?.Invoke(index);
+                SlideChanged?.Invoke(this, new SlideChangedEventArgs(index));
             }
             catch
             {

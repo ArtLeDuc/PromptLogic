@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using PromptLogic;
+using PromptLogic.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -183,16 +184,18 @@ namespace PromptLogic
         void ITeleprompterControl.StartSlideShow()
         {
             LockInput();
+            PptController controller = (PptController)_controllerManager.Get("ppt");
 
-            if (_slideController != null)
-                _slideController.GoToSlide(cmbStartSlide.SelectedIndex + 1);
+            controller?.GoToSlide(cmbStartSlide.SelectedIndex + 1);
             StartTeleprompter();
             UpdateControls();
         }
         void ITeleprompterControl.EndSlideShow()
         {
+            PptController controller = (PptController)_controllerManager.Get("ppt");
+
             StopTeleprompter();
-            _slideController?.EndSlideShow();
+            controller?.EndSlideShow();
         }
         void ITeleprompterControl.CloseApplication()
         {
@@ -234,7 +237,8 @@ namespace PromptLogic
         }
         public void MonitorTimerStop()
         {
-            _slideController.MonitorTimerStop();
+            PptController controller = (PptController)_controllerManager.Get("ppt");
+            controller.MonitorTimerStop();
         }
     }
 }

@@ -22,6 +22,15 @@ namespace PromptLogic
         public ControllerEventType Type { get; set; }
     }
 
+    public class SlideChangedEventArgs : EventArgs
+    {
+        public int NewSlideIndex { get; }
+
+        public SlideChangedEventArgs(int newSlideIndex)
+        {
+            NewSlideIndex = newSlideIndex;
+        }
+    }
 
     public interface IController : IDisposable
     {

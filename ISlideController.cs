@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static PromptLogic.Controllers.PptController;
 
 namespace PromptLogic
 {
@@ -36,7 +37,7 @@ namespace PromptLogic
         void EndSlideShow();
 
         // Events
-        event Action<int> SlideChanged; // event raised when the current slide changes
+        event EventHandler<SlideChangedEventArgs> SlideChanged;
         event EventHandler SlideShowBegin;
         event EventHandler Disconnected;
         event EventHandler SlideShowEnded;

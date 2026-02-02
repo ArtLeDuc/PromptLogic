@@ -10,7 +10,7 @@ namespace PromptLogic
     {
         void SendToWebView(string message);
         void ExecuteScriptAsync(string script);
-        void OnSlideChanged(int index);
+        void OnSlideChanged(object sender, SlideChangedEventArgs e);
         void InvokeOnUIThread(Action action);
         void LoadInitialPage();
     }
