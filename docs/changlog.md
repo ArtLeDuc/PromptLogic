@@ -26,6 +26,14 @@
 		- Introduce PptController as the new PowerPoint command layer
 		- Refactor PowerPoint operations into modular controller
 		- Centralize PowerPoint slide control in PptController
+	- Moved Power Point COM interface to its own thread to stop it from freezing the UI
+		- Introduced deterministic COM-thread dispatcher
+		- Ensured all PowerPoint events marshal cleanly to UI thread
+		- Rebuilt event pipeline to avoid COM recursion and UI cross-thread calls
+	- Merged PowerPointSlideController into PptController 
+		- Removed PowerPointSlideController entirely
+		- Repaired WebView2 command flow after merge
+		- Eliminated recursive event wiring and reentrancy traps
 
 ##[0.1.0] - 2026-01-20
 ### Added
