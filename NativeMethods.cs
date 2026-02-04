@@ -14,6 +14,9 @@ public static class NativeMethods
     public const uint SWP_NOZORDER = 0x0004;
     public const uint SWP_FRAMECHANGED = 0x0020;
 
+    public const int SW_SHOW = 5;
+    public const int SW_RESTORE = 9;
+
     public const int WS_THICKFRAME = 0x00040000;
     public const int WS_CAPTION = 0x00C00000; // WS_BORDER | WS_DLGFRAME
     public const int WS_BORDER = 0x00800000;
@@ -85,5 +88,7 @@ public static class NativeMethods
     [DllImport("user32.dll")] public static extern bool ReleaseCapture();
     [DllImport("user32.dll")] public static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
     [DllImport("user32.dll", SetLastError = true)] public static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+    [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hWnd);
+    [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
 }

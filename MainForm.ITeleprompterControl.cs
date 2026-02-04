@@ -233,6 +233,12 @@ namespace PromptLogic
 
         void ITeleprompterControl.UnlockInput()
         {
+            if (InvokeRequired)
+            {
+                BeginInvoke((Action)(() => UnlockInput()));
+                return;
+            }
+
             UnlockInput();
         }
         public void MonitorTimerStop()

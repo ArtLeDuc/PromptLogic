@@ -11,7 +11,7 @@ namespace PromptLogic
 {
     public interface ISlideController
     {
-        bool Connect(); // (IWebViewActions ui);
+//        bool Connect(); // (IWebViewActions ui);
         void Disconnect();
 
         int SlideCount { get; }

@@ -33,7 +33,7 @@ namespace PromptLogic
     public partial class MainForm : Form, IWebViewActions, ITeleprompter, ITeleprompterControl
     {
         private ControllerManager _controllerManager;
-        private IController _slideController;
+        private ISlideController _slideController;
 
         private ObsController _obsController = null;
         WebMessageService _service = null;
@@ -264,13 +264,11 @@ namespace PromptLogic
 
         private void LoadSlideSelectionCombo()
         {
-            PptController controller = (PptController)_controllerManager.Get("ppt");
-
             cmbStartSlide.Items.Clear();
 
-            for (int i = 1; i <= controller.SlideCount; i++)
+            for (int i = 1; i <= _slideController.SlideCount; i++)
             {
-                string title = controller.GetSlideTitle(i);
+                string title = _slideController.GetSlideTitle(i);
                 if (string.IsNullOrWhiteSpace(title))
                     title = $"Slide {i}";
 
@@ -282,17 +280,14 @@ namespace PromptLogic
         }
         private void LoadNotesForCurrentSlide()
         {
-            PptController controller = (PptController)_controllerManager.Get("ppt");
-            string notes = controller.GetNotesForCurrentSlide();
+            string notes = _slideController.GetNotesForCurrentSlide();
 
             SendNotesToWebView(notes);
             ApplyAllSettings();
         }
         private void LoadNotesForSlide(int index)
         {
-            PptController controller = (PptController)_controllerManager.Get("ppt");
-
-            string notes = controller.GetNotesForSlide(index);
+            string notes = _slideController.GetNotesForSlide(index);
             SendNotesToWebView(notes);
         }
         public void LoadInitialPage()
@@ -318,12 +313,15 @@ namespace PromptLogic
                 this.BeginInvoke((Action)(() =>
                 {
                     ((ITeleprompterControl)this).MonitorTimerStop();
+                    UpdateControls();
                 }));
             }
             else
             {
                 ((ITeleprompterControl)this).MonitorTimerStop();
+                UpdateControls();
             };
+
         }
 
 
@@ -360,7 +358,7 @@ namespace PromptLogic
             PptController slideController = (PptController)_controllerManager.Get("ppt");
             _service.NextSlide += () => slideController?.NextSlide();
             _service.Resume += () => slideController?.Resume();
-            _service.Refocus += () => slideController?.Refocus();
+            _service.Refocus += () => slideController?.RefocusSlideShowWindow();
             
             _service.EndSlideShow += () => ((ITeleprompterControl)this).EndSlideShow();
             _service.StartSlideShow += () => ((ITeleprompterControl)this).StartSlideShow();
@@ -371,10 +369,10 @@ namespace PromptLogic
             _service.ObsEnable += sceneCollection => EnableController("obs", sceneCollection);
         }
 
-        void PauseSlideShow(int duration)
+        void PauseSlideShow(int msTime)
         {
-            if (duration > 0)
-                SendToWebView(JsonConvert.SerializeObject(new { action = "pause", duration }));
+            if (msTime > 0)
+                SendToWebView(JsonConvert.SerializeObject(new { action = "pause", duration = msTime }));
             else
                 ((ITeleprompterControl)this).PauseSlideShow();
         }
@@ -634,9 +632,7 @@ namespace PromptLogic
 
         private void SlideShowConnected()
         {
-            PptController slideController = (PptController)_controllerManager.Get("ppt");
-
-            if (slideController.IsSlideShowRunning())
+            if (_slideController.IsSlideShowRunning)
             {
                 LoadNotesForCurrentSlide();
                 LoadSlideSelectionCombo();
@@ -670,13 +666,12 @@ namespace PromptLogic
                     PptController slideController = new PptController();
                     _slideController = slideController;
 
-                    slideController.ConnectToWebView += ConnectToWebView;
+                    slideController.Ready += () => { this.BeginInvoke((Action)(() => { SlideControllerReady(); })); };
                     slideController.Disconnected += Controller_Disconnected;
                     slideController.SlideShowEnded += SlideShowEnd;
                     slideController.SlideShowBegin += OnSlideShowBegin;
                     slideController.SlideChanged += OnSlideChanged;
                     slideController.TimingsDetected += TimingsDetected;
-                    slideController.Connected += SlideShowConnected;
 
                     iController = slideController;
                 }
@@ -702,6 +697,27 @@ namespace PromptLogic
             return bOk;
         }
 
+        private void SlideControllerReady()
+        {
+            //The order matters ConnectToWebView has to be ready to recieve before the slide show can send data.
+            ConnectToWebView();
+
+            try
+            {
+                if (((ISlideController)_slideController).State == SlideShowState.Done)
+                {
+                    ((ISlideController)_slideController).EndSlideShow();
+                    MessageBox.Show("Start the slideshow (F5) to begin syncing notes.");
+                    return;
+                }
+            }
+            catch
+            {
+                return;
+            }
+
+            SlideShowConnected();
+        }
         private void TimingsDetected(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
@@ -711,16 +727,9 @@ namespace PromptLogic
 
             if (result == DialogResult.Yes)
             {
-                PptController controller = (PptController)_controllerManager.Get("ppt");
-                controller?.ClearAllTimings();
+                _slideController?.ClearAllTimings();
             }
         }
-
-        private void Controller_SlideChanged(int obj)
-        {
-            throw new NotImplementedException();
-        }
-
         private void ControllerEventHandler(object sender, ControllerEventArgs e)
         {
             if (e.Type == ControllerEventType.Error)
@@ -737,16 +746,6 @@ namespace PromptLogic
             var controller = _controllerManager.Get(controllerName);
             if (controller != null)
                 await controller.ExecuteCommandAsync(command, args);
-        }
-
-        private void HandleObsEnable(JObject obj)
-        {
-            // Avoid duplicate initialization
-
-            var obs = new ObsController();
-            obs.Enable();
-
-            _controllerManager.Register("obs", obs);
         }
     }
 }

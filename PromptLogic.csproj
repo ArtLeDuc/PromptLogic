@@ -97,7 +97,6 @@
     </Compile>
     <Compile Include="NativeMethods.cs" />
     <Compile Include="ObsController.cs" />
-    <Compile Include="PowerPointSlideController.cs" />
     <Compile Include="PptController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
