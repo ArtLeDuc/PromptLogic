@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,10 +26,11 @@ namespace PromptLogic
 
             this.preview = preview;
 
-            ContextMenu = new ContextMenu();
-            var closeItem = new MenuItem("Close");
+            ContextMenuStrip menu = new ContextMenuStrip();
+            var closeItem = new ToolStripMenuItem("Close");
             closeItem.Click += (s, ev) => this.Close();
-            ContextMenu.MenuItems.Add(closeItem);
+            menu.Items.Add(closeItem);
+            this.ContextMenuStrip = menu;
 
         }
 

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="ControlPanelOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="HighlightBand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Mainform.ITeleprompter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainForm.ITeleprompterControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RightClickMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ScrollSpeed.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TransparentOverlay.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

@@ -1,15 +1,18 @@
-﻿using Microsoft.Office.Core;
+﻿#nullable disable
+using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
+using Microsoft.VisualBasic;
+using System.Runtime.InteropServices;
+
 
 namespace PromptLogic.Controllers
 {
@@ -29,12 +32,26 @@ namespace PromptLogic.Controllers
             });
         }
 
+        public static PowerPoint.Application GetRunningPowerPoint()
+        {
+            var clsid = new Guid("91493441-5A91-11CF-8700-00AA0060263B"); // PowerPoint.Application
+            try
+            {
+                NativeMethods.GetActiveObject(ref clsid, IntPtr.Zero, out object obj);
+                return (PowerPoint.Application)obj;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         private bool Connect()
         {
             // Try to get the running PowerPoint instance
             try
             {
-                _app = Marshal.GetActiveObject("PowerPoint.Application") as PowerPoint.Application;
+                _app = GetRunningPowerPoint();// (PowerPoint.Application)Interaction.GetObject(null, "PowerPoint.Application");
             }
             catch
             {
@@ -320,7 +337,10 @@ namespace PromptLogic.Controllers
         }
 
         public Task ExecuteCommandAsync(string command, string[] args) { return Task.CompletedTask; }
-        public void Dispose() { }
+        public void Dispose() 
+        {
+            Disconnect();
+        }
 
         public event EventHandler<ControllerEventArgs> ControllerEvent;
         protected virtual void OnControllerEvent(string prefix, string message, ControllerEventType type)

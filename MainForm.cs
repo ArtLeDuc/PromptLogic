@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Core;
+﻿#nullable disable
+using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
 using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json;
@@ -15,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -52,6 +52,8 @@ namespace PromptLogic
         {
             return Screen.AllScreens.Any(s => s.WorkingArea.IntersectsWith(rect));
         }
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool InputLocked
         {
             get => _inputLocked;
@@ -119,6 +121,7 @@ namespace PromptLogic
                 this.Bounds = bounds;
             }
 
+            
             dragOverlay = new TransparentOverlay();
             dragOverlay.Dock = DockStyle.Fill;
             dragOverlay.BackColor = Color.Transparent;
@@ -131,10 +134,11 @@ namespace PromptLogic
             dragOverlay.BringToFront();
 
             rightClickMenu = new RightClickMenu(this);
-            this.ContextMenu = rightClickMenu;
+            rightClickMenu.Closed += (s, e) => { dragOverlay.Enabled = true; };
 
+
+            this.ContextMenuStrip = rightClickMenu;
         }
-
         private async void InitializeWebView()
         {
             webView.CoreWebView2InitializationCompleted += (s, g) =>
@@ -173,10 +177,11 @@ namespace PromptLogic
             if (InputLocked)
                 return;
 
-            this.ContextMenu.Show(this, this.PointToClient(screenPos));
-        }
-        
+            dragOverlay.Enabled = false;
+            var pt = this.PointToClient(Cursor.Position);
+            rightClickMenu.Show(this, pt);
 
+        }
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitializeWebView();
@@ -218,7 +223,6 @@ namespace PromptLogic
                 return cp;
             }
         }
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (this.FormBorderStyle == FormBorderStyle.None)
@@ -323,8 +327,6 @@ namespace PromptLogic
             };
 
         }
-
-
         public void OnSlideChanged(object sender, SlideChangedEventArgs e)
         {
             LoadNotesForSlide(e.NewSlideIndex);
@@ -368,7 +370,6 @@ namespace PromptLogic
             _service.ObsCommandRequested += (command, args) => _obsController?.ExecuteCommandAsync(command, args);
             _service.ObsEnable += sceneCollection => EnableController("obs", sceneCollection);
         }
-
         void PauseSlideShow(int msTime)
         {
             if (msTime > 0)

@@ -8,7 +8,7 @@ namespace PromptLogic
 {
     public partial class MainForm : ITeleprompter
     {
-        private string _lastNotesSent = null;
+        private string? _lastNotesSent = null;
         public bool IsStopped { get; private set; } = true;
         public bool IsPaused { get; private set; } = false;
         public void ExecuteScriptAsync(string script)

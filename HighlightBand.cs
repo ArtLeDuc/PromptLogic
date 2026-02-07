@@ -36,10 +36,11 @@ namespace PromptLogic
 
             numHighLightBandLinesCustom.Value = lines;
 
-            ContextMenu = new ContextMenu();
-            var closeItem = new MenuItem("Close");
+            ContextMenuStrip menu = new ContextMenuStrip();
+            var closeItem = new ToolStripMenuItem("Close");
             closeItem.Click += (s, ev) => this.Close();
-            ContextMenu.MenuItems.Add(closeItem);
+            menu.Items.Add(closeItem);
+            this.ContextMenuStrip = menu;
 
             this.Load += (s, e) =>
             {

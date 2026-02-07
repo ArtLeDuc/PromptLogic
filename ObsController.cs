@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿#nullable disable
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -259,31 +260,32 @@ namespace PromptLogic.Controllers
         }
         private void SafeDispose()
         {
-            try
-            {
-                if (_webSocket != null)
-                {
-                    if (_socketInitialized &&
-                        (_webSocket.State == WebSocketState.Open ||
-                         _webSocket.State == WebSocketState.CloseReceived ||
-                         _webSocket.State == WebSocketState.CloseSent))
-                    {
-                        _webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None)
-                           .Wait();
-                    }
+            var ws = Interlocked.Exchange(ref _webSocket, null);
 
-                    _webSocket.Dispose();
+            if (ws != null)
+            {
+                try
+                {
+                    if (ws != null)
+                    {
+                        if (_socketInitialized &&
+                            (ws.State == WebSocketState.Open ||
+                             ws.State == WebSocketState.CloseReceived ||
+                             ws.State == WebSocketState.CloseSent))
+                        {
+                            ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None)
+                               .Wait();
+                        }
+
+                        ws.Dispose();
+                    }
+                }
+                catch
+                {
+                    // swallow
                 }
             }
-            catch
-            {
-                // swallow
-            }
-            finally
-            {
-                _webSocket = null;
-                _socketInitialized = false;
-            }
+            _socketInitialized = false;
         }
 
         private void SetCurrentSceneCollection(string name)

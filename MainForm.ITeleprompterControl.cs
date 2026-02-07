@@ -184,18 +184,23 @@ namespace PromptLogic
         void ITeleprompterControl.StartSlideShow()
         {
             LockInput();
-            PptController controller = (PptController)_controllerManager.Get("ppt");
 
-            controller?.GoToSlide(cmbStartSlide.SelectedIndex + 1);
+            _slideController?.GoToSlide(cmbStartSlide.SelectedIndex + 1);
             StartTeleprompter();
             UpdateControls();
         }
         void ITeleprompterControl.EndSlideShow()
         {
-            PptController controller = (PptController)_controllerManager.Get("ppt");
+            cmbStartSlide.SelectedIndex = -1;
+            cmbStartSlide.Items.Clear();
 
-            StopTeleprompter();
-            controller?.EndSlideShow();
+            StopTeleprompter(); // Stopps the web engine.
+
+            _slideController?.EndSlideShow(); //Shutdown the slideshow
+            _slideController = null;
+            _obsController = null;
+
+            _controllerManager.Dispose(); //Gets rid of all the controllers
         }
         void ITeleprompterControl.CloseApplication()
         {
@@ -243,8 +248,7 @@ namespace PromptLogic
         }
         public void MonitorTimerStop()
         {
-            PptController controller = (PptController)_controllerManager.Get("ppt");
-            controller.MonitorTimerStop();
+            _slideController?.MonitorTimerStop();
         }
     }
 }

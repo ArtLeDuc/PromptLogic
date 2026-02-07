@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace PromptLogic
         private Point dragStartScreen;
         private Rectangle startBounds;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Form TargetForm { get; set; }   // set this from MainForm
 
         public event MouseEventHandler OverlayMouseWheel;

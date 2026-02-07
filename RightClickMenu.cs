@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,62 +8,90 @@ using System.Windows.Forms;
 
 namespace PromptLogic
 {
-    public class RightClickMenu : ContextMenu
+    public class RightClickMenu : ContextMenuStrip
     {
-        MenuItem pauseResumeMenuItem = null;
-        MenuItem stopStartMenuItem = null;
-        MenuItem connectMenuItem = null;
-        MenuItem settingsMenuItem = null;
-        MenuItem ControlPanelCompressed = null;
-        MenuItem ControlPanelUnCompressed = null;
-        MenuItem ControlPanelHide = null;
-        MenuItem ControlPanelShow = null;
-        MenuItem BorderShow = null;
-        MenuItem BorderHide = null;
-        MenuItem loadSampleScript = null;
+        ToolStripMenuItem pauseResumeMenuItem;
+        ToolStripMenuItem stopStartMenuItem;
+        ToolStripMenuItem connectMenuItem;
+        ToolStripMenuItem settingsMenuItem;
+        ToolStripMenuItem ControlPanelCompressed;
+        ToolStripMenuItem ControlPanelUnCompressed;
+        ToolStripMenuItem ControlPanelHide;
+        ToolStripMenuItem ControlPanelShow;
+        ToolStripMenuItem BorderShow;
+        ToolStripMenuItem BorderHide;
+        ToolStripMenuItem loadSampleScript;
         ITeleprompterControl _ui;
 
         public RightClickMenu(ITeleprompterControl ui)
         {
             _ui = ui;
 
-            //            var menu = new ContextMenu();
+            connectMenuItem = new ToolStripMenuItem("Connect");
+            connectMenuItem.Click += ConnectSlideShow;
+            Items.Add(connectMenuItem); 
 
-            connectMenuItem = MenuItems.Add("Connect", ConnectSlideShow);
-            loadSampleScript = MenuItems.Add("Load Sample Script", LoadSampleScript);
-            MenuItems.Add("-");
+            loadSampleScript = new ToolStripMenuItem("Load Sample Script");
+            loadSampleScript.Click += LoadSampleScript;
+            Items.Add(loadSampleScript);
 
-            stopStartMenuItem = MenuItems.Add("Start", StartSlideShow);
-            pauseResumeMenuItem = MenuItems.Add("Pause", PauseSlideShow);
+            Items.Add(new ToolStripSeparator());
 
-            MenuItems.Add("-");
-            MenuItems.Add("Speed...", OpenSpeedSetting);
-            MenuItems.Add("Highlight...", OpenHighlightSetting);
-            settingsMenuItem = MenuItems.Add("Settings...", OpenSettings);
-            MenuItems.Add("-");
+            stopStartMenuItem = new ToolStripMenuItem("Start");
+            stopStartMenuItem.Click += StartSlideShow;
+            Items.Add(stopStartMenuItem);
 
-            var viewOptions = new MenuItem { Text = "Control Panel" };
-            ControlPanelShow = viewOptions.MenuItems.Add("Show", ControlPanelVisibleClicked);
-            ControlPanelHide = viewOptions.MenuItems.Add("Hide", ControlPanelVisibleClicked);
-            viewOptions.MenuItems.Add("-");
-            ControlPanelCompressed = viewOptions.MenuItems.Add("Compress", ControlPanelCompressedClicked);
-            ControlPanelUnCompressed = viewOptions.MenuItems.Add("Uncompress", ControlPanelCompressedClicked);
-            MenuItems.Add(viewOptions);
+            pauseResumeMenuItem = new ToolStripMenuItem("Pause");
+            pauseResumeMenuItem.Click += PauseSlideShow;
+            Items.Add(pauseResumeMenuItem);
+
+            Items.Add(new ToolStripSeparator());
+
+            Items.Add(new ToolStripMenuItem("Speed...", null, OpenSpeedSetting));
+            Items.Add(new ToolStripMenuItem("Highlight...", null, OpenHighlightSetting));
+
+            settingsMenuItem = new ToolStripMenuItem("Settings...");
+            settingsMenuItem.Click += OpenSettings;
+            Items.Add(settingsMenuItem);
+
+            Items.Add(new ToolStripSeparator());
+
+            var viewOptions = new ToolStripMenuItem("Control Panel");
+            ControlPanelShow = new ToolStripMenuItem("Show");
+            ControlPanelShow.Click += ControlPanelVisibleClicked;
+            viewOptions.DropDownItems.Add(ControlPanelShow);
+            ControlPanelHide = new ToolStripMenuItem("Hide");
+            ControlPanelHide.Click += ControlPanelVisibleClicked;
+            viewOptions.DropDownItems.Add(ControlPanelHide);
+            viewOptions.DropDownItems.Add(new ToolStripSeparator());
+            ControlPanelCompressed = new ToolStripMenuItem("Compress");
+            ControlPanelCompressed.Click += ControlPanelCompressedClicked;
+            viewOptions.DropDownItems.Add(ControlPanelCompressed);
+            ControlPanelUnCompressed = new ToolStripMenuItem("Uncompress");
+            ControlPanelUnCompressed.Click += ControlPanelCompressedClicked;
+            viewOptions.DropDownItems.Add(ControlPanelUnCompressed);
+            Items.Add(viewOptions);
 
             ControlPanelShow.Checked = true;
 
-            var borderOptions = new MenuItem { Text = "Border" };
-            BorderShow = borderOptions.MenuItems.Add("Show", BorderButtonClicked);
+            var borderOptions = new ToolStripMenuItem( "Border" );
+            BorderShow = new ToolStripMenuItem("Show");
+            BorderShow.Click += BorderButtonClicked;
             BorderShow.Tag = FormBorderStyle.Sizable;
-            BorderHide = borderOptions.MenuItems.Add("Hide", BorderButtonClicked);
+            borderOptions.DropDownItems.Add(BorderShow);
+            BorderHide = new ToolStripMenuItem("Hide");
+            BorderHide.Click += BorderButtonClicked;
             BorderHide.Tag = FormBorderStyle.None;
-            MenuItems.Add(borderOptions);
+            borderOptions.DropDownItems.Add(BorderHide);
+
             BorderShow.Checked = true;
+            Items.Add(borderOptions);
 
-            MenuItems.Add("-");
+            Items.Add(new ToolStripSeparator());
 
-            MenuItems.Add("Close", CloseApplication);
-            Popup += ContextMenu_Popup;
+            Items.Add(new ToolStripMenuItem("Close", null, CloseApplication));
+
+//            Popup += ContextMenu_Popup;
         }
 
         public void UpdateBorderStyleMenuChecks(bool borderVisible)
@@ -76,7 +105,7 @@ namespace PromptLogic
             BorderHide.Checked = false;
             BorderShow.Checked = false;
             // Check the clicked radio button
-            MenuItem clickedItem = sender as MenuItem;
+            ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
             if (clickedItem != null)
             {
                 clickedItem.Checked = true;
@@ -94,7 +123,7 @@ namespace PromptLogic
 
         private void ControlPanelCompressedClicked(object sender, EventArgs e)
         {
-            MenuItem clickedItem = sender as MenuItem;
+            ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
             if (clickedItem != null)
             {
                 clickedItem.Checked = true;
@@ -109,7 +138,7 @@ namespace PromptLogic
 
         private void ControlPanelVisibleClicked(object sender, EventArgs e)
         {
-            MenuItem clickedItem = sender as MenuItem;
+            ToolStripMenuItem clickedItem = sender as ToolStripMenuItem;
             if (clickedItem != null)
             {
                 clickedItem.Checked = true;
@@ -144,7 +173,7 @@ namespace PromptLogic
             pauseResumeMenuItem.Text = s;
             pauseResumeMenuItem.Enabled = !isStopped;
         }
-        private void ConnectSlideShow(object seder, EventArgs e)
+        private void ConnectSlideShow(object sender, EventArgs e)
         {
             _ui.EnableController("ppt");
         }

@@ -28,7 +28,7 @@ namespace PromptLogic.Controllers
         // Check if a controller exists and is enabled
         public bool IsEnabled(string prefix)
         {
-            IController controller;
+            IController? controller;
             if (_controllers.TryGetValue(prefix, out controller))
                 return controller.IsEnabled;
 
@@ -48,7 +48,7 @@ namespace PromptLogic.Controllers
 
             string prefix = command.Substring(0, underscore);
 
-            IController controller;
+            IController? controller;
             if (_controllers.TryGetValue(prefix, out controller) && controller.IsEnabled)
             {
                 controller.ExecuteCommandAsync(command, args);
@@ -82,7 +82,7 @@ namespace PromptLogic.Controllers
             if (prefix == null)
                 return null;
 
-            IController controller;
+            IController? controller;
             if (_controllers.TryGetValue(prefix, out controller))
                 return controller;
 
@@ -91,7 +91,7 @@ namespace PromptLogic.Controllers
 
         public void Remove(string prefix)
         {
-            IController controller;
+            IController? controller;
             if (_controllers.TryGetValue(prefix, out controller))
             {
                 try { controller.Dispose(); }

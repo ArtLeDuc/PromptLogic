@@ -53,7 +53,7 @@ namespace PromptLogic
         void OpenSettings();
 
         // New controller-related methods
-        bool EnableController(string prefix, string arg = null);
+        bool EnableController(string prefix, string? arg = null);
         Task ExecuteControllerCommand(string controllerName, string command, string[] args);
 
     }
