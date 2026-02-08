@@ -9,9 +9,12 @@ namespace PromptLogic.Controllers
     public class ControllerManager : IDisposable
     {
         private readonly Dictionary<string, IController> _controllers;
+        private ControllerRegistery _controllerRegistry;
 
         public ControllerManager()
         {
+            _controllerRegistry = new ControllerRegistery();
+
             _controllers = new Dictionary<string, IController>(
                 StringComparer.OrdinalIgnoreCase);
         }
@@ -88,7 +91,23 @@ namespace PromptLogic.Controllers
 
             return null;
         }
+        public string BuildOpenFileDialogFilter() => _controllerRegistry.BuildOpenFileDialogFilter();
+        public ControllerDescriptor? FindByExtension(string ext) => _controllerRegistry.FindByExtension(ext);
 
+        public IController GetOrCreateController(string id)
+        {
+            if (_controllers.TryGetValue(id, out var existing))
+                return existing;
+
+            var descriptor = ControllerRegistery.Controllers.FirstOrDefault(c => c.Id == id);
+
+            if (descriptor == null)
+                throw new InvalidOperationException($"Unknown controller id: {id}");
+
+            var controller = (IController)Activator.CreateInstance(descriptor.ControllerType)!;
+            _controllers[id] = controller;
+            return controller;
+        }
         public void Remove(string prefix)
         {
             IController? controller;

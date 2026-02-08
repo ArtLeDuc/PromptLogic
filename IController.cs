@@ -36,6 +36,7 @@ namespace PromptLogic
     {
         string Name { get; }
         void Enable();
+        void OpenFile(string filePath);
         Task ExecuteCommandAsync(string command, string[] args);
         bool IsEnabled { get; }
 

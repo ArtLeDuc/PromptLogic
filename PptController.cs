@@ -24,6 +24,59 @@ namespace PromptLogic.Controllers
         private PowerPoint.SlideShowView _slideShowView = null;
         private readonly object _monitorLock = new object();
 
+        private void EnsurePowerPointIsRunning()
+        {
+            // If we already have an Application object, nothing to do
+            if (_app != null)
+                return;
+
+            // Try to attach to an existing PowerPoint instance
+            try
+            {
+                _app = (PowerPoint.Application)Interaction.GetObject(null, "PowerPoint.Application");
+            }
+            catch
+            {
+                _app = null;
+            }
+
+            // If PowerPoint was not running, start a new instance
+            if (_app == null)
+            {
+                _app = new PowerPoint.Application
+                {
+                    Visible = MsoTriState.msoTrue
+                };
+            }
+        }
+        private void StartSlideShow()
+        {
+            if (_presentation == null)
+                return;
+
+            // Configure slideshow settings
+            var settings = _presentation.SlideShowSettings;
+            settings.ShowType = PowerPoint.PpSlideShowType.ppShowTypeSpeaker;
+            settings.LoopUntilStopped = MsoTriState.msoFalse;
+
+            // Start the slideshow
+            var window = settings.Run();
+
+            // Store references for later control
+            _slideShowWindow = window;
+            _slideShowView = window.View;
+        }
+
+        public void OpenFile(string path)
+        {
+            EnsurePowerPointIsRunning();
+
+            // Load the presentation
+            _presentation = _app.Presentations.Open(path, WithWindow: MsoTriState.msoFalse);
+
+            // Prepare slideshow
+            StartSlideShow();
+        }
         public bool PresentationHasTimings()
         {
             return InvokeOnPptThread(() =>

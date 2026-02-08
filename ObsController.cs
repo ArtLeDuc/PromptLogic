@@ -60,6 +60,11 @@ namespace PromptLogic.Controllers
         private string _pendingRequestId;
         private readonly TimeSpan _requestTimeout = TimeSpan.FromSeconds(5);
 
+        public void OpenFile(string path)
+        {
+            throw new NotSupportedException("OBS does not open files directly.");
+        }
+
         public readonly struct SceneSourceKey : IEquatable<SceneSourceKey>
         {
             public string Scene { get; }

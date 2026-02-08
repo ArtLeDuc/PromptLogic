@@ -357,10 +357,9 @@ namespace PromptLogic
 
             webView.CoreWebView2.WebMessageReceived += _service.Handler;
 
-            PptController slideController = (PptController)_controllerManager.Get("ppt");
-            _service.NextSlide += () => slideController?.NextSlide();
-            _service.Resume += () => slideController?.Resume();
-            _service.Refocus += () => slideController?.RefocusSlideShowWindow();
+            _service.NextSlide += () => _slideController?.NextSlide();
+            _service.Resume += () => _slideController?.Resume();
+            _service.Refocus += () => _slideController?.RefocusSlideShowWindow();
             
             _service.EndSlideShow += () => ((ITeleprompterControl)this).EndSlideShow();
             _service.StartSlideShow += () => ((ITeleprompterControl)this).StartSlideShow();
@@ -377,13 +376,70 @@ namespace PromptLogic
             else
                 ((ITeleprompterControl)this).PauseSlideShow();
         }
+        private bool IsPowerPointRunning()
+        {
+            try
+            {
+                var processes = Process.GetProcessesByName("POWERPNT");
+                return processes != null && processes.Length > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Connect()
+        {
+            // 1. Check if PowerPoint is already running
+            bool isPowerPointRunning = IsPowerPointRunning();
+
+            if (isPowerPointRunning)
+            {
+                var result = MessageBox.Show(
+                    "A PowerPoint instance is already running. Do you want to connect to it?",
+                    "PowerPoint Detected",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    EnableController("ppt");
+                    return true;
+                }
+
+                // If user says No, fall through to file picker
+            }
+
+            // 2. Ask user to choose a file to load
+            using (var dialog = new OpenFileDialog())
+            {
+                dialog.Filter = _controllerManager.BuildOpenFileDialogFilter();
+                dialog.Title = "Select a file to open";
+
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return false;
+
+                var ext = Path.GetExtension(dialog.FileName);
+                var descriptor = _controllerManager.FindByExtension(ext);
+
+                if (descriptor != null)
+                {
+                    var controller = _controllerManager.GetOrCreateController(descriptor.Id);
+                    controller.OpenFile(dialog.FileName);
+                    EnableController(descriptor.Id);
+                    return true;
+                }
+                return false;
+            }
+        }
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            EnableController("ppt");
+            Connect();
         }
         private void btnCollapsedConnect_Click(object sender, EventArgs e)
         {
-            EnableController("ppt");
+            Connect();
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -647,55 +703,55 @@ namespace PromptLogic
 
         public bool EnableController(string prefix, string arg = null)
         {
-            bool bOk = true;
-            if (!_controllerManager.IsEnabled(prefix))
+            if (_controllerManager.IsEnabled(prefix))
+                return true;
+
+            // Create or retrieve the controller
+            var controller = _controllerManager.GetOrCreateController(prefix);
+            if (controller == null)
+                return false;
+
+            // Wire MainForm-level events (generic)
+            controller.ControllerEvent += ControllerEventHandler;
+
+            // Wire controller-specific events (optional)
+            WireControllerEvents(controller);
+
+            try
             {
-                IController iController = null;
-
-                if (prefix == "obs")
-                {
-                    if (_controllerManager.IsEnabled("obs"))
-                        _controllerManager.Get("obs")?.Dispose();
-                    _obsController = new ObsController(arg);
-                    iController = _obsController;
-                }
-                else if (prefix == "ppt")
-                {
-                    if (_controllerManager.IsEnabled("ppt"))
-                        _controllerManager.Get("ppt")?.Dispose();
-
-                    PptController slideController = new PptController();
-                    _slideController = slideController;
-
-                    slideController.Ready += () => { this.BeginInvoke((Action)(() => { SlideControllerReady(); })); };
-                    slideController.Disconnected += Controller_Disconnected;
-                    slideController.SlideShowEnded += SlideShowEnd;
-                    slideController.SlideShowBegin += OnSlideShowBegin;
-                    slideController.SlideChanged += OnSlideChanged;
-                    slideController.TimingsDetected += TimingsDetected;
-
-                    iController = slideController;
-                }
-
-                if (iController != null)
-                {
-                    iController.ControllerEvent += ControllerEventHandler;
-                    _controllerManager.Register(prefix, iController);
-
-                    try
-                    {
-                        iController.Enable();
-                        _controllerManager.Register(prefix, iController);
-                    }
-                    catch
-                    {
-                        iController.Dispose();
-                        bOk = false;
-                        throw;
-                    }
-                }
+                controller.Enable();
+                return true;
             }
-            return bOk;
+            catch
+            {
+                controller.Dispose();
+                return false;
+            }
+        }
+
+        private void WireControllerEvents(IController controller)
+        {
+            switch (controller.Name)
+            {
+                case "ppt":
+                    _slideController = (ISlideController)controller;
+
+                    var ppt = (PptController)controller;
+                    ppt.Ready += () => BeginInvoke((Action)SlideControllerReady);
+                    ppt.Disconnected += Controller_Disconnected;
+                    ppt.SlideShowEnded += SlideShowEnd;
+                    ppt.SlideShowBegin += OnSlideShowBegin;
+                    ppt.SlideChanged += OnSlideChanged;
+                    ppt.TimingsDetected += TimingsDetected;
+                    break;
+
+                case "obs":
+                    var obs = (ObsController)controller;
+                    // wire OBS events here
+                    break;
+
+                    // future controllers go here
+            }
         }
 
         private void SlideControllerReady()
