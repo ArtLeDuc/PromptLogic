@@ -1,17 +1,19 @@
 ﻿#nullable disable
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.PowerPoint;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 using Office = Microsoft.Office.Core;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
-using Microsoft.VisualBasic;
-using System.Runtime.InteropServices;
 
 
 namespace PromptLogic.Controllers
@@ -22,8 +24,13 @@ namespace PromptLogic.Controllers
         private PowerPoint.Presentation _presentation = null;
         private PowerPoint.SlideShowWindow _slideShowWindow = null;
         private PowerPoint.SlideShowView _slideShowView = null;
-        private readonly object _monitorLock = new object();
+        private PowerPoint.SlideShowWindows _slideShowWindows = null;
+        private PowerPoint.Presentations _presentations = null;
+        private PowerPoint.SlideShowWindow _activeSlideShowWindow = null;
 
+        private readonly object _monitorLock = new object();
+        private bool _powerPointRunning = false;
+        private bool _startedSlideShow = false;
         private void EnsurePowerPointIsRunning()
         {
             // If we already have an Application object, nothing to do
@@ -47,6 +54,7 @@ namespace PromptLogic.Controllers
                 {
                     Visible = MsoTriState.msoTrue
                 };
+                _powerPointRunning = true;
             }
         }
         private void StartSlideShow()
@@ -65,6 +73,8 @@ namespace PromptLogic.Controllers
             // Store references for later control
             _slideShowWindow = window;
             _slideShowView = window.View;
+            _startedSlideShow = true;
+            _slideShowWindows = _app.SlideShowWindows;
         }
 
         public void OpenFile(string path)
@@ -72,7 +82,8 @@ namespace PromptLogic.Controllers
             EnsurePowerPointIsRunning();
 
             // Load the presentation
-            _presentation = _app.Presentations.Open(path, WithWindow: MsoTriState.msoFalse);
+            _presentations = _app.Presentations;
+            _presentation = _presentations.Open(path, WithWindow: MsoTriState.msoFalse);
 
             // Prepare slideshow
             StartSlideShow();
@@ -132,6 +143,89 @@ namespace PromptLogic.Controllers
 
             return true;
         }
+        /*
+           public void Disconnect()
+           {
+               InvokeOnPptThread(() =>
+               {
+                   _isConnected = false;
+
+                   // --- 0. Stop monitor timer ---
+                   try
+                   {
+                       MonitorTimerStop();
+                   }
+                   catch { }
+
+                   // --- 1. Unhook PowerPoint.Application events ---
+                   try
+                   {
+                       if (_app != null)
+                       {
+                           _app.SlideShowNextSlide -= SlideShowNextSlide;
+                           _app.SlideShowBegin -= OnSlideShowBegin;
+                           _app.SlideShowEnd -= OnSlideShowEnd;
+                       }
+                   }
+                   catch
+                   {
+                       // Never throw during disconnect
+                   }
+
+                   // --- 2. Release COM objects (future-proof) ---
+                   ReleaseComObject(ref _slideShowWindow);
+                   ReleaseComObject(ref _slideShowView);
+                   ReleaseComObject(ref _presentation);
+                   ReleaseComObject(ref _slideShowWindows);
+                   ReleaseComObject(ref _presentations);
+                   ReleaseComObject(ref _activeSlideShowWindow);
+
+                   try
+                   {
+                       if (_app != null)
+                       { 
+                           var windows = _app.Windows;
+                           ReleaseComObject(ref windows);
+
+                           var slideShowWindows = _app.SlideShowWindows;
+                           ReleaseComObject(ref slideShowWindows);
+
+                           var presentations = _app.Presentations;
+                           ReleaseComObject(ref presentations);
+
+                           var activeWindow = _app.ActiveWindow;
+                           ReleaseComObject(ref activeWindow);
+
+                           var protectedViewWindows = _app.ProtectedViewWindows;
+                           ReleaseComObject(ref protectedViewWindows);
+
+                           var commandBars = _app.CommandBars;
+                           ReleaseComObject(ref commandBars);
+                       }
+                   }
+                   catch { }
+
+                   // --- 3. If we created the app then quit and set it to null---
+                   if (_powerPointRunning && _app != null)
+                   {
+                       _app.Quit();
+                       Marshal.ReleaseComObject(_app);
+                       _app = null;
+                   }
+
+                   // --- 4. Notify UI ---
+                   try
+                   {
+                       Disconnected?.Invoke(this, EventArgs.Empty);
+                   }
+                   catch
+                   {
+                       // UI errors should never break disconnect
+                   }
+
+               });
+           }
+   */
         public void Disconnect()
         {
             InvokeOnPptThread(() =>
@@ -139,11 +233,7 @@ namespace PromptLogic.Controllers
                 _isConnected = false;
 
                 // --- 0. Stop monitor timer ---
-                try
-                {
-                    MonitorTimerStop();
-                }
-                catch { }
+                try { MonitorTimerStop(); } catch { }
 
                 // --- 1. Unhook PowerPoint.Application events ---
                 try
@@ -155,30 +245,59 @@ namespace PromptLogic.Controllers
                         _app.SlideShowEnd -= OnSlideShowEnd;
                     }
                 }
-                catch
-                {
-                    // Never throw during disconnect
-                }
+                catch { }
 
-                // --- 2. Release COM objects (future-proof) ---
-                ReleaseComObject(ref _slideShowWindow);
+                // --- 2. Release YOUR COM fields ---
                 ReleaseComObject(ref _slideShowView);
+                ReleaseComObject(ref _slideShowWindow);
+                ReleaseComObject(ref _activeSlideShowWindow);
                 ReleaseComObject(ref _presentation);
+                ReleaseComObject(ref _slideShowWindows);
+                ReleaseComObject(ref _presentations);
 
-                // DO NOT release _app or call Quit() because we did NOT create PowerPoint.
-
-                // --- 3. Clear service reference ---
-                //            _service = null;
-
-                // --- 4. Notify UI ---
-                try
+                // --- 3. Release PowerPoint.Application CHILD COM OBJECTS ---
+                if (_app != null)
                 {
-                    Disconnected?.Invoke(this, EventArgs.Empty);
+                    try
+                    {
+                        var windows = _app.Windows;
+                        ReleaseComObject(ref windows);
+
+                        var slideShowWindows = _app.SlideShowWindows;
+                        ReleaseComObject(ref slideShowWindows);
+
+                        var presentations = _app.Presentations;
+                        ReleaseComObject(ref presentations);
+
+                        var protectedViewWindows = _app.ProtectedViewWindows;
+                        ReleaseComObject(ref protectedViewWindows);
+
+                        var commandBars = _app.CommandBars;
+                        ReleaseComObject(ref commandBars);
+                    }
+                    catch { }
                 }
-                catch
+
+                // --- 4. Quit PowerPoint if we created it ---
+                if (_powerPointRunning && _app != null)
                 {
-                    // UI errors should never break disconnect
+                    try {
+                        System.GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                        _app.Quit(); 
+                    } catch { }
+
+                    try
+                    {
+                        ReleaseComObject(ref _app);
+                    }
+                    catch { }
+
+                    _app = null;
                 }
+
+                // --- 5. Notify UI ---
+                try { Disconnected?.Invoke(this, EventArgs.Empty); } catch { }
             });
         }
 
@@ -219,7 +338,10 @@ namespace PromptLogic.Controllers
             {
                 return InvokeOnPptThread(() =>
                 {
-                    return _app.ActivePresentation.Slides.Count;
+                    Slides slides = _presentation.Slides;
+                    int slideCount = slides.Count;
+                    ReleaseComObject(ref slides);
+                    return slideCount;
                 });
             }
         }
@@ -227,18 +349,27 @@ namespace PromptLogic.Controllers
         {
             return InvokeOnPptThread(() =>
             {
+                string title = "Slide " + index;
                 var win = GetWindow();
-                var slide = win.Presentation.Slides[index];
+                var slides = _presentation.Slides;
+                var slide = slides[index];
+                var shapes = slide.Shapes;
+                PowerPoint.Shape titleShape = null;
 
                 try
                 {
-                    var titleShape = slide.Shapes.Title;
+                    titleShape = shapes.Title;
                     if (titleShape != null)
-                        return titleShape.TextFrame.TextRange.Text;
+                        title = titleShape.TextFrame.TextRange.Text;
                 }
-                catch { }
+                catch {}
+                
+                ReleaseComObject(ref slide);
+                ReleaseComObject(ref shapes);
+                ReleaseComObject(ref titleShape);
+                ReleaseComObject(ref slides);
 
-                return "Slide " + index;
+                return title;
             });
         }
         public string GetNotesForSlide(int index)
@@ -247,8 +378,26 @@ namespace PromptLogic.Controllers
             {
                 try
                 {
-                    var slide = _presentation.Slides[index];
-                    string note = slide.NotesPage.Shapes.Placeholders[2].TextFrame.TextRange.Text;
+                    var slides = _presentation.Slides;
+                    var slide = slides[index];
+                    var notesPage = slide.NotesPage;
+                    var shapes = notesPage.Shapes;
+                    var placeholders = shapes.Placeholders;
+                    var placeholder = placeholders[2];
+                    var textFrame = placeholder.TextFrame;
+                    var textRange = textFrame.TextRange;
+
+                    string note = textRange.Text;
+
+                    ReleaseComObject(ref textRange);
+                    ReleaseComObject(ref textFrame);
+                    ReleaseComObject(ref placeholder);
+                    ReleaseComObject(ref placeholders);
+                    ReleaseComObject(ref shapes);
+                    ReleaseComObject(ref notesPage);
+                    ReleaseComObject(ref slide);
+                    ReleaseComObject(ref slides);
+
                     return note;
                 }
                 catch
@@ -262,7 +411,13 @@ namespace PromptLogic.Controllers
             int slideIndex = -1;
 
             if (_slideShowView != null)
-                slideIndex = InvokeOnPptThread(() => { return _slideShowView.Slide.SlideIndex; });
+                slideIndex = InvokeOnPptThread(() => 
+                {
+                    Slide slide = _slideShowView.Slide;
+                    int slideIndex = slide.SlideIndex;
+                    ReleaseComObject(ref slide);
+                    return slideIndex;
+                });
 
             if (slideIndex > 0)
                 return GetNotesForSlide(slideIndex);
@@ -274,7 +429,9 @@ namespace PromptLogic.Controllers
             InvokeOnPptThread(() =>
             {
                 var win = GetWindow();
-                win.View.GotoSlide(index);
+                SlideShowView view = win.View;
+                view.GotoSlide(index);
+                ReleaseComObject(ref view);
             });
         }
         public void NextSlide()
@@ -283,20 +440,28 @@ namespace PromptLogic.Controllers
             {
                 var win = GetWindow();
                 EnsureRunning(win);
-                win.View.Next();
+                SlideShowView view = win.View;
+                view.Next();
+                ReleaseComObject(ref view);
             });
         }
         public void EndSlideShow()
         {
             InvokeOnPptThread(() =>
             {
+                if (!_startedSlideShow)
+                    return;
+
                 var win = GetWindow();
-                win.View.Exit();
+                SlideShowView view = win.View;
+                view.Exit();
+                ReleaseComObject(ref view);
             });
         }
 
         public void MonitorTimerStart()
         {
+
             lock (_monitorLock)
             {
                 _monitorTimer = new System.Windows.Forms.Timer();
@@ -304,6 +469,7 @@ namespace PromptLogic.Controllers
                 _monitorTimer.Tick += MonitorTimer_Tick;
                 _monitorTimer.Start();
             }
+
         }
         public void MonitorTimerStop()
         {
@@ -413,8 +579,13 @@ namespace PromptLogic.Controllers
         {
             try
             {
-                int index = Wn.View.Slide.SlideIndex;
+                var view = Wn.View;
+                var slide = view.Slide;
+                int index = slide.SlideIndex;
                 SlideChanged?.Invoke(this, new SlideChangedEventArgs(index));
+                ReleaseComObject(ref slide);
+                ReleaseComObject(ref view);
+
             }
             catch
             {
@@ -433,9 +604,10 @@ namespace PromptLogic.Controllers
                 _app.SlideShowEnd += OnSlideShowEnd;
 
                 // If a slideshow is already running, attach to it
-                if (_app.SlideShowWindows.Count > 0)
+                if (_slideShowWindows.Count > 0)
                 {
-                    _slideShowView = GetWindow()?.View;
+                    if (_slideShowView == null)
+                        _slideShowView = GetWindow()?.View;
                 }
                 else
                 {
@@ -455,7 +627,8 @@ namespace PromptLogic.Controllers
                 SlideShowBegin?.Invoke(this, EventArgs.Empty);
             }, null);
 
-            _slideShowView = GetWindow()?.View;
+            if (_slideShowView == null)
+                _slideShowView = GetWindow()?.View;
         }
         private void OnSlideShowEndInternal()
         {
@@ -474,12 +647,19 @@ namespace PromptLogic.Controllers
         {
             InvokeOnPptThread(() =>
             {
-                foreach (PowerPoint.Slide slide in _presentation.Slides)
+                var slides = _presentation.Slides;
+
+                for (int i = 1; i <= slides.Count; i++)
                 {
+                    PowerPoint.Slide slide = slides[i];
                     var trans = slide.SlideShowTransition;
                     trans.AdvanceOnTime = MsoTriState.msoFalse;
                     trans.AdvanceTime = 0;
+                    ReleaseComObject(ref trans);
+                    ReleaseComObject(ref slide);
                 }
+
+                ReleaseComObject(ref slides);
             });
         }
 
@@ -497,32 +677,45 @@ namespace PromptLogic.Controllers
         {
             get
             {
-                var state = GetWindow().View.State;
+                SlideShowView view = GetWindow()?.View;
+                PpSlideShowState state = view.State;
+                ReleaseComObject(ref view);
+
+                SlideShowState slideShowState = SlideShowState.Unknown;
 
                 switch (state)
                 {
                     case PowerPoint.PpSlideShowState.ppSlideShowRunning:
-                        return SlideShowState.Running;
+                        slideShowState = SlideShowState.Running;
+                        break;
                     case PowerPoint.PpSlideShowState.ppSlideShowPaused:
-                        return SlideShowState.Paused;
+                        slideShowState = SlideShowState.Paused;
+                        break;
                     case PowerPoint.PpSlideShowState.ppSlideShowBlackScreen:
-                        return SlideShowState.BlackScreen;
+                        slideShowState = SlideShowState.BlackScreen;
+                        break;
                     case PowerPoint.PpSlideShowState.ppSlideShowWhiteScreen:
-                        return SlideShowState.WhiteScreen;
+                        slideShowState = SlideShowState.WhiteScreen;
+                        break;
                     case PowerPoint.PpSlideShowState.ppSlideShowDone:
-                        return SlideShowState.Done;
-                    default:
-                        return SlideShowState.Unknown;
+                        slideShowState = SlideShowState.Done;
+                        break;
                 }
+
+                return slideShowState;
             }
         }
 
         private PowerPoint.SlideShowWindow GetWindow()
         {
-            if (_app.SlideShowWindows.Count == 0)
-                throw new InvalidOperationException("No slideshow running.");
+            if (_activeSlideShowWindow == null)
+            {
+                if (_slideShowWindows.Count == 0)
+                    throw new InvalidOperationException("No slideshow running.");
 
-            return _app.SlideShowWindows[1];
+                _activeSlideShowWindow = _slideShowWindows[1];
+            }
+            return _activeSlideShowWindow;
         }
         private void EnsureRunning(PowerPoint.SlideShowWindow win)
         {
@@ -535,8 +728,17 @@ namespace PromptLogic.Controllers
         public int CurrentSlide { 
             get 
             {
-                return InvokeOnPptThread(() => GetWindow().View.CurrentShowPosition);
-            } 
+                return InvokeOnPptThread(() =>
+                {
+                    var view = GetWindow().View;       
+
+                    int pos = view.CurrentShowPosition;
+
+                    ReleaseComObject(ref view);
+
+                    return pos;
+                });
+            }
         }
         public bool IsSlideShowRunning 
         {
@@ -546,7 +748,7 @@ namespace PromptLogic.Controllers
                 {
                     try
                     {
-                        return _app?.SlideShowWindows.Count > 0 ? true : false;
+                        return _slideShowWindows?.Count > 0 ? true : false;
                     }
                     catch
                     {
@@ -561,15 +763,14 @@ namespace PromptLogic.Controllers
             {
                 var win = GetWindow();
                 EnsureRunning(win);
-                win.View.Previous();
+                SlideShowView view = win.View;
+                view.Previous();
+                ReleaseComObject(ref view);
             }); 
         }
         public string GetNotes(int index) 
         { 
-            return InvokeOnPptThread(() =>
-            {
-                return _presentation.Slides[index].NotesPage.Shapes.Placeholders[2].TextFrame.TextRange.Text;
-            }); 
+            return GetNotesForSlide(index);
         }
         public void Resume() 
         { 
@@ -578,7 +779,9 @@ namespace PromptLogic.Controllers
                 try
                 {
                     var win = GetWindow();
-                    win.View.State = PowerPoint.PpSlideShowState.ppSlideShowRunning;
+                    SlideShowView view = win.View;
+                    view.State = PowerPoint.PpSlideShowState.ppSlideShowRunning;
+                    ReleaseComObject(ref view);
                 }
                 catch { }
             });
@@ -591,7 +794,9 @@ namespace PromptLogic.Controllers
                 try
                 {
                     var win = GetWindow();
-                    win.View.State = PowerPoint.PpSlideShowState.ppSlideShowPaused;
+                    SlideShowView view = win.View;
+                    view.State = PowerPoint.PpSlideShowState.ppSlideShowPaused;
+                    ReleaseComObject(ref view);
                 }
                 catch { }
             }); 
@@ -609,54 +814,69 @@ namespace PromptLogic.Controllers
                     win.Activate();
 
                     // Step 1: Unpause the slideshow
-                    win.View.State = PpSlideShowState.ppSlideShowRunning;
+                    SlideShowView view = win.View;
+                    view.State = PpSlideShowState.ppSlideShowRunning;
+                    ReleaseComObject(ref view);
                 }
                 catch { }
             }); 
         }
         private bool PresentationHasTimingsInternal() 
         {
-            foreach (PowerPoint.Slide slide in _presentation.Slides)
+            bool retval = false;
+
+            var slides = _presentation.Slides;
+
+            for (int i = 1; i <= slides.Count && !retval; i++)
             {
+                PowerPoint.Slide slide = slides[i];
                 var trans = slide.SlideShowTransition;
 
-                if (trans.AdvanceOnTime == MsoTriState.msoTrue &&
-                    trans.AdvanceTime > 0)
-                {
-                    return true;
-                }
-            }
+                if (trans.AdvanceOnTime == MsoTriState.msoTrue && trans.AdvanceTime > 0)
+                    retval = true;
 
-            return false;
+                ReleaseComObject(ref trans);
+                ReleaseComObject(ref slide);
+            }
+            
+            ReleaseComObject(ref slides);
+
+            return retval;
         }
+
         private void MonitorTimer_Tick(object sender, EventArgs e)
         {
             if (_slideShowView == null)
                 return;
 
+            // SAFE: enum, not COM
+            var state = _slideShowView.State;
+
+            if (state == PowerPoint.PpSlideShowState.ppSlideShowDone ||
+                _slideShowWindows == null || _slideShowWindows.Count == 0)
+            {
+                OnSlideShowEndInternal();
+                return;
+            }
+
+            PowerPoint.Slide tempSlide = null;
+
             try
             {
-                // If the slideshow window is gone, slideshow ended
-                if (_slideShowView?.State != PowerPoint.PpSlideShowState.ppSlideShowDone &&
-                    _app.SlideShowWindows.Count > 0)
-                {
-                    // COM heartbeat — keeps PowerPoint events flowing
-                    int current = _slideShowView?.Slide?.SlideIndex ?? -1;
-                }
-                else
-                {
-                    OnSlideShowEndInternal();
-                    return;
-                }
-
+                // COM getter isolated so any exception still releases the RCW
+                tempSlide = _slideShowView.Slide;
+                int current = tempSlide.SlideIndex;
             }
             catch
             {
-                // Ignore COM timing issues
+                // ignore COM timing issues
+            }
+            finally
+            {
+                ReleaseComObjectNoLog(ref tempSlide);
             }
         }
-
-        private void ReleaseComObject<T>(ref T obj) where T : class
+        private void ReleaseComObjectNoLog<T>(ref T obj) where T : class
         {
             try
             {
@@ -666,6 +886,26 @@ namespace PromptLogic.Controllers
             catch
             {
                 // Ignore — COM cleanup must never throw
+            }
+            finally
+            {
+                obj = null;
+            }
+        }
+
+        private void ReleaseComObject<T>(ref T obj) where T : class
+        {
+            if (obj == null)
+                return;
+
+            try
+            {
+                int count = Marshal.ReleaseComObject(obj);
+                Debug.WriteLine($"[COM RELEASE] {typeof(T).Name} -> remaining RCW refs: {count}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[COM RELEASE ERROR] {typeof(T).Name}: {ex.Message}");
             }
             finally
             {
