@@ -119,9 +119,7 @@ Near‑Term (0.2 – 0.4)<br>
 Focused on strengthening the core experience and smoothing out early workflows.
 - Native support for text‑based scripts, allowing creators to load .txt or .md files as teleprompter scripts 
 - Additional dot‑command features
-- Improved script editor ergonomics
 - More display‑mode refinements
-- Optional auto‑save and recovery
 - Better PowerPoint integration
 - OBS WebSocket integration (scene switching, recording control)
 - Expanded user guide and examples
