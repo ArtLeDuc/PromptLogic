@@ -52,7 +52,7 @@ function loadNotes(text) {
         if (trimmed.startsWith(".")) {
             // Special case: enable commands
             // obs_enable
-            if (trimmed.startsWith(".obs_enable")) {
+            if (trimmed.startsWith(".obs_enable") || trimmed.startsWith(".ppt_enable")) {
                 handleEnableCommand(trimmed);
                 // Do NOT add to commands list
                 continue;
@@ -142,25 +142,33 @@ function handleEnableCommand(trimmed) {
     if (!trimmed.startsWith("."))
         return false;
 
-    // Split into command + optional argument
     const match = trimmed.match(/^\.(\w+_enable)(?:\((.*)\))?$/);
+    if (!match) return false;
 
-    cmd = match[1];
+    const cmd = match[1];
     let arg = match[2];
-    if (arg != undefined) {
+
+    if (arg) {
         arg = arg.trim();
-        if (arg.length === 0)
-            arg = null;
+
+        // Strip surrounding quotes if present
+        if ((arg.startsWith('"') && arg.endsWith('"')) ||
+            (arg.startsWith("'") && arg.endsWith("'"))) {
+            arg = arg.substring(1, arg.length - 1);
+        }
+
+        // Unescape JS backslashes
+//        arg = arg.replace(/\\\\/g, "\\");
     } else {
         arg = null;
-    }   
+    }
 
     window.chrome.webview.postMessage({
         action: cmd,
-        argument: arg && arg.length > 0 ? arg : null
+        argument: arg
     });
-    return true;
 
+    return true;
 }
 
 /**

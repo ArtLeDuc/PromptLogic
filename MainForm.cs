@@ -15,6 +15,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -329,9 +330,12 @@ namespace PromptLogic
         }
         public void OnSlideChanged(object sender, SlideChangedEventArgs e)
         {
-            LoadNotesForSlide(e.NewSlideIndex);
-            btnPause.Text = "Pause";
-            IsPaused = false;
+            if (_slideController.SupportsNotes)
+            {
+                LoadNotesForSlide(e.NewSlideIndex);
+                btnPause.Text = "Pause";
+                IsPaused = false;
+            }
         }
 
         private void btnCollapse_Click(object sender, EventArgs e)
@@ -368,6 +372,7 @@ namespace PromptLogic
 
             _service.ObsCommandRequested += (command, args) => _obsController?.ExecuteCommandAsync(command, args);
             _service.ObsEnable += sceneCollection => EnableController("obs", sceneCollection);
+            _service.PptEnable += filePath => OpenController(filePath, false);
         }
         void PauseSlideShow(int msTime)
         {
@@ -420,17 +425,7 @@ namespace PromptLogic
                 if (dialog.ShowDialog() != DialogResult.OK)
                     return false;
 
-                var ext = Path.GetExtension(dialog.FileName);
-                var descriptor = _controllerManager.FindByExtension(ext);
-
-                if (descriptor != null)
-                {
-                    var controller = _controllerManager.GetOrCreateController(descriptor.Id);
-                    controller.OpenFile(dialog.FileName);
-                    EnableController(descriptor.Id);
-                    return true;
-                }
-                return false;
+                return OpenController(dialog.FileName);
             }
         }
         private void btnConnect_Click(object sender, EventArgs e)
@@ -440,6 +435,20 @@ namespace PromptLogic
         private void btnCollapsedConnect_Click(object sender, EventArgs e)
         {
             Connect();
+        }
+        public bool OpenController(string filePath, bool supportsNotes = true)
+        {
+            var ext = Path.GetExtension(filePath);
+            var descriptor = _controllerManager.FindByExtension(ext);
+
+            if (descriptor != null)
+            {
+                var controller = _controllerManager.GetOrCreateController(descriptor.Id);
+                controller.OpenFile(filePath);
+                EnableController(descriptor.Id, supportsNotes);
+                return true;
+            }
+            return false;
         }
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -691,7 +700,8 @@ namespace PromptLogic
         {
             if (_slideController.IsSlideShowRunning)
             {
-                LoadNotesForCurrentSlide();
+                if (_slideController.SupportsNotes)
+                    LoadNotesForCurrentSlide();
                 LoadSlideSelectionCombo();
             }
         }
@@ -701,7 +711,7 @@ namespace PromptLogic
             SlideShowConnected();
         }
 
-        public bool EnableController(string prefix, string arg = null)
+        public bool EnableController(string prefix, object arg = null)
         {
             if (_controllerManager.IsEnabled(prefix))
                 return true;
@@ -729,7 +739,7 @@ namespace PromptLogic
             }
         }
 
-        private void WireControllerEvents(IController controller, string arg = null)
+        private void WireControllerEvents(IController controller, object arg = null)
         {
             switch (controller.Name)
             {
@@ -743,6 +753,8 @@ namespace PromptLogic
                     ppt.SlideShowBegin += OnSlideShowBegin;
                     ppt.SlideChanged += OnSlideChanged;
                     ppt.TimingsDetected += TimingsDetected;
+                    if (arg != null)
+                        ppt.SupportsNotes = (bool)arg;
                     break;
                 case "txt":
                     var txt = (TxtController)controller;
@@ -751,7 +763,8 @@ namespace PromptLogic
                     break;
                 case "obs":
                     var obs = (ObsController)controller;
-                    obs.Configure(arg);
+                    if (arg != null)
+                        obs.Configure(arg);
                     _obsController = obs;
                     // wire OBS events here
                     break;

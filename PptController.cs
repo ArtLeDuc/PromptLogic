@@ -41,6 +41,8 @@ namespace PromptLogic.Controllers
 
         bool _isConnected = false;
         public bool IsEnabled => _isConnected;
+        public bool SupportsNotes { get; set; } = true;
+        string _filePath = null;
 
         public event EventHandler Disconnected;
         public event EventHandler<SlideChangedEventArgs> SlideChanged;
@@ -96,7 +98,6 @@ namespace PromptLogic.Controllers
         }
         public void Configure(object config)
         {
-            //Empty does nothing
         }
         public void OpenFile(string path)
         {
@@ -349,10 +350,7 @@ namespace PromptLogic.Controllers
         {
             InvokeOnPptThread(() =>
             {
-                var win = GetWindow();
-                SlideShowView view = win.View;
-                view.GotoSlide(index);
-                ReleaseComObject(ref view);
+                _slideShowView.GotoSlide(index);
             });
         }
         public void NextSlide()
@@ -361,9 +359,7 @@ namespace PromptLogic.Controllers
             {
                 var win = GetWindow();
                 EnsureRunning(win);
-                SlideShowView view = win.View;
-                view.Next();
-                ReleaseComObject(ref view);
+                _slideShowView.Next();
             });
         }
         public void EndSlideShow()
@@ -373,10 +369,7 @@ namespace PromptLogic.Controllers
                 if (!_startedSlideShow)
                     return;
 
-                var win = GetWindow();
-                SlideShowView view = win.View;
-                view.Exit();
-                ReleaseComObject(ref view);
+                _slideShowView.Exit();
             });
         }
 
@@ -500,12 +493,10 @@ namespace PromptLogic.Controllers
         {
             try
             {
-                var view = Wn.View;
-                var slide = view.Slide;
+                var slide = _slideShowView.Slide;
                 int index = slide.SlideIndex;
                 SlideChanged?.Invoke(this, new SlideChangedEventArgs(index));
                 ReleaseComObject(ref slide);
-                ReleaseComObject(ref view);
 
             }
             catch
@@ -598,9 +589,7 @@ namespace PromptLogic.Controllers
         {
             get
             {
-                SlideShowView view = GetWindow()?.View;
-                PpSlideShowState state = view.State;
-                ReleaseComObject(ref view);
+                PpSlideShowState state = _slideShowView.State;
 
                 SlideShowState slideShowState = SlideShowState.Unknown;
 
@@ -640,9 +629,9 @@ namespace PromptLogic.Controllers
         }
         private void EnsureRunning(PowerPoint.SlideShowWindow win)
         {
-            if (win.View.State == PowerPoint.PpSlideShowState.ppSlideShowPaused)
+            if (_slideShowView.State == PowerPoint.PpSlideShowState.ppSlideShowPaused)
             {
-                win.View.State = PowerPoint.PpSlideShowState.ppSlideShowRunning;
+                _slideShowView.State = PowerPoint.PpSlideShowState.ppSlideShowRunning;
             }
         }
 
@@ -651,11 +640,7 @@ namespace PromptLogic.Controllers
             {
                 return InvokeOnPptThread(() =>
                 {
-                    var view = GetWindow().View;       
-
-                    int pos = view.CurrentShowPosition;
-
-                    ReleaseComObject(ref view);
+                    int pos = _slideShowView.CurrentShowPosition;
 
                     return pos;
                 });
@@ -684,9 +669,7 @@ namespace PromptLogic.Controllers
             {
                 var win = GetWindow();
                 EnsureRunning(win);
-                SlideShowView view = win.View;
-                view.Previous();
-                ReleaseComObject(ref view);
+                _slideShowView.Previous();
             }); 
         }
         public string GetNotes(int index) 
@@ -699,10 +682,7 @@ namespace PromptLogic.Controllers
             {
                 try
                 {
-                    var win = GetWindow();
-                    SlideShowView view = win.View;
-                    view.State = PowerPoint.PpSlideShowState.ppSlideShowRunning;
-                    ReleaseComObject(ref view);
+                    _slideShowView.State = PowerPoint.PpSlideShowState.ppSlideShowRunning;
                 }
                 catch { }
             });
@@ -714,10 +694,7 @@ namespace PromptLogic.Controllers
             {
                 try
                 {
-                    var win = GetWindow();
-                    SlideShowView view = win.View;
-                    view.State = PowerPoint.PpSlideShowState.ppSlideShowPaused;
-                    ReleaseComObject(ref view);
+                    _slideShowView.State = PowerPoint.PpSlideShowState.ppSlideShowPaused;
                 }
                 catch { }
             }); 
@@ -735,9 +712,7 @@ namespace PromptLogic.Controllers
                     win.Activate();
 
                     // Step 1: Unpause the slideshow
-                    SlideShowView view = win.View;
-                    view.State = PpSlideShowState.ppSlideShowRunning;
-                    ReleaseComObject(ref view);
+                    _slideShowView.State = PpSlideShowState.ppSlideShowRunning;
                 }
                 catch { }
             }); 

@@ -27,6 +27,7 @@ namespace PromptLogic
         public event Action<int> Pause;
 
         public event Action<string> ObsEnable;
+        public event Action<string> PptEnable;
         public event Action<string, string[]> ObsCommandRequested;
 
         public WebMessageService()
@@ -48,11 +49,12 @@ namespace PromptLogic
                 ["stop"] = _ => EndSlideShow?.Invoke(),
                 ["start"] = _ => StartSlideShow?.Invoke(),
                 ["scrollStarted"] = _ => { UnlockInput?.Invoke(); },
-                ["obs_enable"] = obj => 
+                ["ppt_enable"] = obj =>
                 {
-                    string? sceneCollection = (string?)obj["argument"] ?? ""; 
-                    ObsEnable?.Invoke(sceneCollection); 
+                    string? filePath = (string?)obj["argument"] ?? "";
+                    PptEnable?.Invoke(filePath);
                 },
+                ["obs_enable"] = obj => { string? sceneCollection = (string?)obj["argument"] ?? ""; ObsEnable?.Invoke(sceneCollection); },
                 ["obs_mute"] = RequestObsCommand,
                 ["obs_unmute"] = RequestObsCommand,
                 ["obs_scene"] = RequestObsCommand,

@@ -35,6 +35,7 @@ namespace PromptLogic
         string GetSlideTitle(int index);
         void MonitorTimerStop();
         void EndSlideShow();
+        bool SupportsNotes { get; set; }
 
         // Events
         event EventHandler<SlideChangedEventArgs> SlideChanged;
