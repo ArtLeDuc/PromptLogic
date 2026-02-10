@@ -36,11 +36,13 @@ namespace PromptLogic
     {
         string Name { get; }
         void Enable();
+        void Configure(object config);
         void OpenFile(string filePath);
         Task ExecuteCommandAsync(string command, string[] args);
         bool IsEnabled { get; }
 
         event EventHandler<ControllerEventArgs> ControllerEvent;
+        event Action Ready;
 
     }
 }

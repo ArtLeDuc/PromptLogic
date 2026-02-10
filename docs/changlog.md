@@ -1,39 +1,53 @@
-##[0.2.0] - Unreleased
-### Added
-- Multi-Argument command support
-- Introduced Controller pattern
-	- OBS Basic OBS integration 
-		- Created the OBS Controller
-		- .obs_enable(<scene collection>)
-		<br>Should be placed at the begining of a script used to load OBS if necessary and load the scene collection 
-		- .obs_mute(<source>)
-		<br>Mutes the specified source
-		- .obs_unmute(<source>)
-		<br>Un-Mutes the specified source
-		- .obs_scene(<scene>)
-		<br>Selects the specified scene
-		- .obs_record_start
-		- .obs_record_stop
-		- .obs_source_show(<sceneName>, <sourceName>)
-		<br>Will show the item specified in the sceneName, sourceName within the scene.  You will need to use .obs_scene to show the scene
-		- .obs_source_hide(<sceneName>, <sourceName>)
-		<br>Will nide the item specified in the sceneName, sourceName within the scene.  You will need to use .obs_scene to show the scene
-		- .obs_transition(<type>, <duration>)
-		<br>Selects the transition type and duration.  If you set the duration you may need to also issue a .pause(n) to wait for the transition to happen.
-	- Introduced the Power Point Controller
-		- Move PowerPoint command handling into PptController
-		- Extract PowerPoint logic from MainForm into dedicated controller
-		- Introduce PptController as the new PowerPoint command layer
-		- Refactor PowerPoint operations into modular controller
-		- Centralize PowerPoint slide control in PptController
-	- Moved Power Point COM interface to its own thread to stop it from freezing the UI
-		- Introduced deterministic COM-thread dispatcher
-		- Ensured all PowerPoint events marshal cleanly to UI thread
-		- Rebuilt event pipeline to avoid COM recursion and UI cross-thread calls
-	- Merged PowerPointSlideController into PptController 
-		- Removed PowerPointSlideController entirely
-		- Repaired WebView2 command flow after merge
-		- Eliminated recursive event wiring and reentrancy traps
+##[0.2.0] - Unreleased<br>
+Added
+- Multi?argument command support for script commands
+- Controller pattern introduced across the app
+- OBS Controller
+- .obs_enable(<scene collection>) — initialize OBS and load scene collection
+- .obs_mute(<source>) — mute a source
+- .obs_unmute(<source>) — unmute a source
+- .obs_scene(<scene>) — switch scenes
+- .obs_record_start / .obs_record_stop
+- .obs_source_show(<scene>, <source>) — show a source within a scene
+- .obs_source_hide(<scene>, <source>) — hide a source within a scene
+- .obs_transition(<type>, <duration>) — set transition type and duration
+- PowerPoint Controller (PptController)
+- New dedicated command layer for all PowerPoint operations
+- Centralized slide navigation, slideshow control, and event handling
+
+Changed
+- Moved all PowerPoint COM automation to a dedicated STA thread
+- Prevents UI freezes
+- Ensures deterministic COM execution
+- Cleanly marshals events back to UI thread
+- Merged PowerPointSlideController into PptController
+- Removed legacy controller
+- Unified PowerPoint logic under one module
+- Repaired WebView2 command routing after merge
+- Refactored PowerPoint operations into modular controller structure
+- Extracted logic from MainForm
+- Eliminated recursive event wiring and reentrancy traps
+
+Fixed
+- Resolved all remaining COM reference issues
+- Verified all RCWs release cleanly, including Application
+- Eliminated hidden RCWs created by slideshow operations
+- Hardened MonitorTimer_Tick with leak?proof COM access pattern
+- Improved shutdown reliability
+- Clarified PowerPoint’s internal timing behavior
+- Ensured deterministic teardown of slideshow and COM objects
+- Corrected WebView2 command flow after controller merge
+
+Improved
+- Overall automation stability for PowerPoint and OBS
+- Event pipeline reliability
+- Ensured all PowerPoint events marshal safely
+- Removed cross?thread UI hazards
+- Documentation clarity
+- Documented expected PowerPoint “dirty state” behavior when exiting slideshow
+- Improved internal notes around COM timing and shutdown
+
+
 
 ##[0.1.0] - 2026-01-20
 ### Added

@@ -31,6 +31,24 @@ namespace PromptLogic.Controllers
         private readonly object _monitorLock = new object();
         private bool _powerPointRunning = false;
         private bool _startedSlideShow = false;
+
+        private Thread _pptThread;
+        private SynchronizationContext _pptContext;
+        private readonly SynchronizationContext _uiContext;
+        private ManualResetEvent _threadReady = new ManualResetEvent(false);
+
+        private System.Windows.Forms.Timer _monitorTimer;
+
+        bool _isConnected = false;
+        public bool IsEnabled => _isConnected;
+
+        public event EventHandler Disconnected;
+        public event EventHandler<SlideChangedEventArgs> SlideChanged;
+        public event EventHandler SlideShowBegin;
+        public event EventHandler SlideShowEnded;
+        public event EventHandler TimingsDetected;
+        public event Action Ready;
+
         private void EnsurePowerPointIsRunning()
         {
             // If we already have an Application object, nothing to do
@@ -76,7 +94,10 @@ namespace PromptLogic.Controllers
             _startedSlideShow = true;
             _slideShowWindows = _app.SlideShowWindows;
         }
-
+        public void Configure(object config)
+        {
+            //Empty does nothing
+        }
         public void OpenFile(string path)
         {
             EnsurePowerPointIsRunning();
@@ -115,7 +136,7 @@ namespace PromptLogic.Controllers
             // Try to get the running PowerPoint instance
             try
             {
-                _app = GetRunningPowerPoint();// (PowerPoint.Application)Interaction.GetObject(null, "PowerPoint.Application");
+                _app = GetRunningPowerPoint();
             }
             catch
             {
@@ -143,89 +164,6 @@ namespace PromptLogic.Controllers
 
             return true;
         }
-        /*
-           public void Disconnect()
-           {
-               InvokeOnPptThread(() =>
-               {
-                   _isConnected = false;
-
-                   // --- 0. Stop monitor timer ---
-                   try
-                   {
-                       MonitorTimerStop();
-                   }
-                   catch { }
-
-                   // --- 1. Unhook PowerPoint.Application events ---
-                   try
-                   {
-                       if (_app != null)
-                       {
-                           _app.SlideShowNextSlide -= SlideShowNextSlide;
-                           _app.SlideShowBegin -= OnSlideShowBegin;
-                           _app.SlideShowEnd -= OnSlideShowEnd;
-                       }
-                   }
-                   catch
-                   {
-                       // Never throw during disconnect
-                   }
-
-                   // --- 2. Release COM objects (future-proof) ---
-                   ReleaseComObject(ref _slideShowWindow);
-                   ReleaseComObject(ref _slideShowView);
-                   ReleaseComObject(ref _presentation);
-                   ReleaseComObject(ref _slideShowWindows);
-                   ReleaseComObject(ref _presentations);
-                   ReleaseComObject(ref _activeSlideShowWindow);
-
-                   try
-                   {
-                       if (_app != null)
-                       { 
-                           var windows = _app.Windows;
-                           ReleaseComObject(ref windows);
-
-                           var slideShowWindows = _app.SlideShowWindows;
-                           ReleaseComObject(ref slideShowWindows);
-
-                           var presentations = _app.Presentations;
-                           ReleaseComObject(ref presentations);
-
-                           var activeWindow = _app.ActiveWindow;
-                           ReleaseComObject(ref activeWindow);
-
-                           var protectedViewWindows = _app.ProtectedViewWindows;
-                           ReleaseComObject(ref protectedViewWindows);
-
-                           var commandBars = _app.CommandBars;
-                           ReleaseComObject(ref commandBars);
-                       }
-                   }
-                   catch { }
-
-                   // --- 3. If we created the app then quit and set it to null---
-                   if (_powerPointRunning && _app != null)
-                   {
-                       _app.Quit();
-                       Marshal.ReleaseComObject(_app);
-                       _app = null;
-                   }
-
-                   // --- 4. Notify UI ---
-                   try
-                   {
-                       Disconnected?.Invoke(this, EventArgs.Empty);
-                   }
-                   catch
-                   {
-                       // UI errors should never break disconnect
-                   }
-
-               });
-           }
-   */
         public void Disconnect()
         {
             InvokeOnPptThread(() =>
@@ -300,23 +238,6 @@ namespace PromptLogic.Controllers
                 try { Disconnected?.Invoke(this, EventArgs.Empty); } catch { }
             });
         }
-
-        private Thread _pptThread;
-        private SynchronizationContext _pptContext;
-        private readonly SynchronizationContext _uiContext;
-        private ManualResetEvent _threadReady = new ManualResetEvent(false);
-
-        private System.Windows.Forms.Timer _monitorTimer;
-
-        bool _isConnected = false;
-        public bool IsEnabled => _isConnected;
-
-        public event EventHandler Disconnected;
-        public event EventHandler<SlideChangedEventArgs> SlideChanged;
-        public event EventHandler SlideShowBegin;
-        public event EventHandler SlideShowEnded;
-        public event EventHandler TimingsDetected;
-        public event Action Ready;
 
         public PptController()
         {

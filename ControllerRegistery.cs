@@ -31,6 +31,17 @@ namespace PromptLogic.Controllers
                 ActivatedByScript = false,
                 ControllerType = typeof(PptController)
             },
+
+            new ControllerDescriptor
+            {
+                Id = "txt",
+                DisplayName = "Text",
+                FileExtensions = new[] { ".txt" },
+                CanOpenFiles = true,
+                ActivatedByScript = false,
+                ControllerType = typeof(TxtController)
+            },
+
 /*
             new ControllerDescriptor
             {
@@ -39,6 +50,7 @@ namespace PromptLogic.Controllers
                 FileExtensions = new[] { ".pdf" },
                 CanOpenFiles = true,
                 ActivatedByScript = false
+                ControllerType = typeof(PdfController)
             },
 */
             new ControllerDescriptor
@@ -58,6 +70,7 @@ namespace PromptLogic.Controllers
                 FileExtensions = new[] { ".txt", ".script" },
                 CanOpenFiles = true,
                 ActivatedByScript = true
+                ControllerType = typeof(ScrController)
             }
 */
             };

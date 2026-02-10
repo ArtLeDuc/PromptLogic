@@ -715,7 +715,7 @@ namespace PromptLogic
             controller.ControllerEvent += ControllerEventHandler;
 
             // Wire controller-specific events (optional)
-            WireControllerEvents(controller);
+            WireControllerEvents(controller, arg);
 
             try
             {
@@ -729,7 +729,7 @@ namespace PromptLogic
             }
         }
 
-        private void WireControllerEvents(IController controller)
+        private void WireControllerEvents(IController controller, string arg = null)
         {
             switch (controller.Name)
             {
@@ -744,9 +744,15 @@ namespace PromptLogic
                     ppt.SlideChanged += OnSlideChanged;
                     ppt.TimingsDetected += TimingsDetected;
                     break;
-
+                case "txt":
+                    var txt = (TxtController)controller;
+                    txt.Ready += () => ConnectToWebView();
+                    txt.NotesChanged += (text) => { SendNotesToWebView(text); ApplyAllSettings(); };
+                    break;
                 case "obs":
                     var obs = (ObsController)controller;
+                    obs.Configure(arg);
+                    _obsController = obs;
                     // wire OBS events here
                     break;
 

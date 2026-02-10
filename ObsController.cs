@@ -51,7 +51,6 @@ namespace PromptLogic.Controllers
         public bool IsEnabled => _isConnected;
 
         private readonly object _connectionLock = new object();
-        public event EventHandler<ControllerEventArgs> ControllerEvent;
         private readonly Dictionary<string, Func<string[], Task>> _commandMap;
         private readonly ConcurrentDictionary<SceneSourceKey, int> _cache = new ConcurrentDictionary<SceneSourceKey, int>();
         
@@ -60,10 +59,8 @@ namespace PromptLogic.Controllers
         private string _pendingRequestId;
         private readonly TimeSpan _requestTimeout = TimeSpan.FromSeconds(5);
 
-        public void OpenFile(string path)
-        {
-            throw new NotSupportedException("OBS does not open files directly.");
-        }
+        public event EventHandler<ControllerEventArgs> ControllerEvent;
+        public event Action Ready;
 
         public readonly struct SceneSourceKey : IEquatable<SceneSourceKey>
         {
@@ -98,11 +95,8 @@ namespace PromptLogic.Controllers
         // ---------------------------------------------------------
         // Constructor
         // ---------------------------------------------------------
-        public ObsController(string sceneCollection = null)
+        public ObsController() : this(null)
         {
-            _sceneCollection = sceneCollection;
-            // Start background worker
-
             _commandMap = new Dictionary<string, Func<string[], Task>>(StringComparer.OrdinalIgnoreCase)
             {
                 { "obs_mute", args =>
@@ -160,12 +154,16 @@ namespace PromptLogic.Controllers
 
                 { "obs_tranition", args =>
                     {
-                        SendRequest("SetCurrentSceneTransition", new JObject { ["transitionName"] = args[0] }); 
+                        SendRequest("SetCurrentSceneTransition", new JObject { ["transitionName"] = args[0] });
                         return Task.CompletedTask;
                     }
                 }
             };
 
+        }
+        public ObsController(string sceneCollection = null)
+        {
+            _sceneCollection = sceneCollection;
         }
 
         public Task ExecuteCommandAsync(string command, string[] args)
@@ -185,6 +183,18 @@ namespace PromptLogic.Controllers
             {
                 await AttemptConnectionAsync(true);
             });
+
+            Ready?.Invoke();
+        }
+
+        public void Configure(object config)
+        {
+            string sceneCollection = (string)config;
+            _sceneCollection = sceneCollection;
+        }
+        public void OpenFile(string path)
+        {
+            throw new NotSupportedException("OBS does not open files directly.");
         }
 
         public async Task AttemptConnectionAsync(bool retryIfObsNotRunning)
