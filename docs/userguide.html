@@ -50,15 +50,17 @@
             max-width: 100%;         /* Responsive image */
             height: auto;            /* Maintains aspect ratio */
         }
-
+        .indented {
+            margin-left: 40px;
+        }
     </style>
 </head>
 <body>
 
 <h1>PromptLogic User Guide</h1>
 <p>
-    Welcome to the official user guide for <strong>PromptLogic</strong>, a Windows‑native teleprompter engine designed to work directly with Microsoft PowerPoint. 
-    PromptLogic reads your slide notes, scrolls them smoothly, and executes embedded <em>dot‑commands</em> that automate your presentation.
+Welcome to the official user guide for PromptLogic — a Windows‑native teleprompter engine that drives your presentation from multiple sources.
+Whether you’re presenting from PowerPoint, reading from a script file, or running a full OBS production, this guide shows you how to load content, control playback, and automate your workflow with dot‑commands.
 </p>
 
 <hr>
@@ -66,62 +68,147 @@
 <div class="section">
 <h2>1. Introduction</h2>
 <p>
-    PromptLogic is a lightweight teleprompter designed for presenters who build their scripts inside PowerPoint. 
-    Instead of juggling separate teleprompter apps, PromptLogic uses the notes you already write and adds automation through simple commands.
+PromptLogic is a lightweight, Windows‑native teleprompter engine that works with multiple content sources — PowerPoint slide notes, plain‑text script files, and OBS.
+It’s built for presenters, educators, and creators who want predictable scrolling, simple automation, and a workflow that adapts to slides, scripts, or full broadcast setups.
+PromptLogic reads your content, scrolls it smoothly, and executes dot‑commands that automate your presentation or production. Whether you’re advancing PowerPoint slides, running a  script, or switching OBS scenes, PromptLogic keeps your workflow simple and hands‑free.
 </p>
-
-<p><strong>Key features:</strong></p>
-<ul>
-    <li>Reads script directly from PowerPoint notes</li>
-    <li>Smooth, adjustable scrolling</li>
-    <li>Highlight band for easy reading</li>
-    <li>Automatic slide advancement using dot‑commands</li>
-    <li>Pause and stop commands embedded in your script</li>
-</ul>
-
+</div>
+<div class="section">
+<h2>2. What PromptLogic can do</h2>
 <p>
-    PromptLogic keeps your workflow simple: write your script in PowerPoint, add commands where needed, and present with confidence.
+PowerPoint Integration
+<ul>
+<li>Reads script directly from slide notes</li>
+<li>Tracks slide position automatically</li>
+<li>Executes dot‑commands embedded in your notes</li>
+</ul>
+Text‑Based Script Files
+<ul>
+<li>Opens .txt and .md scripts</li>
+<li>Scrolls with deterministic smoothness</li>
+<li>Supports the same dot‑commands used in PowerPoint</li>
+</ul>
+OBS Integration
+<ul>
+<li>Connects via OBS WebSocket</li>
+<li>Switches scenes, triggers transitions, and controls sources</li>
+<li>Enables full OBS‑only productions with no PowerPoint require</li>
+</ul>
+Teleprompter Engine
+<ul>
+<li>Smooth, adjustable scrolling</li>
+<li>Highlight band for easy reading</li>
+<li>Multiple display modes (full, compressed, borderless)</li>
+</ul>
+Automation via Dot‑Commands
+<ul>
+<li>.start, .stop, .pause, .pause&lt;n&gt, .nextslide, and more</li>
+<li>Timing, cues, and OBS actions embedded directly in your script</li>
+</ul>
 </p>
 </div>
 
 <hr>
 
 <div class="section">
-<h2>2. System Requirements</h2>
+<h2>3. System Requirements</h2>
 <ul>
-    <li>Windows 10 or Windows 11</li>
-    <li>Microsoft PowerPoint installed</li>
-    <li>Permission for PromptLogic to automate PowerPoint</li>
+<li>Windows 10 or Windows 11</li>
+<li>Microsoft PowerPoint installed (required only if you plan to use PowerPoint mode)</li>
+<li>OBS Studio installed (required only if you plan to use OBS automation)</li>
+<li>Permission for PromptLogic to automate PowerPoint</li>
+<li>Permission for PromptLogic to connect to OBS via WebSocket</li>
 </ul>
 <p>
-    PromptLogic communicates with PowerPoint using standard Windows automation. 
+    PromptLogic communicates with PowerPoint using standard Windows automation.<br> 
     If PowerPoint asks for permission, choose <strong>Allow</strong>.
 </p>
+<p>
+    To use OBS features, OBS must have the <strong>WebSocket server enabled</strong>.<br> 
+    PromptLogic will attempt to connect automatically; if OBS prompts for access, choose <strong>Allow</strong>.
+</p>
 </div>
 
 <hr>
 
 <div class="section">
-<h2>3. Getting Started</h2>
+<h2>4. Getting Started</h2>
 
 <h3>Launching PromptLogic</h3>
 <p>
-    Start PromptLogic like any other Windows application. PowerPoint should be open with your presentation loaded.
+Start PromptLogic like any other Windows application.<br>
+When it opens, it determines the correct mode automatically:
+<ul>
+<li>If PowerPoint is already running with a presentation open:<br>
+    PromptLogic enters PowerPoint Mode and reads the notes from the active slide.
+<li>If PowerPoint is not running:</li>
+PromptLogic opens a file selection dialog where you can choose either:
+<ul>
+<li>a PowerPoint .pptx file (PromptLogic will launch PowerPoint and load the notes), or</li>
+<li>a text script (.txt or .md).</li>
+</ul>
+</ul>
 </p>
-
-<h3>Loading Your Script</h3>
+<h3>Loading Your Content </h3>
 <p>
-    PromptLogic automatically reads the notes for the <strong>current slide</strong> in PowerPoint. 
-    As you advance slides, PromptLogic loads the next set of notes.
+<div class="indented">
+<strong>PowerPoint File (.pptx)</strong><br>
+If you select a .pptx file:
+<ul>
+<li>PromptLogic launches PowerPoint (if not already running)</li>
+<li>Loads the presentation</li>
+<li>Reads the notes for the current slide</li>
+<li>Tracks slide changes automatically</li>
+</ul>
+This is full PowerPoint Mode.
 </p>
 
+<p>
+<strong>Text Script File (.txt or .md)</strong><br>
+If you select a text script:
+<ul>
+<li>PromptLogic loads the entire script</li>
+<li>Prepares it for scrolling</li>
+<li>Executes dot‑commands as they appear</li>
+</ul>
+If one of the first commands is: .ppt_enable(<path>)<br>
+PromptLogic will:
+<ul>
+<li>Launch PowerPoint</li>
+<li>Load the specified presentation</li>
+<li>Use the text file as the primary script, with PowerPoint available only for slides or visual cues</li>
+</ul>
+This is Script Mode with optional PowerPoint support.
+</p>
+
+<p>
+<strong>OBS Integration</strong><br>
+OBS is never auto‑launched.<br>
+It is only enabled when your script explicitly requests it.
+<br>If your script contains: .obs_enable
+PromptLogic will:
+<ul>
+<li>Attempt to connect to OBS via WebSocket</li>
+<li>Enable OBS scene switching, source control, and other OBS‑related dot‑commands</li>
+</ul>
+This works in both PowerPoint Mode and Script Mode.
+</p>
+
+</div>
 <h3>Starting the Teleprompter</h3>
+Once your content is loaded:
 <ol>
-    <li>Open your PowerPoint presentation</li>
-    <li>Open PromptLogic</li>
-    <li>Press <strong>Connect</strong> to connect to PowerPoint</li>
-    <li>Press <strong>Start</strong> to begin scrolling</li>
+<li>&lt;Press Start&gt;</li>
+<li>The teleprompter begins smooth scrolling</li>
+<li>Dot‑commands execute automatically, including:</li>
+<ul>
+<li>PowerPoint slide control</li>
+<li>Timing and pauses</li>
+<li>OBS scene changes</li>
+<li>Mode‑switching commands like .ppt_enable or .obs_enable</li> 
+</ul>
 </ol>
+PromptLogic keeps your hands off the keyboard and your workflow predictable.
 <p>
     The teleprompter will scroll the notes smoothly. Any dot‑commands in the script will be executed automatically.
 </p>
@@ -130,12 +217,18 @@
 <hr>
 
 <div class="section">
-<h2>4. Writing Scripts in PowerPoint Notes</h2>
+<h2>5. Writing Scripts</h2>
 <p>
-    Your script lives entirely inside the PowerPoint Notes pane. 
-    PromptLogic reads the text exactly as written and executes dot‑commands when it encounters them.
+Your script can live either in the PowerPoint Notes pane or in a plain‑text file (.txt or .md).<br>
+PromptLogic reads the text exactly as written and executes dot‑commands as it encounters them,
+regardless of which source you use.
+<ul>
+<li>In PowerPoint Mode, your script is the notes attached to each slide.</li>
+<li>In Script Mode, your script is the entire text file you opened.</li>
+<li>Dot‑commands work the same in both modes.</li>
+</ul>
+This keeps your workflow flexible: write inside PowerPoint when your script is tied to slides, or use a text editor when you want a single continuous script.
 </p>
-
 <p><strong>Guidelines:</strong></p>
 <ul>
     <li>Write your script normally</li>
@@ -144,7 +237,7 @@
     <li>Test your script before presenting</li>
 </ul>
 
-<h3>Example Notes Section</h3>
+<h3>Example</h3>
 <pre>
 Welcome to the presentation. Today we’ll cover three main topics.
 
@@ -163,12 +256,13 @@ When ready, continue to the next section.
 <hr>
 
 <div class="section">
-<h2>5. Dot Commands (v1)</h2>
+<h2>6. Dot Commands (v2)</h2>
 <p>
     Dot‑commands are simple instructions embedded in your script. 
     They must appear on their own line and begin with a period.
 </p>
-
+<h4>Slide control commands</h4>
+<div class="indented">
 <h3><code>.nextslide</code></h3>
 <p>
     Advances PowerPoint to the next slide automatically.
@@ -179,7 +273,7 @@ When ready, continue to the next section.
     Pauses scrolling until you manually resume.
 </p>
 
-<h3><code>.pause(n)</code></h3>
+<h3><code>.pause(&lt;n&gt;)</code></h3>
 <p>
     Pauses scrolling the the number of milliseconds provided in (n)
     <br>ex. n = 1000 would pause for 1 second.
@@ -189,6 +283,91 @@ When ready, continue to the next section.
 <p>
     Stops scrolling entirely. Useful at the end of a section or presentation.
 </p>
+</div>
+<h4>OBS Commands</h4>
+<div class="indented">
+<h3><code>.obs_mute(&lt;InputName&gt;)</code></h3>
+<p>
+    Mute the specified input.
+</p>
+<h3><code>.obs_unmute(&lt;InputName&gt;)</code></h3>
+<p>
+    UnMute the specified input.
+</p>
+<h3><code>.obs_scene(&lt;SceneName&gt;)</code></h3>
+<p>
+    Selects the specified Scene.
+</p>
+<h3><code>.obs_record_start()</code></h3>
+<p>
+    Starts Recording.
+</p>
+<h3><code>.obs_record_stop()</code></h3>
+<p>
+    Stops Recording.
+</p>
+<h3><code>.obs_source_show(&lt;SceneName&gt;,&lt;Source&gt;)</code></h3>
+<p>
+    Shows the specified source contained in the specified scene.
+</p>
+<h3><code>.obs_source_hide(&lt;SceneName&gt;,&lt;Source&gt;)</code></h3>
+<p>
+    Hides the specified source contained in the specified scene.
+</p>
+<h3><code>.obs_transition(&lt;TransitionName&gt;)</code></h3>
+<p>
+    Specifies the transition to use when switching scenes.
+</p>
+</div>
+<h4>Process Control Commands</h4>
+<div class="indented">
+<h3><code>.ppt_enable(&lt;FilePath&gt;)</code></h3>
+<p>
+    <ul>
+        <li>Only used in script mode.</li>
+        <li>Placed as one of the first commands in the script.</li>
+        <li>FilePath is the full path to the PowerPoint file. You may use local paths or UNC network paths, as long as the UNC path references a real share.</li>
+    </ul>
+</p>
+<h3><code>.obs_enable(&lt;SceneCollection&gt;)</code></h3>
+<p>
+    <ul>
+        <li>Connects to OBS via WebSocket</li>
+        <li>Enables all OBS-related dot-commands</li>
+        <li>Does launch OBS, activates OBS control if OBS is running</li>
+        <li>SceneCollection specifies which OBS scene collection PromptLogic should use when OBS is enabled.</li>
+    </ul>
+</p>
+</div>
+<h4>Special Case</h4>
+<div class="indented">
+<h3><code>.start(&lt;FilePath&gt;)</code></h3>
+<p>
+Restarts the slide show from the begining.<br>
+<strong>Important:</strong>
+Important:
+.start is only meaningful when it appears immediately after a .stop at the end of a script.<br>
+Because dot‑commands only execute while the script is actively scrolling:
+<ul>
+<li>.start cannot begin scrolling</li>
+<li>.start cannot resume scrolling</li>
+<li>.start cannot run while paused or stopped</li>
+</ul>
+The only valid pattern is:
+<pre>
+.stop
+.start
+</pre>
+This sequence:
+<ul>
+<li>.stop resets the slideshow to slide 1</li>
+<li>.start immediately restarts scrolling from the beginning</li>
+<li>Both commands execute because the script is still running until EOF</li>
+</ul>
+This is the sole scenario where .start is reachable and meaningful.
+
+</p>
+</div>
 
 <h3>Example Usage</h3>
 <pre>
@@ -203,7 +382,7 @@ Here begins the next slide's content.
 <hr>
 
 <div class="section">
-<h2>6. Teleprompter Controls</h2>
+<h2>7. Teleprompter Controls</h2>
 <ul>
     <li><strong>Start</strong> – Begin scrolling</li>
     <li><strong>Pause</strong> – Temporarily stop scrolling</li>
@@ -211,7 +390,7 @@ Here begins the next slide's content.
     <li><strong>Speed</strong> – Adjust scroll speed</li>
     <li><strong>Highlight Band</strong> – Keeps your eyes centered on the active line</li>
 </ul>
-<h2>6.1 Display Modes</h2>
+<h2>7.1 Display Modes</h2>
 PromptLogic provides four display modes that let you choose how much on-screen Control
 you want while presenting.  These modes affect how the control panel appears and how you 
 interact with the teleprompter.
@@ -329,44 +508,13 @@ recording video, or using a teleprompter glass setup.
 <hr>
 
 <div class="section">
-<h2>7. Tips for Smooth Presentations</h2>
+<h2>8. Tips for Smooth Presentations</h2>
 <ul>
     <li>Place dot‑commands on their own line</li>
     <li>Use short paragraphs for readability</li>
     <li>Test your script before presenting</li>
     <li>Keep your speaking pace in mind when setting scroll speed</li>
     <li>Use <code>.pause</code> before complex explanations</li>
-</ul>
-</div>
-
-<hr>
-
-<div class="section">
-<h2>8. Known Limitations (v1)</h2>
-<ul>
-    <li>Only works with PowerPoint notes</li>
-    <li>No file‑loading for standalone text scripts</li>
-    <li>No OBS integration</li>
-    <li>Only three dot‑commands supported</li>
-</ul>
-<p>
-    These limitations will be addressed in future versions.
-</p>
-</div>
-
-<hr>
-
-<div class="section">
-<h2>9. Roadmap</h2>
-<p>
-    Planned enhancements for future releases include:
-</p>
-<ul>
-    <li>Load script from text file</li>
-    <li>Additional dot‑commands</li>
-    <li>OBS scene switching</li>
-    <li>Settings panel</li>
-    <li>Improved UI layout</li>
 </ul>
 </div>
 

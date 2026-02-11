@@ -34,7 +34,6 @@ namespace PromptLogic
         {
             _handlers = new Dictionary<string, Action<JObject>>(StringComparer.OrdinalIgnoreCase)
             {
-                ["unpauseSlideshow"] = _ => Resume?.Invoke(),
                 ["refocusSlideshow"] = _ => Refocus?.Invoke(),
                 ["nextSlide"] = _ =>
                 {
