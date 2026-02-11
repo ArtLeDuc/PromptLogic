@@ -14,6 +14,8 @@ Added
 - PowerPoint Controller (PptController)
 - New dedicated command layer for all PowerPoint operations
 - Centralized slide navigation, slideshow control, and event handling
+- Ability to load a text script file.
+- Added the .ppt_enable(<filePath>) command to load a power point slide show from a text script.
 
 Changed
 - Moved all PowerPoint COM automation to a dedicated STA thread
@@ -27,6 +29,8 @@ Changed
 - Refactored PowerPoint operations into modular controller structure
 - Extracted logic from MainForm
 - Eliminated recursive event wiring and reentrancy traps
+- Removed the Go To Slide option from the control panel by default.  
+  It will only show when a slide show is loaded that contains indexed slides with notes like power point.
 
 Fixed
 - Resolved all remaining COM reference issues

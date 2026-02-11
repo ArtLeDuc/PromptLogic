@@ -701,8 +701,17 @@ namespace PromptLogic
             if (_slideController.IsSlideShowRunning)
             {
                 if (_slideController.SupportsNotes)
+                {
                     LoadNotesForCurrentSlide();
-                LoadSlideSelectionCombo();
+                    LoadSlideSelectionCombo();
+                    txtStartingSlide.Visible = true;
+                    cmbStartSlide.Visible = true;
+                }
+                else
+                {
+                    txtStartingSlide.Visible = false;
+                    cmbStartSlide.Visible = false;
+                }
             }
         }
 

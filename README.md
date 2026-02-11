@@ -115,7 +115,7 @@ rev 0.1 - First Public Release
 ## Roadmap
 PromptLogic is early in its journey, and the foundation is intentionally simple, stable, and modular. The roadmap focuses on expanding capability without compromising predictability.
 
-Near‑Term (0.2 – 0.4)<br>
+Near‑Term (0.2)
 Focused on strengthening the core experience and smoothing out early workflows.
 - Native support for text‑based scripts, allowing creators to load .txt or .md files as teleprompter scripts 
 - Additional dot‑command features
@@ -123,6 +123,15 @@ Focused on strengthening the core experience and smoothing out early workflows.
 - Better PowerPoint integration
 - OBS WebSocket integration (scene switching, recording control)
 - Expanded user guide and examples
+
+Near-Term (0.3 – 0.4)<br>
+Focused on broadening the ObsController’s slide, scene, and automation capabilities.  
+- Add .load_slides(<path>) to load image directories as OBS slide decks
+- Implement Next/Previous slide navigation for OBS‑based image slides
+- Update OBS image sources automatically when advancing slides
+- Enable scene switching to trigger OBS‑native automation sequences
+- Expand dot‑commands for OBS visibility and text updates
+- Capability‑based UI: slide controls only appear when supported
 
 Mid‑Term (0.5 – 0.8)<br>
   Expanding flexibility and customization for creators with more complex setups.
