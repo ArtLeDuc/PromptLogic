@@ -132,6 +132,9 @@ Focused on broadening the ObsController’s slide, scene, and automation capabil
 - Enable scene switching to trigger OBS‑native automation sequences
 - Expand dot‑commands for OBS visibility and text updates
 - Capability‑based UI: slide controls only appear when supported
+- Add speed presets fast, medium, slow
+- Add .speed command for script controlled pacing
+- Add comment ### that doesn't appear in the teleprompter.
 
 Mid‑Term (0.5 – 0.8)<br>
   Expanding flexibility and customization for creators with more complex setups.
