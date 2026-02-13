@@ -3,14 +3,14 @@ Added
 - Multi?argument command support for script commands
 - Controller pattern introduced across the app
 - OBS Controller
-- .obs_enable(<scene collection>) ó initialize OBS and load scene collection
-- .obs_mute(<source>) ó mute a source
-- .obs_unmute(<source>) ó unmute a source
-- .obs_scene(<scene>) ó switch scenes
+- .obs_enable(<scene collection>) ‚Äî initialize OBS and load scene collection
+- .obs_mute(<source>) ‚Äî mute a source
+- .obs_unmute(<source>) ‚Äî unmute a source
+- .obs_scene(<scene>) ‚Äî switch scenes
 - .obs_record_start / .obs_record_stop
-- .obs_source_show(<scene>, <source>) ó show a source within a scene
-- .obs_source_hide(<scene>, <source>) ó hide a source within a scene
-- .obs_transition(<type>, <duration>) ó set transition type and duration
+- .obs_source_show(<scene>, <source>) ‚Äî show a source within a scene
+- .obs_source_hide(<scene>, <source>) ‚Äî hide a source within a scene
+- .obs_transition(<type>, <duration>) ‚Äî set transition type and duration
 - PowerPoint Controller (PptController)
 - New dedicated command layer for all PowerPoint operations
 - Centralized slide navigation, slideshow control, and event handling
@@ -38,7 +38,7 @@ Fixed
 - Eliminated hidden RCWs created by slideshow operations
 - Hardened MonitorTimer_Tick with leak?proof COM access pattern
 - Improved shutdown reliability
-- Clarified PowerPointís internal timing behavior
+- Clarified PowerPoint‚Äôs internal timing behavior
 - Ensured deterministic teardown of slideshow and COM objects
 - Corrected WebView2 command flow after controller merge
 
@@ -48,7 +48,7 @@ Improved
 - Ensured all PowerPoint events marshal safely
 - Removed cross?thread UI hazards
 - Documentation clarity
-- Documented expected PowerPoint ìdirty stateî behavior when exiting slideshow
+- Documented expected PowerPoint ‚Äúdirty state‚Äù behavior when exiting slideshow
 - Improved internal notes around COM timing and shutdown
 
 
@@ -57,9 +57,9 @@ Improved
 ### Added
 - Initial public release
 - Teleprompter engine
-	- Only supporting Power Point slides
+  	- Only supporting Power Point slides
 - Dot-command parser
-	- .pause<n>
+  	- .pause<n>
 	Will pause scrolling for the specified time. Setting it to 0 will pause perminately and require the resume button to continue
 	- .stop
 	Will stop scrolling and reset the engine to the begining of the current script
