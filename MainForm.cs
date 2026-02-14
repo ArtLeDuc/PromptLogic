@@ -137,7 +137,6 @@ namespace PromptLogic
             rightClickMenu = new RightClickMenu(this);
             rightClickMenu.Closed += (s, e) => { dragOverlay.Enabled = true; };
 
-
             this.ContextMenuStrip = rightClickMenu;
         }
         private async void InitializeWebView()

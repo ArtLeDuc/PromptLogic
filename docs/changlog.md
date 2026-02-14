@@ -1,6 +1,10 @@
-##[0.2.0] - Unreleased<br>
+##[0.2.0] - 2026-02-14<br>
+### Platform Upgrade
+	**Migrated entire project to .NET 9.**  
+	This is a major runtime and tooling upgrade affecting all components.
+
 Added
-- Multi?argument command support for script commands
+- Multi-argument command support for script commands
 - Controller pattern introduced across the app
 - OBS Controller
 - .obs_enable(<scene collection>) — initialize OBS and load scene collection
@@ -36,7 +40,7 @@ Fixed
 - Resolved all remaining COM reference issues
 - Verified all RCWs release cleanly, including Application
 - Eliminated hidden RCWs created by slideshow operations
-- Hardened MonitorTimer_Tick with leak?proof COM access pattern
+- Hardened MonitorTimer_Tick with leak-proof COM access pattern
 - Improved shutdown reliability
 - Clarified PowerPoint’s internal timing behavior
 - Ensured deterministic teardown of slideshow and COM objects
@@ -46,7 +50,7 @@ Improved
 - Overall automation stability for PowerPoint and OBS
 - Event pipeline reliability
 - Ensured all PowerPoint events marshal safely
-- Removed cross?thread UI hazards
+- Removed cross-thread UI hazards
 - Documentation clarity
 - Documented expected PowerPoint “dirty state” behavior when exiting slideshow
 - Improved internal notes around COM timing and shutdown

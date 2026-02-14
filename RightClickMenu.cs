@@ -91,7 +91,8 @@ namespace PromptLogic
 
             Items.Add(new ToolStripMenuItem("Close", null, CloseApplication));
 
-//            Popup += ContextMenu_Popup;
+            Opening += (s, e) => { ContextMenuPopup(s, e); };
+
         }
 
         public void UpdateBorderStyleMenuChecks(bool borderVisible)
@@ -149,7 +150,7 @@ namespace PromptLogic
             _ui.ApplySetControlPanelState(isVisible, isCompressed);
         }
 
-        private void ContextMenu_Popup(object sender, EventArgs e)
+        private void ContextMenuPopup(object sender, EventArgs e)
         {
             bool isStopped = ((MainForm)_ui).IsStopped;
             bool isPaused = ((MainForm)_ui).IsPaused;
