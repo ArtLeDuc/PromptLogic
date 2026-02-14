@@ -8,7 +8,7 @@
 [Setup]
 AppName=PromptLogic
 AppVersion=0.2
-AppPublisher=Art LeDuc
+AppPublisher=Vermont Creative Technologies LLC
 DefaultDirName={autopf}\PromptLogic
 DefaultGroupName=PromptLogic
 OutputDir=.\installer
@@ -18,6 +18,8 @@ SolidCompression=yes
 DisableProgramGroupPage=yes
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
+SetupIconFile=E:\source\PromptLogic\Assets\promptlogic.ico
+UninstallDisplayIcon={app}\PromptLogic.exe
 
 ; Require admin for proper installation
 PrivilegesRequired=admin
@@ -92,6 +94,9 @@ end.
 Source: "bin\Release\net9.0-windows\PromptLogic.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "bin\Release\net9.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "docs\*"; DestDir: "{app}\docs"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Web\*"; DestDir: "{app}\Web"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "bin\Release\net9.0-windows\PromptLogic.deps.json"; DestDir: "{app}"
+Source: "bin\Release\net9.0-windows\PromptLogic.runtimeconfig.json"; DestDir: "{app}"
 
 ; ------------------------------------------------------------
 ; Shortcuts

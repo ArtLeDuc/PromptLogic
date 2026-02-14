@@ -8,6 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnableWindowsFormsLegacyControls>true</EnableWindowsFormsLegacyControls>
 	<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+	<ApplicationIcon>Assets\PromptLogic.ico</ApplicationIcon>
+	<PackageIcon>PromptLogic.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,6 +44,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="Assets\PromptLogic.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Assets\PromptLogic.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	  <None Update="Web\index.html">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
